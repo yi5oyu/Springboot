@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -18,12 +19,12 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:9000"); // Allow your frontend's origin
-        configuration.addAllowedMethod("*"); // Allow all HTTP methods (GET, POST, etc.)
-        configuration.addAllowedHeader("*"); // Allow all headers
+        configuration.addAllowedOrigin("http://localhost:9000");
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // Apply to all endpoints
+        source.registerCorsConfiguration("/**", configuration);
 
         return source;
     }
@@ -32,10 +33,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
+                // Method Reference 연산자: ::
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/","/error","/hi","data").permitAll()
+                        .requestMatchers("/","/error","/hi","data","/api/chat").permitAll()
                         .anyRequest().authenticated()
                 );
 
