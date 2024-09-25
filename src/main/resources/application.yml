@@ -1,6 +1,14 @@
 spring:
   application:
     name: springboottest
+  redis:
+    host: localhost
+    port: 6379
+  ai:
+    ollama:
+      base-url: http://localhost:11434
+      chat:
+        model: llama3.1
 
 server:
   port: 8080
