@@ -37,7 +37,7 @@ public class SecurityConfig {
                 // Method Reference 연산자: ::
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/","/error","/hi","data","/api/chat").permitAll()
+                        .requestMatchers("/","/error","/hi","data","/api/chat", "/api/naver", "/api/kakao").permitAll()
                         .anyRequest().authenticated()
                 );
 
