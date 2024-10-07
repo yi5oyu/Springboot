@@ -9,6 +9,11 @@ spring:
       base-url: http://localhost:11434
       chat:
         model: llama3.1
+    openai:
+      api-key: ${OPENAI_KEY}
+      chat:
+        options:
+          model: gpt-4o-mini
 
 server:
   port: 8080
