@@ -1,9 +1,12 @@
 package com.example.springboottest.controller;
 
+import com.example.springboottest.service.LlamaAPIService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.ai.chat.client.ChatClient;
 
 //import org.springframework.ai.openai.OpenAiChatModel;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +16,9 @@ import java.util.Map;
 @RequestMapping("/api/chat")
 @CrossOrigin(origins = "http://localhost:9000")
 public class ChatController {
+
+    @Autowired
+    private LlamaAPIService llamaAPIService;
 
     private final ChatClient chatClient;
 //    private final OpenAiChatModel openAiChatModel;
@@ -32,6 +38,11 @@ public class ChatController {
         System.out.println("yes");
 
         return response;
+    }
+
+    @GetMapping("/llama")
+    public String getBody() throws JsonProcessingException {
+        return llamaAPIService.chatWithAI();
     }
 
 //    @GetMapping("/openai")
