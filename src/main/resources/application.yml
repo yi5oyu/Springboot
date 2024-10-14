@@ -26,3 +26,7 @@ naver:
 kakao:
   api:
     key: ${KAKAO_KEY}
+
+skopenapi:
+  api:
+    key: ${SK_KEY}
