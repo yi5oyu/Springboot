@@ -55,9 +55,13 @@ Gradle 8.8 | Java 17
 
 ### Redis
 
-## Spring AI
+## AI
 
-### ollama
+### Spring AI
+
+#### ollama
+
+### LM Studio
 
 ## OPEN API
     API에 접근하기 위한 API key 필요
@@ -88,3 +92,7 @@ Gradle 8.8 | Java 17
 [//]: # (    https://developers.google.com/?hl=ko)
 [//]: # (https://console.cloud.google.com/)
 [//]: # (    https://developers.google.com/maps?hl=ko)
+
+### SK openAPI (Tmap)
+    https://openapi.sk.com/
+`대시보드` `>` `앱` `>` `앱 만들기` `>` `API 선택` `>` `API 사용 요금` `>` `사용하기` `>` `사용 신청하기` `>` `대시보드` `>` `생선한 앱 선택` `>` `앱키`
