@@ -5,8 +5,16 @@
 
 Gradle 8.8 | Java 17
 
+## Spring / Spring boot Framework 
+    외부 애플리케이션 서버에서 실행(Apache Tomcat)
+    WAR 파일 생성
+###
+핵심
+
+
+
 <details>
-<summary>Tips</summary>
+<summary>etc</summary>
 
 ### 프로젝트 생성
     - Spring initializr
