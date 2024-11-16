@@ -5,13 +5,67 @@
 
 Gradle 8.8 | Java 17
 
-## Spring / Spring boot Framework 
+## 목차
+
+
+### Spring 
+    Java 애플리케이션 개발을 위한 포괄적인 인프라 제공
     외부 애플리케이션 서버에서 실행(Apache Tomcat)
     WAR 파일 생성
-###
-핵심
+
+1. **제어 역전(Inversion of Control)**
+    사용할 객체를 직접 생성하지 않고 객체의 생명주기 관리를 스프링 컨테이너 or IoC 컨테이너에 위임
+    제어 역전을 통해 의존성 주입, 관점 지향 프로그래밍 등이 가능
+
+2. **의존성 주입(Dependency Injection)**
+    객체 간의 결합도를 낮춰 코드의 재사용성을 높이고 유지보수를 쉽게 만듬   
+    스프링 컨테이너가 자동으로 의존성을 주입/타입을 기반으로 의존성을 찾아 주입
+
+**생성자 주입**
+    
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+    
+**필드 주입**
+
+    @Autowired
+    private UserService userService;
+
+**Setter 주입**
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+`@Autowired`
+
+    빈(Bean) 객체를 자동으로 주입
+
+    구성요소
+    // 어노테이션이 적용될 수 있는 위치를 지정(생성자, 메서드, 매개변수, 필드, 어노테이션에 사용할 수 있음)
+    @Target({ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD, ElementType.ANNOTATION_TYPE})
+    // 어노테이션의 지속 기간을 지정(런타임 시점까지 유지)
+    @Retention(RetentionPolicy.RUNTIME)
+    // 어노테이션을 사용하는 요소가 Javadoc 같은 문서화 도구에 의해 문서화되도록 함(자동으로 문서화에 포함되어 해당 의존성 주입이 코드 문서에 잘 표시됨)
+    @Documented
+    public @interface Autowired {
+        // required=true: 스프링은 반드시 해당 빈을 주입해야 함(빈이 존재하지 않으면 NoSuchBeanDefinitionException 발생)
+        // required=false:  주입할 수 있는 빈이 없더라도 오류가 발생하지 않음(null 상태로 유지)
+        boolean required() default true;
+    }
+
+2. **관점 지향 프로그래밍(Aspect Oriented Programming)**
+    로깅, 보안, 트랜잭션 관리등의 관심사 분리
+3.     
+    
+### Spring boot 
+    
 
 
+[> Spring VS Spring boot](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EA%B8%B0%EB%B3%B8%20%EA%B0%9C%EB%85%90%20%EC%A0%95%EB%A6%AC/SpringBoot%20%ED%8A%B9%EC%A7%95)
 
 <details>
 <summary>etc</summary>
