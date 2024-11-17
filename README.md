@@ -13,11 +13,11 @@ Gradle 8.8 | Java 17
     외부 애플리케이션 서버에서 실행(Apache Tomcat)
     WAR 파일 생성
 
-1. **제어 역전(Inversion of Control)**
-    사용할 객체를 직접 생성하지 않고 객체의 생명주기 관리를 스프링 컨테이너 or IoC 컨테이너에 위임
+1. **제어 역전(Inversion of Control, IoC)**   
+    사용할 객체를 직접 생성하지 않고 객체의 생명주기 관리를 스프링 컨테이너 or IoC 컨테이너에 위임    
     제어 역전을 통해 의존성 주입, 관점 지향 프로그래밍 등이 가능
 
-2. **의존성 주입(Dependency Injection)**
+2. **의존성 주입(Dependency Injection, DI)**   
     객체 간의 결합도를 낮춰 코드의 재사용성을 높이고 유지보수를 쉽게 만듬   
     스프링 컨테이너가 자동으로 의존성을 주입/타입을 기반으로 의존성을 찾아 주입
 
@@ -57,13 +57,37 @@ Gradle 8.8 | Java 17
         boolean required() default true;
     }
 
-2. **관점 지향 프로그래밍(Aspect Oriented Programming)**
+2. **관점 지향 프로그래밍(Aspect Oriented Programming, AOP)**   
     로깅, 보안, 트랜잭션 관리등의 관심사 분리
-3.     
+   
+4.     
     
 ### Spring boot 
     
+#### Spring Web(Spring MVC)
 
+1. **관심사 분리(Separation of Concerns)**    
+    프로그램을 각기 다른 기능적 측면으로 분리, 각 부분이 특정 역할만 수행하도록 하는 설계 원칙   
+    코드의 복잡성을 줄이고, 테스트 확장 용이   
+   
+    계층화된 아키텍처(Layered Architecture)
+    애플리케이션을 각각 특정 작업을 담당하는 논리적 계층으로 나눔   
+
+`Controller`
+
+    // RestController: RESTful 웹 서비스를 위한 컨트롤러 정의
+    @Controller or @RestController(@Controller + @ResponseBody)
+    // URL 패턴 지정 (value = "/hello", method = RequestMethod.GET)
+    @RequestMapping("/api/users")
+    // HTTP 요청 매핑 (@RequestMapping, @GetMapping, @PostMapping, @PutMapping...)
+    public class UserController {
+        @GetMapping("/id")
+        
+    }
+    
+    
+    
+    
 
 [> Spring VS Spring boot](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EA%B8%B0%EB%B3%B8%20%EA%B0%9C%EB%85%90%20%EC%A0%95%EB%A6%AC/SpringBoot%20%ED%8A%B9%EC%A7%95)
 
