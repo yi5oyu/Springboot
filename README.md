@@ -84,10 +84,28 @@ Gradle 8.8 | Java 17
         @GetMapping("/id")
         
     }
+
+    https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller.html
     
+<details>
+<summary>RestController</summary>    
     
+`RestController`
+
+    @Target({ElementType.TYPE})
+    @Retention(RetentionPolicy.RUNTIME)
+    @Documented
+    @Controller
+    @ResponseBody
+    public @interface RestController {
+        @AliasFor(
+            annotation = Controller.class
+        )
+        String value() default "";
+    }
+
     
-    
+</details>    
 
 [> Spring VS Spring boot](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EA%B8%B0%EB%B3%B8%20%EA%B0%9C%EB%85%90%20%EC%A0%95%EB%A6%AC/SpringBoot%20%ED%8A%B9%EC%A7%95)
 
