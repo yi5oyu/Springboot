@@ -10,16 +10,32 @@ Gradle 8.8 | Java 17
 
 ### Spring 
     Java 애플리케이션 개발을 위한 포괄적인 인프라 제공
-    외부 애플리케이션 서버에서 실행(Apache Tomcat)
-    WAR 파일 생성
+    외부 애플리케이션 서버에서 실행(Apache Tomcat, Jetty 등...)
+    war 파일 생성
 
 1. **제어 역전(Inversion of Control, IoC)**   
     사용할 객체를 직접 생성하지 않고 객체의 생명주기 관리를 스프링 컨테이너 or IoC 컨테이너에 위임    
     제어 역전을 통해 의존성 주입, 관점 지향 프로그래밍 등이 가능
 
+`@Component`
+
+    클래스를 빈(Bean)으로 지정
+    
+    @Target({ElementType.TYPE})
+    @Retention(RetentionPolicy.RUNTIME)
+    @Documented
+    @Indexed
+    public @interface Component {
+        String value() default "";
+    }
+
+`@Target`
+
+    
+
 2. **의존성 주입(Dependency Injection, DI)**   
     객체 간의 결합도를 낮춰 코드의 재사용성을 높이고 유지보수를 쉽게 만듬   
-    스프링 컨테이너가 자동으로 의존성을 주입/타입을 기반으로 의존성을 찾아 주입
+    스프링 컨테이너가 자동으로 의존성을 주입/타입을 기반으로 의존성을 찾아 주입  
 
 **생성자 주입**
     
@@ -57,13 +73,30 @@ Gradle 8.8 | Java 17
         boolean required() default true;
     }
 
-2. **관점 지향 프로그래밍(Aspect Oriented Programming, AOP)**   
-    로깅, 보안, 트랜잭션 관리등의 관심사 분리
+3. **관점 지향 프로그래밍(Aspect Oriented Programming, AOP)**   
+    로깅, 보안, 트랜잭션 관리등의 관심사 분리를 가능하게 하여 모듈화를 개선함
+
+### Spring boot   
+    스프링 부트는 spring framework 개선
+    개발 환경 설정 간소화(미리 설정된 스타터 프로젝트로 외부 라이브러리를 최적화해 제공)
+    WAS 내장(Tomcat) jar 파일 생성
+
+1. **의존성 관리 간소화**    
+    `스타터`: 일반적인 개발 시나리오에 필요한 의존성들을 하나의 묶음으로 제공
+    `버전 충돌`: 의존성 내의 여러 라이브러리 버전이 모든 의존성에 맞게 동기화
    
-4.     
-    
-### Spring boot 
-    
+3. **배포 간소화**    
+   스프링 부트 플러그인이 모든 의존성을 결과 JAR에 압축    
+   
+4. **내장 WAS**   
+    특별한 설정 없이도 Tomcat 실행 가능
+
+5. **자동 설정**   
+   애플리케이션에 추가된 라이브러리를 실행하는데 필요한 환경 설정을 알아서 찾아줌(의존성을 추가하면 프레임워크가 자동으로 관리)
+
+6. **모니터링**   
+ Spring Boot Actuator : 서비스를 운영하는 시기에 해당 시스템이 사용하는 스레드, 메모리, 세션 등 주요 요소들 모니터링
+   
 #### Spring Web(Spring MVC)
 
 1. **관심사 분리(Separation of Concerns)**    
@@ -73,24 +106,9 @@ Gradle 8.8 | Java 17
     계층화된 아키텍처(Layered Architecture)
     애플리케이션을 각각 특정 작업을 담당하는 논리적 계층으로 나눔   
 
-`Controller`
+Controller 계층   
 
-    // RestController: RESTful 웹 서비스를 위한 컨트롤러 정의
-    @Controller or @RestController(@Controller + @ResponseBody)
-    // URL 패턴 지정 (value = "/hello", method = RequestMethod.GET)
-    @RequestMapping("/api/users")
-    // HTTP 요청 매핑 (@RequestMapping, @GetMapping, @PostMapping, @PutMapping...)
-    public class UserController {
-        @GetMapping("/id")
-        
-    }
-
-    https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller.html
-    
-<details>
-<summary>RestController</summary>    
-    
-`RestController`
+`@RestController`
 
     @Target({ElementType.TYPE})
     @Retention(RetentionPolicy.RUNTIME)
@@ -104,8 +122,30 @@ Gradle 8.8 | Java 17
         String value() default "";
     }
 
+<details>
+<summary>Controller + ResponseBody</summary>
+
+`@Controller`
+
+    // RestController: RESTful 웹 서비스를 위한 컨트롤러 정의
+    @Controller or @RestController(@Controller + @ResponseBody)
+    // URL 패턴 지정 (value = "/hello", method = RequestMethod.GET)
+    @RequestMapping("/api/users")
+    // HTTP 요청 매핑 (@RequestMapping, @GetMapping, @PostMapping, @PutMapping...)
+    public class UserController {
+        @GetMapping("/id")
+        
+    }
+
+`@ResponseBody`
+
+
+
+</details>
+
+    https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller.html
     
-</details>    
+    
 
 [> Spring VS Spring boot](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EA%B8%B0%EB%B3%B8%20%EA%B0%9C%EB%85%90%20%EC%A0%95%EB%A6%AC/SpringBoot%20%ED%8A%B9%EC%A7%95)
 
