@@ -149,6 +149,29 @@ Controller 계층
 
 [> Spring VS Spring boot](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EA%B8%B0%EB%B3%B8%20%EA%B0%9C%EB%85%90%20%EC%A0%95%EB%A6%AC/SpringBoot%20%ED%8A%B9%EC%A7%95)
 
+#### Spring Boot DevTools
+    생산성을 높이기 위한 도구 모음
+
+1. 자동 재시작(Automatic Restart)     
+    소스 코드나 설정 파일에 변경이 발생하면 자동으로 애플리케이션 다시 시작     
+    개발 중 코드 변경을 바로 반영할 수 있고 클래스 로더(classloader)를 활용하여 애플리케이션 빠르게 재시작함      
+   
+2. 라이브 리로드(Live Reload)      
+    정적 리소스(HTML, CSS, JavaScript) 변경을 브라우저에 즉시 반영      
+    브라우저 플러그인(LiveReload)을 사용하여 변경된 내용을 자동으로 로드     
+    
+3. 속성 기본값 재정의(Property Defaults)    
+    캐시 설정 최적화: 템플릿 엔진(Thymeleaf, FreeMarker 등)의 캐시를 비활성화하여 변경 사항을 바로 확인할 수 있음    
+    H2 콘솔 자동 활성화: H2 데이터베이스를 사용할 경우 자동으로 H2 콘솔 활성화    
+
+4. 개발 및 프로덕션 설정 분리    
+   application.properties or application.yml 파일에 spring.profiles.active=dev 설정을 추가하여 개발 환경과 프로덕션 환경을 쉽게 분리할 수 있음    
+   개발 환경에서만 활성화, 배포 환경에서는 비활성화됨      
+
+
+#### Spring Data JPA   
+ 
+
 <details>
 <summary>etc</summary>
 
