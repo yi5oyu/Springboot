@@ -173,7 +173,81 @@ Controller 계층
     반복적으로 작성해야 하는 코드를 줄여주는 라이브러리
     코드의 가독성을 높이고 개발 생산성을 향상시킴
 
+    // Lombok 없는 코드
+    public class User {
+    
+        private Long id;
+        private String name;
+        private String email;
+    
+        // 기본 생성자
+        public User() {}
+    
+        // 매개변수있는 생성자
+        public User(Long id, String name, String email) {
+            this.id = id;
+            this.name = name;
+            this.email = email;
+        }
+    
+        // Getters, Setters
+        public Long getId() {
+            return id;
+        }
+    
+        public void setId(Long id) {
+            this.id = id;
+        }
+    
+        public String getName() {
+            return name;
+        }
+    
+        public void setName(String name) {
+            this.name = name;
+        }
+    
+        public String getEmail() {
+            return email;
+        }
+    
+        public void setEmail(String email) {
+            this.email = email;
+        }
+    
+        // toString 재정의
+        @Override
+        public String toString() {
+            return "User{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    ", email='" + email + '\'' +
+                    '}';
+        }
+    
+        // equal, hashCode 재정의
+        @Override
+        public boolean equals() {
+            ...
+        }
+    
+        @Override
+        public int hashCode() {
+            ...
+        }
+    }
 
+    // Lombok 코드
+    @Data // getters, setters, toString, equals, hashCode
+    @NoArgsConstructor // 기본 생성자
+    @AllArgsConstructor // 매개변수있는 생성자
+    public class User {
+        private Long id;
+        private String name;
+        private String email;
+    }
+
+[> 그 외 어노테이션](https://github.com/yi5oyu/Study/tree/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/Lombok)   
 
 #### Spring Data JPA   
  
