@@ -254,7 +254,14 @@ Controller 계층
     
     JPA(Java Persistence API): 자바 애플리케이션에서 관계형 데이터베이스를 사용하는 방식을 정의한 인터페이스
     ORM(object-relational mapping): 객체와 관계형 데이터베이스 테이블 매핑(객체 지향적으로 프로그래밍을 하면서 관계형 데이터베이스를 사용할 수 있음)
-    
+
+- 계층 구조   
+    Repository > CrudRepository > PagingAndSortingRepository > JpaRepository    
+    `Repository`: 최상위 기본 인터페이스(메소드 없음)
+    `CrudRepository` : CRUD
+    [> JPA 인터페이스 계층 구조](https://github.com/yi5oyu/Study/blob/main/JPA/3.%20SpringDataJPA/JpaRepository.java)
+
+
 
 <details>
 <summary>etc</summary>
