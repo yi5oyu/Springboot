@@ -257,11 +257,63 @@ Controller 계층
 
 - 계층 구조   
     Repository > CrudRepository > PagingAndSortingRepository > JpaRepository    
-    `Repository`: 최상위 기본 인터페이스(메소드 없음)
-    `CrudRepository` : CRUD
+    `Repository`: 최상위 기본 인터페이스(메소드 없음)     
+    `CrudRepository`: CRUD(생성, 읽기, 업데이트, 삭제) 메서드    
+    `PagingAndSortingRepository`:  페이징, 정렬 메서드    
+    `JpaRepository`: 일괄 처리, 메서드 이름을 기반으로 한 쿼리 생성 기능 제공    
     [> JPA 인터페이스 계층 구조](https://github.com/yi5oyu/Study/blob/main/JPA/3.%20SpringDataJPA/JpaRepository.java)
 
+- 사용
 
+`Entity`
+
+    @Entity
+    // 테이블 이름 명시
+    @Table(name = "users")
+    public class User {
+        // 키(고유 식별자)
+        @Id
+        // 값 생성 전략 설정(자동으로 생성(키값++)
+        // MySQL기준 DB에 AUTO_INCREMENT 설정해야함
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        // 매핑(DB 칼럼과 매핑)
+        @Column(name = "a_id")
+        private Long id;
+
+        @Column(name = "a_name")
+        private String name;
+    }
+
+`Repository`
+
+    public interface UserRepository extends JpaRepository<User, Long> {
+        // 이름으로 검색
+        List<User> findByName(String name);
+        // 값이 없는 경우(결과 없음) 
+        // Null값으로 인한 NullPointerException 예외처리
+        Optional<User> findByName(String name);
+        // 페이징
+        Page<User> findByName(String name, Pageable pageable);
+    }
+
+`Service`
+
+    @Service
+    public class UserService {
+        @Autowired
+        private UserRepository userRepository;
+
+        public List<User> get
+
+        
+        
+        public Page<User> getUsersByNameWithPaging(String name, int page, int size) {
+            // 페이지 번호, 사이즈 설정
+            Pageable pageable = PageRequest.of(page, size); 
+            return userRepository.findByName(name, pageable);
+        }
+
+    }
 
 <details>
 <summary>etc</summary>
