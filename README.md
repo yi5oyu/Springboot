@@ -303,17 +303,54 @@ Controller 계층
         @Autowired
         private UserRepository userRepository;
 
-        public List<User> get
+        // 조건에 맞는 모든 데이터 처리
+        public List<User> getUsersName(String name) {
+            return userRepository.findByName(name);
+        }
 
+        // 하나의 결과값(UNIQUE) or null(결과 없음) 처리
+        public Optional<User> getUserName(String name) {
+            // isPresent(), isEmpty(), orElse(), orElseThrow()...
+            return userRepository.findByName(name)
+                    .orElseThrow(() -> new RuntimeException("유저 찾을 수 없음"));
+        }        
         
-        
-        public Page<User> getUsersByNameWithPaging(String name, int page, int size) {
+        public Page<User> getUsersNameWithPaging(String name, int page, int size) {
             // 페이지 번호, 사이즈 설정
             Pageable pageable = PageRequest.of(page, size); 
             return userRepository.findByName(name, pageable);
         }
-
     }
+
+`Controller`
+
+    @RestController
+    @RequestMapping("/users")
+    public class UserController {
+        @Autowired
+        private UserService userService;
+
+        @GetMapping("/names")
+        public List<User> getAllUsersName(@RequestParam("username") String name) {
+            // List<User>
+            return userService.getUsersName(name);
+        }
+
+        @GetMapping("/name")
+        public User getUserName(@RequestParam("username") String name) {
+            // Optional<User>
+            return userService.getUserName(name);
+        }
+
+        @GetMapping("/paged-names")
+        public Page<User> getUsersByNameWithPaging(@RequestParam("username") String name, int page, int size) {
+            // Page<User>
+            return userService.getUsersNameWithPaging(name, page, size); 
+        }
+    }   
+    
+[> Optional](https://github.com/yi5oyu/Study/blob/main/JPA/Optional)
+[> 객체지향쿼리](https://github.com/yi5oyu/Study/blob/main/JPA/4.%20JPQL/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%BF%BC%EB%A6%AC)
 
 <details>
 <summary>etc</summary>
