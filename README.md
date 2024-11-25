@@ -482,7 +482,31 @@ H2 Database
 `대시보드` `>` `앱` `>` `앱 만들기` `>` `API 선택` `>` `API 사용 요금` `>` `사용하기` `>` `사용 신청하기` `>` `대시보드` `>` `생선한 앱 선택` `>` `앱키`
 
 
-## 어노테이션
+## 어노테이션(Annotation)
+    Java에서 코드에 메타데이터를 추가하는 방법
+    컴파일러나 런타임 환경에서 특정 행동을 수행하도록 정보를 제공하는 역할
+
+
+### 스테레오 타입 어노테이션
+    사용자 정의 어노테이션
+    주로 애플리케이션의 계층 구조, 코드의 가독성을 높이는 데 사용
+
+``
+
+`@RestController`
+
+    
+<details>
+<summary>Controller + ResponseBody</summary>
+
+`@Controller`
+`@ResponseBody`
+
+</details>
+
+[RestController](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40RestController)
+
+
 
 `@Autowired`
 
@@ -501,23 +525,20 @@ H2 Database
         boolean required() default true;
     }
 
-<details>
-<summary>Controller + ResponseBody</summary>
+[> 어노테이션](https://github.com/yi5oyu/Study/tree/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98)
 
-`@Controller`
+### 표준 어노테이션
+    Java에서 기본적으로 제공하는 어노테이션
 
-    // RestController: RESTful 웹 서비스를 위한 컨트롤러 정의
-    @Controller or @RestController(@Controller + @ResponseBody)
-    // URL 패턴 지정 (value = "/hello", method = RequestMethod.GET)
-    @RequestMapping("/api/users")
-    // HTTP 요청 매핑 (@RequestMapping, @GetMapping, @PostMapping, @PutMapping...)
-    public class UserController {
-        @GetMapping("/id")
-        
-    }
+`@Override`: 
 
-`@ResponseBody`
+### 메타 어노테이션
+    다른 어노테이션을 정의할 때 사용되는 어노테이션
 
+`@Target`: 어노테이션 적용될 수 있는 대상 지정      
+`@Retention`: 어노테이션 유지 기간 설정       
+`@Documented`: Javadoc 생성 시 어노테이션이 문서화되도록 지정      
+`@Inherited`: 어노테이션 타입이 자동으로 상속되도록 지정     
+`@Repeatable`: 동일한 선언에 어노테이션을 두 번 이상 적용할 수 있음    
 
-
-</details>
+\
