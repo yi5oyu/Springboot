@@ -6,6 +6,47 @@
 
 Gradle 8.8 | Java 17
 
+<details>
+<summary>Settings</summary>
+
+### 프로젝트 생성
+    - Spring initializr
+    https://start.spring.io/
+
+### Intellj
+
+#### 가독성/편의성
+    application.properties을 application.yml로 변경
+
+    root > src > main > resources > application.yml
+    
+    --계층 구조로 그룹화--
+    > application.properties
+    server.port=8080 
+
+    > application.yml
+    server:
+      port: 8080 
+    
+    --속성 중첩--
+    > application.properties
+    spring.application.name=springboot
+    spring.profiles.active=default
+
+    > application.yml
+    spring:
+      application:
+        name: springboot
+      profiles:
+        active: default
+
+#### 환경변수
+`설정:` `Run/Debug Configurations(상단 바)` `>` `Edit Configurations...` `>` `Environment variables`   
+`사용:` `${변수명}`
+
+</details>
+
+
 ## 목차
 
    
@@ -68,23 +109,6 @@ Gradle 8.8 | Java 17
     Java 애플리케이션 개발을 위한 포괄적인 인프라 제공
     외부 애플리케이션 서버에서 실행(Apache Tomcat, Jetty 등...)
     war 파일 생성
-
-`@Autowired`
-
-    빈(Bean) 객체를 자동으로 주입
-
-    구성요소
-    // 어노테이션이 적용될 수 있는 위치를 지정(생성자, 메서드, 매개변수, 필드, 어노테이션에 사용할 수 있음)
-    @Target({ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD, ElementType.ANNOTATION_TYPE})
-    // 어노테이션의 지속 기간을 지정(런타임 시점까지 유지)
-    @Retention(RetentionPolicy.RUNTIME)
-    // 어노테이션을 사용하는 요소가 Javadoc 같은 문서화 도구에 의해 문서화되도록 함(자동으로 문서화에 포함되어 해당 의존성 주입이 코드 문서에 잘 표시됨)
-    @Documented
-    public @interface Autowired {
-        // required=true: 스프링은 반드시 해당 빈을 주입해야 함(빈이 존재하지 않으면 NoSuchBeanDefinitionException 발생)
-        // required=false:  주입할 수 있는 빈이 없더라도 오류가 발생하지 않음(null 상태로 유지)
-        boolean required() default true;
-    }
     
 ### Spring boot   
     스프링 부트는 spring framework 개선
@@ -108,155 +132,29 @@ Gradle 8.8 | Java 17
    Spring Boot Actuator : 서비스를 운영하는 시기에 해당 시스템이 사용하는 스레드, 메모리, 세션 등 주요 요소들 모니터링
 
 [> Spring VS Spring boot](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EA%B8%B0%EB%B3%B8%20%EA%B0%9C%EB%85%90%20%EC%A0%95%EB%A6%AC/SpringBoot%20%ED%8A%B9%EC%A7%95)
-   
-#### Spring Web(Spring MVC)
- 
-   
-    
 
-Controller 계층   
+### Spring Web(Spring MVC)
+    https://docs.spring.io/spring-framework/reference/web/webmvc.html
+    아키텍처를 여러 계층으로 나눔
 
-`@RestController`
+`View 계층`: 사용자 인터페이스(UI)        
+`Model 계층`: 데이터 정의(DTO, Entity)       
+`Controller 계층`: HTTP 요청 처리/응답 반환    
+`Service 계층`: 비즈니스 로직 처리     
+`Repository 계층`: 데이터 접근, DB 외부 데이터 소스 CRUD 작업 수행   
 
-    @Target({ElementType.TYPE})
-    @Retention(RetentionPolicy.RUNTIME)
-    @Documented
-    @Controller
-    @ResponseBody
-    public @interface RestController {
-        @AliasFor(
-            annotation = Controller.class
-        )
-        String value() default "";
-    }
+### DB
 
-<details>
-<summary>Controller + ResponseBody</summary>
+<!--
+#### Mybatis
 
-`@Controller`
+#### TEMPLATE ENGINES
+Thymeleaf Mustache 
 
-    // RestController: RESTful 웹 서비스를 위한 컨트롤러 정의
-    @Controller or @RestController(@Controller + @ResponseBody)
-    // URL 패턴 지정 (value = "/hello", method = RequestMethod.GET)
-    @RequestMapping("/api/users")
-    // HTTP 요청 매핑 (@RequestMapping, @GetMapping, @PostMapping, @PutMapping...)
-    public class UserController {
-        @GetMapping("/id")
-        
-    }
-
-`@ResponseBody`
-
-
-
-</details>
-
-Service 계층
-
-Repository 계층
-
-    https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller.html
-    
-
-#### Spring Boot DevTools
-    생산성을 높이기 위한 도구 모음
-
-1. 자동 재시작(Automatic Restart)     
-    소스 코드나 설정 파일에 변경이 발생하면 자동으로 애플리케이션 다시 시작     
-    개발 중 코드 변경을 바로 반영할 수 있고 클래스 로더(classloader)를 활용하여 애플리케이션 빠르게 재시작함      
-   
-2. 라이브 리로드(Live Reload)      
-    정적 리소스(HTML, CSS, JavaScript) 변경을 브라우저에 즉시 반영      
-    브라우저 플러그인(LiveReload)을 사용하여 변경된 내용을 자동으로 로드     
-    
-3. 속성 기본값 재정의(Property Defaults)    
-    캐시 설정 최적화: 템플릿 엔진(Thymeleaf, FreeMarker 등)의 캐시를 비활성화하여 변경 사항을 바로 확인할 수 있음    
-    H2 콘솔 자동 활성화: H2 데이터베이스를 사용할 경우 자동으로 H2 콘솔 활성화    
-
-4. 개발 및 프로덕션 설정 분리    
-   application.properties or application.yml 파일에 spring.profiles.active=dev 설정을 추가하여 개발 환경과 프로덕션 환경을 쉽게 분리할 수 있음    
-   개발 환경에서만 활성화, 배포 환경에서는 비활성화됨      
-
-
-#### Lombok
-    반복적으로 작성해야 하는 코드를 줄여주는 라이브러리
-    코드의 가독성을 높이고 개발 생산성을 향상시킴
-
-    // Lombok 없는 코드
-    public class User {
-    
-        private Long id;
-        private String name;
-        private String email;
-    
-        // 기본 생성자
-        public User() {}
-    
-        // 매개변수있는 생성자
-        public User(Long id, String name, String email) {
-            this.id = id;
-            this.name = name;
-            this.email = email;
-        }
-    
-        // Getters, Setters
-        public Long getId() {
-            return id;
-        }
-    
-        public void setId(Long id) {
-            this.id = id;
-        }
-    
-        public String getName() {
-            return name;
-        }
-    
-        public void setName(String name) {
-            this.name = name;
-        }
-    
-        public String getEmail() {
-            return email;
-        }
-    
-        public void setEmail(String email) {
-            this.email = email;
-        }
-    
-        // toString 재정의
-        @Override
-        public String toString() {
-            return "User{" +
-                    "id=" + id +
-                    ", name='" + name + '\'' +
-                    ", email='" + email + '\'' +
-                    '}';
-        }
-    
-        // equal, hashCode 재정의
-        @Override
-        public boolean equals() {
-            ...
-        }
-    
-        @Override
-        public int hashCode() {
-            ...
-        }
-    }
-
-    // Lombok 코드
-    @Data // getters, setters, toString, equals, hashCode
-    @NoArgsConstructor // 기본 생성자
-    @AllArgsConstructor // 매개변수있는 생성자
-    public class User {
-        private Long id;
-        private String name;
-        private String email;
-    }
-
-[> 그 외 어노테이션](https://github.com/yi5oyu/Study/tree/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/Lombok)   
+MySQL
+Oracle
+H2 Database
+-->
 
 #### Spring Data JPA   
     JPA를 더 쉽고 편리하게 사용할 수 있도록 도와주는 Spring 프레임워크의 모듈
@@ -264,7 +162,7 @@ Repository 계층
     JPA(Java Persistence API): 자바 애플리케이션에서 관계형 데이터베이스를 사용하는 방식을 정의한 인터페이스
     ORM(object-relational mapping): 객체와 관계형 데이터베이스 테이블 매핑(객체 지향적으로 프로그래밍을 하면서 관계형 데이터베이스를 사용할 수 있음)
 
-- 계층 구조   
+- 인터페이스 계층 구조   
     Repository > CrudRepository > PagingAndSortingRepository > JpaRepository    
     `Repository`: 최상위 기본 인터페이스(메소드 없음)     
     `CrudRepository`: CRUD(생성, 읽기, 업데이트, 삭제) 메서드    
@@ -381,47 +279,7 @@ Repository 계층
 [> Optional](https://github.com/yi5oyu/Study/blob/main/JPA/Optional)     
 [> 객체지향쿼리](https://github.com/yi5oyu/Study/blob/main/JPA/4.%20JPQL/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%BF%BC%EB%A6%AC)     
 
-<details>
-<summary>etc</summary>
-
-### 프로젝트 생성
-    - Spring initializr
-    https://start.spring.io/
-
-### Intellj
-
-#### 가독성/편의성
-    application.properties을 application.yml로 변경
-
-    root > src > main > resources > application.yml
-    
-    --계층 구조로 그룹화--
-    > application.properties
-    server.port=8080 
-
-    > application.yml
-    server:
-      port: 8080 
-    
-    --속성 중첩--
-    > application.properties
-    spring.application.name=springboot
-    spring.profiles.active=default
-
-    > application.yml
-    spring:
-      application:
-        name: springboot
-      profiles:
-        active: default
-
-#### 환경변수
-`설정:` `Run/Debug Configurations(상단 바)` `>` `Edit Configurations...` `>` `Environment variables`   
-`사용:` `${변수명}`
-
-</details>
-
-## NoSQL
+### NoSQL
     NoSQL(Not only SQL): SQL만을 사용하지 않는 데이터베이스 관리 시스템
 
     - 확장성
@@ -434,7 +292,7 @@ Repository 계층
       키-값 형태의 데이터 액세스 패턴에 최적화
       데이터를 여러 서버에 분산, 데이터를 요청하는 사용자/응용 프로그램에 더 가깝운 곳에 저장
 
-### Redis
+#### Redis
     Redis(Remote Dictionary Server)
     키-값 저장소 (다양한 데이터 구조 지원)
     간단한 데이터 구조에 빠르게 액세스해야 하는 애플리케이션에 매우 빠르고 적합(캐시, 메시지 브로커, 세션 저장소)
@@ -442,7 +300,112 @@ Repository 계층
 [**> Redis Config**](https://github.com/yi5oyu/Study/blob/main/DB/NoSQL/Redis/RedisConfig.java)   
 [**> Example**](https://github.com/yi5oyu/Study/blob/main/DB/NoSQL/Redis/RedisService.java)
 
+
+
+### TOOLS   
+
+#### Spring Boot DevTools
+    생산성을 높이기 위한 도구 모음
+
+1. 자동 재시작(Automatic Restart)     
+    소스 코드나 설정 파일에 변경이 발생하면 자동으로 애플리케이션 다시 시작     
+    개발 중 코드 변경을 바로 반영할 수 있고 클래스 로더(classloader)를 활용하여 애플리케이션 빠르게 재시작함      
+   
+2. 라이브 리로드(Live Reload)      
+    정적 리소스(HTML, CSS, JavaScript) 변경을 브라우저에 즉시 반영      
+    브라우저 플러그인(LiveReload)을 사용하여 변경된 내용을 자동으로 로드     
+    
+3. 속성 기본값 재정의(Property Defaults)    
+    캐시 설정 최적화: 템플릿 엔진(Thymeleaf, FreeMarker 등)의 캐시를 비활성화하여 변경 사항을 바로 확인할 수 있음    
+    H2 콘솔 자동 활성화: H2 데이터베이스를 사용할 경우 자동으로 H2 콘솔 활성화    
+
+4. 개발 및 프로덕션 설정 분리    
+   application.properties or application.yml 파일에 spring.profiles.active=dev 설정을 추가하여 개발 환경과 프로덕션 환경을 쉽게 분리할 수 있음    
+   개발 환경에서만 활성화, 배포 환경에서는 비활성화됨      
+
+
+#### Lombok
+    반복적으로 작성해야 하는 코드를 줄여주는 라이브러리
+    코드의 가독성을 높이고 개발 생산성을 향상시킴
+
+    // Lombok 없는 코드
+    public class User {
+    
+        private Long id;
+        private String name;
+        private String email;
+    
+        // 기본 생성자
+        public User() {}
+    
+        // 매개변수있는 생성자
+        public User(Long id, String name, String email) {
+            this.id = id;
+            this.name = name;
+            this.email = email;
+        }
+    
+        // Getters, Setters
+        public Long getId() {
+            return id;
+        }
+    
+        public void setId(Long id) {
+            this.id = id;
+        }
+    
+        public String getName() {
+            return name;
+        }
+    
+        public void setName(String name) {
+            this.name = name;
+        }
+    
+        public String getEmail() {
+            return email;
+        }
+    
+        public void setEmail(String email) {
+            this.email = email;
+        }
+    
+        // toString 재정의
+        @Override
+        public String toString() {
+            return "User{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    ", email='" + email + '\'' +
+                    '}';
+        }
+    
+        // equal, hashCode 재정의
+        @Override
+        public boolean equals() {
+            ...
+        }
+    
+        @Override
+        public int hashCode() {
+            ...
+        }
+    }
+
+    // Lombok 코드
+    @Data // getters, setters, toString, equals, hashCode
+    @NoArgsConstructor // 기본 생성자
+    @AllArgsConstructor // 매개변수있는 생성자
+    public class User {
+        private Long id;
+        private String name;
+        private String email;
+    }
+
+[> 그 외 어노테이션](https://github.com/yi5oyu/Study/tree/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/Lombok)   
+
 ## 보안
+
 ### Spring Security (6.3.3)
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
@@ -517,3 +480,44 @@ Repository 계층
 ### SK openAPI (Tmap)
     https://openapi.sk.com
 `대시보드` `>` `앱` `>` `앱 만들기` `>` `API 선택` `>` `API 사용 요금` `>` `사용하기` `>` `사용 신청하기` `>` `대시보드` `>` `생선한 앱 선택` `>` `앱키`
+
+
+## 어노테이션
+
+`@Autowired`
+
+    빈(Bean) 객체를 자동으로 주입
+
+    구성요소
+    // 어노테이션이 적용될 수 있는 위치를 지정(생성자, 메서드, 매개변수, 필드, 어노테이션에 사용할 수 있음)
+    @Target({ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD, ElementType.ANNOTATION_TYPE})
+    // 어노테이션의 지속 기간을 지정(런타임 시점까지 유지)
+    @Retention(RetentionPolicy.RUNTIME)
+    // 어노테이션을 사용하는 요소가 Javadoc 같은 문서화 도구에 의해 문서화되도록 함(자동으로 문서화에 포함되어 해당 의존성 주입이 코드 문서에 잘 표시됨)
+    @Documented
+    public @interface Autowired {
+        // required=true: 스프링은 반드시 해당 빈을 주입해야 함(빈이 존재하지 않으면 NoSuchBeanDefinitionException 발생)
+        // required=false:  주입할 수 있는 빈이 없더라도 오류가 발생하지 않음(null 상태로 유지)
+        boolean required() default true;
+    }
+
+<details>
+<summary>Controller + ResponseBody</summary>
+
+`@Controller`
+
+    // RestController: RESTful 웹 서비스를 위한 컨트롤러 정의
+    @Controller or @RestController(@Controller + @ResponseBody)
+    // URL 패턴 지정 (value = "/hello", method = RequestMethod.GET)
+    @RequestMapping("/api/users")
+    // HTTP 요청 매핑 (@RequestMapping, @GetMapping, @PostMapping, @PutMapping...)
+    public class UserController {
+        @GetMapping("/id")
+        
+    }
+
+`@ResponseBody`
+
+
+
+</details>
