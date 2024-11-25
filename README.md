@@ -263,7 +263,27 @@ Controller 계층
     `JpaRepository`: 일괄 처리, 메서드 이름을 기반으로 한 쿼리 생성 기능 제공    
     [> JPA 인터페이스 계층 구조](https://github.com/yi5oyu/Study/blob/main/JPA/3.%20SpringDataJPA/JpaRepository.java)
 
-- 사용
+- 사용(MySQL)
+
+`application.yml`
+    
+    spring:
+      datasource:
+        // 환경변수 지정 (jdbc:mysql://localhost:3306/DB이름)
+        url: ${DB_URL}
+        username: ${DB_USERNAME}
+        password: ${DB_PASSWORD}
+        driver-class-name: com.mysql.cj.jdbc.Driver
+      jpa:
+        hibernate:
+          // 엔티티 변경사항 데이터베이스 스키마에 자동 업데이트
+          ddl-auto: update
+        // SQL 쿼리 출력(콘솔/로그)
+        show-sql: false
+        properties:
+          hibernate:
+            // SQL 문법 Dialect 지정
+            dialect: org.hibernate.dialect.MySQLDialect
 
 `Entity`
 
@@ -349,8 +369,8 @@ Controller 계층
         }
     }   
     
-[> Optional](https://github.com/yi5oyu/Study/blob/main/JPA/Optional)
-[> 객체지향쿼리](https://github.com/yi5oyu/Study/blob/main/JPA/4.%20JPQL/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%BF%BC%EB%A6%AC)
+[> Optional](https://github.com/yi5oyu/Study/blob/main/JPA/Optional)     
+[> 객체지향쿼리](https://github.com/yi5oyu/Study/blob/main/JPA/4.%20JPQL/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%BF%BC%EB%A6%AC)     
 
 <details>
 <summary>etc</summary>
