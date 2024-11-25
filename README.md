@@ -1,4 +1,5 @@
-# Spring Boot (3.3.3)
+# 개요
+    Spring Boot (3.3.3)
     FE React-Native
     보안 Spring Security, JWT, OAuth 2.0
     NoSQL Redis
@@ -7,54 +8,66 @@ Gradle 8.8 | Java 17
 
 ## 목차
 
+   
+      
+      
+## 관심사 분리(Separation of Concerns, SoC)
+     프로그램을 각기 다른 기능적 측면으로 분리, 각 부분이 특정 역할만 수행하도록 하는 설계 원칙 
+     모듈화, 유지보수성, 확장성, 재사용성, 코드의 복잡성 감소, 테스트 확장 용이
 
-### Spring 
-    Java 애플리케이션 개발을 위한 포괄적인 인프라 제공
-    외부 애플리케이션 서버에서 실행(Apache Tomcat, Jetty 등...)
-    war 파일 생성
+1. **MVC(Model-View-Controller)**    
+    Model(데이터), View(UI), Controller(논리)로 분리    
+ 
+2. **계층화된 아키텍처(Layered Architecture)**    
+    애플리케이션을 각각 특정 작업을 담당하는 논리적 계층으로 나눔    
+    `프레젠테이션 계층(웹 계층)`: HTTP 요청/응답 처리(Controller)    
+    `서비스 레이어 계층`: 비즈니스 로직(Service)     
+    `데이터 액세스 계층`: 데이터베이스 상호 작용을 관리(Repository)
+   
+3. **관점 지향 프로그래밍(AOP)**    
+    핵심 비즈니스 로직에서 관심사를 분리할 수 있게 함(로깅, 보안, 트랜잭션 관리...)     
+    비즈니스 로직과 보조 기능을 분리해 복잡하게 만들지 않고 애플리케이션 전체에 적용    
+    `클린코드`: 반복적인 코드 제거
+    `유연성`: @Aspect을 사용한 추가/수정
 
-1. **제어 역전(Inversion of Control, IoC)**   
+4. **제어 역전(Inversion of Control, IoC)**     
     사용할 객체를 직접 생성하지 않고 객체의 생명주기 관리를 스프링 컨테이너 or IoC 컨테이너에 위임    
-    제어 역전을 통해 의존성 주입, 관점 지향 프로그래밍 등이 가능
+    제어 역전을 통해 의존성 주입, 관점 지향 프로그래밍 등이 가능     
+    `@Component`: 클래스를 스프링 컨테이너가 자동으로 감지하고 빈으로 등록   
+    `@Bean`: 메소드가 반환하는 객체를 스프링 컨테이너가 빈으로 등록     
+ 
+5. **의존성 주입(Dependency Injection, DI)**      
+    객체 간의 결합도를 낮춰 코드의 재사용성을 높이고 유지보수를 쉽게 만듬    
+    스프링 컨테이너가 자동으로 의존성을 주입/타입을 기반으로 의존성을 찾아 주입    
+    `@Autowired`: 생성자 주입
 
-`@Component`
-
-    클래스를 빈(Bean)으로 지정
-    
-    @Target({ElementType.TYPE})
-    @Retention(RetentionPolicy.RUNTIME)
-    @Documented
-    @Indexed
-    public @interface Component {
-        String value() default "";
-    }
-
-`@Target`
-
-    
-
-2. **의존성 주입(Dependency Injection, DI)**   
-    객체 간의 결합도를 낮춰 코드의 재사용성을 높이고 유지보수를 쉽게 만듬   
-    스프링 컨테이너가 자동으로 의존성을 주입/타입을 기반으로 의존성을 찾아 주입  
-
-**생성자 주입**
+`생성자 주입`
     
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
     
-**필드 주입**
+`필드 주입`
 
     @Autowired
     private UserService userService;
 
-**Setter 주입**
+`Setter 주입`
 
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
+
+6. **설정 관리**    
+    설정을 외부화하여 다양한 환경에서 동일한 애플리케이션 코드를 사용할 수 있게 함    
+    application.properties or application.yml    
+
+### Spring 
+    Java 애플리케이션 개발을 위한 포괄적인 인프라 제공
+    외부 애플리케이션 서버에서 실행(Apache Tomcat, Jetty 등...)
+    war 파일 생성
 
 `@Autowired`
 
@@ -72,10 +85,7 @@ Gradle 8.8 | Java 17
         // required=false:  주입할 수 있는 빈이 없더라도 오류가 발생하지 않음(null 상태로 유지)
         boolean required() default true;
     }
-
-3. **관점 지향 프로그래밍(Aspect Oriented Programming, AOP)**   
-    로깅, 보안, 트랜잭션 관리등의 관심사 분리를 가능하게 하여 모듈화를 개선함
-
+    
 ### Spring boot   
     스프링 부트는 spring framework 개선
     개발 환경 설정 간소화(미리 설정된 스타터 프로젝트로 외부 라이브러리를 최적화해 제공)
@@ -86,7 +96,7 @@ Gradle 8.8 | Java 17
     `버전 충돌`: 의존성 내의 여러 라이브러리 버전이 모든 의존성에 맞게 동기화
    
 3. **배포 간소화**    
-   스프링 부트 플러그인이 모든 의존성을 결과 JAR에 압축    
+    스프링 부트 플러그인이 모든 의존성을 결과 JAR에 압축    
    
 4. **내장 WAS**   
     특별한 설정 없이도 Tomcat 실행 가능
@@ -95,16 +105,14 @@ Gradle 8.8 | Java 17
    애플리케이션에 추가된 라이브러리를 실행하는데 필요한 환경 설정을 알아서 찾아줌(의존성을 추가하면 프레임워크가 자동으로 관리)
 
 6. **모니터링**   
- Spring Boot Actuator : 서비스를 운영하는 시기에 해당 시스템이 사용하는 스레드, 메모리, 세션 등 주요 요소들 모니터링
+   Spring Boot Actuator : 서비스를 운영하는 시기에 해당 시스템이 사용하는 스레드, 메모리, 세션 등 주요 요소들 모니터링
+
+[> Spring VS Spring boot](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EA%B8%B0%EB%B3%B8%20%EA%B0%9C%EB%85%90%20%EC%A0%95%EB%A6%AC/SpringBoot%20%ED%8A%B9%EC%A7%95)
    
 #### Spring Web(Spring MVC)
-
-1. **관심사 분리(Separation of Concerns)**    
-    프로그램을 각기 다른 기능적 측면으로 분리, 각 부분이 특정 역할만 수행하도록 하는 설계 원칙   
-    코드의 복잡성을 줄이고, 테스트 확장 용이   
+ 
    
-    계층화된 아키텍처(Layered Architecture)
-    애플리케이션을 각각 특정 작업을 담당하는 논리적 계층으로 나눔   
+    
 
 Controller 계층   
 
@@ -143,11 +151,12 @@ Controller 계층
 
 </details>
 
+Service 계층
+
+Repository 계층
+
     https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller.html
     
-    
-
-[> Spring VS Spring boot](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EA%B8%B0%EB%B3%B8%20%EA%B0%9C%EB%85%90%20%EC%A0%95%EB%A6%AC/SpringBoot%20%ED%8A%B9%EC%A7%95)
 
 #### Spring Boot DevTools
     생산성을 높이기 위한 도구 모음
