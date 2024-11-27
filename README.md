@@ -52,7 +52,7 @@ Gradle 8.8 | Java 17
    
       
       
-## 관심사 분리(Separation of Concerns, SoC)
+### 관심사 분리(Separation of Concerns, SoC)
      프로그램을 각기 다른 기능적 측면으로 분리, 각 부분이 특정 역할만 수행하도록 하는 설계 원칙 
      모듈화, 유지보수성, 확장성, 재사용성, 코드의 복잡성 감소, 테스트 확장 용이
 
