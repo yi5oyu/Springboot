@@ -165,7 +165,7 @@
 `Service 계층`: 비즈니스 로직 처리     
 `Repository 계층`: 데이터 접근, DB 외부 데이터 소스 CRUD 작업 수행   
 
-### DB
+### 🛢️ DB
 
 <!--
 #### Mybatis
@@ -324,7 +324,7 @@ H2 Database
 
 
 
-### TOOLS   
+### 🛠️ TOOLS   
 
 #### Spring Boot DevTools
     생산성을 높이기 위한 도구 모음
@@ -426,7 +426,7 @@ H2 Database
 
 [> 그 외 어노테이션](https://github.com/yi5oyu/Study/tree/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/Lombok)   
 
-## 보안
+## 🛡️ 보안
 
 ### Spring Security (6.3.3)
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -439,7 +439,7 @@ H2 Database
 
 [//]: # (### JWT)
 
-## AI
+## 🧠 AI
 
 ### Spring AI
     Spring Boot 애플리케이션에 AI 기능을 쉽게 통합할 수 있도록 지원하는 라이브러리
@@ -468,7 +468,7 @@ H2 Database
 
 [**> Example**](https://github.com/yi5oyu/Study/blob/main/AI/LM%20STUDIO/llamaAPIService.java)
 
-## OPEN API
+## 📡 OPEN API
     API에 접근하기 위한 API key 필요
 
 ### Naver
@@ -504,7 +504,7 @@ H2 Database
 `대시보드` `>` `앱` `>` `앱 만들기` `>` `API 선택` `>` `API 사용 요금` `>` `사용하기` `>` `사용 신청하기` `>` `대시보드` `>` `생선한 앱 선택` `>` `앱키`
 
 
-## @어노테이션(Annotation)
+## 🏷️ @어노테이션(Annotation)
     Java에서 코드에 메타데이터를 추가하는 방법
     컴파일러나 런타임 환경에서 특정 행동을 수행하도록 정보를 제공하는 역할
 
@@ -563,4 +563,4 @@ H2 Database
 `@Inherited`: 어노테이션 타입이 자동으로 상속되도록 지정     
 `@Repeatable`: 동일한 선언에 어노테이션을 두 번 이상 적용할 수 있음    
 
-\
+
