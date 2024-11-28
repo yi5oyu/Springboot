@@ -1,15 +1,36 @@
-# 개요
+# 🌟 개요
+    Spring Boot를 이용한 어플리케이션 개발에 필요한 개념 정리, 테스팅, 연습을 목적으로한 레포지토리
+    
     Spring Boot (3.3.3)
     FE React-Native
     보안 Spring Security, JWT, OAuth 2.0
     NoSQL Redis
 
+
+<img src="https://img.shields.io/badge/Spring Boot 3-6DB33F?style=flat-square&logo=Spring Boot&logoColor=white"/><img src="https://img.shields.io/badge/java 17-007396?style=flat-square&logo=java&logoColor=white"/>
+<img src="https://img.shields.io/badge/Gradle-02303A?style=flat-square&logo=gradle&logoColor=white"/>
+
+<img src="https://img.shields.io/badge/IntelliJ_IDEA-000000?style=flat-square&logo=IntelliJ IDEA&logoColor=white"/><img src="https://img.shields.io/badge/VSCode-007ACC?style=flat-square&logo=visual-studio-code&logoColor=white"/>
+
+
+<br>
+<img src="https://img.shields.io/badge/React_Native-20232A?style=flat-square&logo=react&logoColor=61DAFB"/>
+
+
+<img src="https://img.shields.io/badge/Spring_Data_JPA-6DB33F?style=flat-square&logo=spring&logoColor=white"/>
+
+<br>
+
+<br>
+<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/>
+
+
 Gradle 8.8 | Java 17
 
 <details>
-<summary>Settings</summary>
+<summary>🛠️ Settings</summary>
 
-### 프로젝트 생성
+### 🚀 프로젝트 생성
     - Spring initializr
     https://start.spring.io/
 
@@ -40,20 +61,20 @@ Gradle 8.8 | Java 17
       profiles:
         active: default
 
-#### 환경변수
+#### ⚙️ 환경변수
 `설정:` `Run/Debug Configurations(상단 바)` `>` `Edit Configurations...` `>` `Environment variables`   
 `사용:` `${변수명}`
 
 </details>
 
 
-## 목차
+## 📋 목차
 
    
-## Spring & Spring boot      
+## 🎯 Spring & Spring boot      
     
       
-### 관심사 분리(Separation of Concerns, SoC)
+### 📖 관심사 분리(Separation of Concerns, SoC)
      프로그램을 각기 다른 기능적 측면으로 분리, 각 부분이 특정 역할만 수행하도록 하는 설계 원칙 
      모듈화, 유지보수성, 확장성, 재사용성, 코드의 복잡성 감소, 테스트 확장 용이
 
@@ -69,19 +90,19 @@ Gradle 8.8 | Java 17
 3. **관점 지향 프로그래밍(AOP)**    
     핵심 비즈니스 로직에서 관심사를 분리할 수 있게 함(로깅, 보안, 트랜잭션 관리...)     
     비즈니스 로직과 보조 기능을 분리해 복잡하게 만들지 않고 애플리케이션 전체에 적용    
-    `클린코드`: 반복적인 코드 제거
+    `클린코드`: 반복적인 코드 제거     
     `유연성`: @Aspect을 사용한 추가/수정
 
 4. **제어 역전(Inversion of Control, IoC)**     
     사용할 객체를 직접 생성하지 않고 객체의 생명주기 관리를 스프링 컨테이너 or IoC 컨테이너에 위임    
     제어 역전을 통해 의존성 주입, 관점 지향 프로그래밍 등이 가능     
-    `@Component`: 클래스를 스프링 컨테이너가 자동으로 감지하고 빈으로 등록   
+    `@Component`: 클래스를 스프링 컨테이너가 자동으로 감지하고 빈으로 등록    
     `@Bean`: 메소드가 반환하는 객체를 스프링 컨테이너가 빈으로 등록     
  
 5. **의존성 주입(Dependency Injection, DI)**      
     객체 간의 결합도를 낮춰 코드의 재사용성을 높이고 유지보수를 쉽게 만듬    
     스프링 컨테이너가 자동으로 의존성을 주입/타입을 기반으로 의존성을 찾아 주입    
-    `@Autowired`: 생성자 주입
+    `@Autowired`: 생성자 주입  
 
 `생성자 주입`
     
@@ -106,12 +127,12 @@ Gradle 8.8 | Java 17
     설정을 외부화하여 다양한 환경에서 동일한 애플리케이션 코드를 사용할 수 있게 함    
     application.properties or application.yml    
 
-### Spring 
+### 💡 Spring 
     Java 애플리케이션 개발을 위한 포괄적인 인프라 제공
     외부 애플리케이션 서버에서 실행(Apache Tomcat, Jetty 등...)
     war 파일 생성
     
-### Spring boot   
+### 💡 Spring boot   
     스프링 부트는 spring framework 개선
     개발 환경 설정 간소화(미리 설정된 스타터 프로젝트로 외부 라이브러리를 최적화해 제공)
     WAS 내장(Tomcat) jar 파일 생성
@@ -134,6 +155,10 @@ Gradle 8.8 | Java 17
 
 [> Spring VS Spring boot](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EA%B8%B0%EB%B3%B8%20%EA%B0%9C%EB%85%90%20%EC%A0%95%EB%A6%AC/SpringBoot%20%ED%8A%B9%EC%A7%95)      
 [> WAR VS JAR](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EB%B0%B0%ED%8F%AC%20%EB%B0%A9%EB%B2%95(WAR%2CJAR))
+
+## 📦 Framework & Library
+    Framework: 애플리케이션 개발의 기본 구조를 제공하는 소프트웨어 플랫폼
+    Library: 특정 기능을 수행하는 코드 묶음
 
 ### Spring Web(Spring MVC)
     https://docs.spring.io/spring-framework/reference/web/webmvc.html
