@@ -61,10 +61,10 @@
 
 - [Spring & Spring boot](#-spring--spring-boot)
 - [Framework & Library](#-framework--library)
-- [보안](#보안)
-- [AI](#ai)
-- [OPEN API](#open-api)
-- [@어노테이션](#어노테이션annotation)
+- [보안](#%EF%B8%8F-보안)
+- [AI](#-ai)
+- [OPEN API](#-open-api)
+- [@어노테이션](#%EF%B8%8F-어노테이션annotation)
    
 ## 🎯 Spring & Spring boot      
     
