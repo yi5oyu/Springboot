@@ -314,13 +314,93 @@ H2 Database
       키-값 형태의 데이터 액세스 패턴에 최적화
       데이터를 여러 서버에 분산, 데이터를 요청하는 사용자/응용 프로그램에 더 가깝운 곳에 저장
 
-#### Redis
+### Redis
     Redis(Remote Dictionary Server)
     키-값 저장소 (다양한 데이터 구조 지원)
     간단한 데이터 구조에 빠르게 액세스해야 하는 애플리케이션에 매우 빠르고 적합(캐시, 메시지 브로커, 세션 저장소)
 
-[**> Redis Config**](https://github.com/yi5oyu/Study/blob/main/DB/NoSQL/Redis/RedisConfig.java)   
-[**> Example**](https://github.com/yi5oyu/Study/blob/main/DB/NoSQL/Redis/RedisService.java)
+##### 의존성
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+##### application.yml
+    spring:
+      redis:
+        host: localhost
+        port: 6379 # 기본 포트
+        password: # 생략 가능
+        
+[> Redis application.yml](https://github.com/yi5oyu/Study/blob/main/DB/NoSQL/Redis/application.yml)     
+
+##### RedisConfig
+
+    @Configuration
+    public class RedisConfig {
+        @Bean
+        public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
+            // RedisTemplate: Redis에 데이터를 저장하고 읽기 위한 클래스 (Redis 명령을 실행할 수 있는 메서드 제공)
+            // 키(String), 값(Object - 저장하는 데이터 타입)
+            RedisTemplate<String, Object> template = new RedisTemplate<>();
+            // RedisConnectionFactory: Spring이 Redis 서버와 연결 관리
+            template.setConnectionFactory(connectionFactory);
+            // Redis에 저장되는 데이터 키를 직렬화
+            template.setKeySerializer(new StringRedisSerializer());
+            // 값을 문자열로 직렬화
+            template.setValueSerializer(new StringRedisSerializer());
+            return template;
+        }
+    }
+    
+[> Redis Config](https://github.com/yi5oyu/Study/blob/main/DB/NoSQL/Redis/RedisConfig.java)    
+
+##### RedisService
+
+    @Service
+    public class RedisService {
+        @Autowired
+        private RedisTemplate<String, Object> redisTemplate;
+        // 데이터 저장
+        public void saveValue(String key, String value) {
+            redisTemplate.opsForValue().set(key, value);
+        }
+        // 데이터 조회
+        public String getValue(String key) {
+            return (String) redisTemplate.opsForValue().get(key);
+        }
+        // 데이터 삭제
+        public void deleteValue(String key) {
+            redisTemplate.delete(key);
+        }
+    }
+
+[> Redis Service](https://github.com/yi5oyu/Study/blob/main/DB/NoSQL/Redis/RedisService.java)     
+
+##### RedisController
+
+@RestController
+
+    public class RedisController {
+        @Autowired
+        private RedisService redisService;
+        // 저장 /save?key=이름&value=데이터
+        @PostMapping("/save")
+        public void save(String key, String value) {
+            redisService.saveData(key, value);
+        }
+        // 조회 /get?key=이름
+        @GetMapping("/get")
+        public String get(String key) {
+            return redisService.getData(key);
+        }
+        // 삭제 /delete?key=이름
+        @DeleteMapping("/delete")
+        public void delete(String key) {
+            redisService.deleteData(key);
+        }
+    }
+
+[> Redis Controller](https://github.com/yi5oyu/Study/blob/main/DB/NoSQL/Redis/RedisController.java)     
+
+[**> Redis**](https://github.com/yi5oyu/Study/tree/main/DB/NoSQL/Redis)
 
 
 
