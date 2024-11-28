@@ -314,15 +314,20 @@ H2 Database
       키-값 형태의 데이터 액세스 패턴에 최적화
       데이터를 여러 서버에 분산, 데이터를 요청하는 사용자/응용 프로그램에 더 가깝운 곳에 저장
 
-### Redis
+#### Redis
     Redis(Remote Dictionary Server)
     키-값 저장소 (다양한 데이터 구조 지원)
     간단한 데이터 구조에 빠르게 액세스해야 하는 애플리케이션에 매우 빠르고 적합(캐시, 메시지 브로커, 세션 저장소)
+    
+[**> Redis**](https://github.com/yi5oyu/Study/tree/main/DB/NoSQL/Redis)     
+[> 설치](https://github.com/yi5oyu/Study/blob/main/DB/NoSQL/Redis/%EC%84%A4%EC%B9%98)     
 
-##### 의존성
+`의존성`
+
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
-##### application.yml
+`application.yml`
+
     spring:
       redis:
         host: localhost
@@ -331,7 +336,7 @@ H2 Database
         
 [> Redis application.yml](https://github.com/yi5oyu/Study/blob/main/DB/NoSQL/Redis/application.yml)     
 
-##### RedisConfig
+`RedisConfig`
 
     @Configuration
     public class RedisConfig {
@@ -352,7 +357,7 @@ H2 Database
     
 [> Redis Config](https://github.com/yi5oyu/Study/blob/main/DB/NoSQL/Redis/RedisConfig.java)    
 
-##### RedisService
+`RedisService`
 
     @Service
     public class RedisService {
@@ -374,10 +379,9 @@ H2 Database
 
 [> Redis Service](https://github.com/yi5oyu/Study/blob/main/DB/NoSQL/Redis/RedisService.java)     
 
-##### RedisController
+`RedisController`
 
-@RestController
-
+    @RestController
     public class RedisController {
         @Autowired
         private RedisService redisService;
@@ -399,10 +403,6 @@ H2 Database
     }
 
 [> Redis Controller](https://github.com/yi5oyu/Study/blob/main/DB/NoSQL/Redis/RedisController.java)     
-
-[**> Redis**](https://github.com/yi5oyu/Study/tree/main/DB/NoSQL/Redis)
-
-
 
 ### 🛠️ TOOLS   
 
