@@ -6,11 +6,10 @@
     보안 Spring Security, JWT, OAuth 2.0
     NoSQL Redis
 
+<img src="https://img.shields.io/badge/Spring Boot 3-6DB33F?style=flat-square&logo=Spring Boot&logoColor=white"/> <img src="https://img.shields.io/badge/java 17-%23ED8B00.svg?style=flat-square&logo=openjdk&logoColor=white"/> 
+<img src="https://img.shields.io/badge/Gradle 8.8-02303A?style=flat-square&logo=gradle&logoColor=white"/>
 
-<img src="https://img.shields.io/badge/Spring Boot 3-6DB33F?style=flat-square&logo=Spring Boot&logoColor=white"/><img src="https://img.shields.io/badge/java 17-007396?style=flat-square&logo=java&logoColor=white"/>
-<img src="https://img.shields.io/badge/Gradle-02303A?style=flat-square&logo=gradle&logoColor=white"/>
-
-<img src="https://img.shields.io/badge/IntelliJ_IDEA-000000?style=flat-square&logo=IntelliJ IDEA&logoColor=white"/><img src="https://img.shields.io/badge/VSCode-007ACC?style=flat-square&logo=visual-studio-code&logoColor=white"/>
+<img src="https://img.shields.io/badge/IntelliJ_IDEA-000000?style=flat-square&logo=IntelliJ IDEA&logoColor=white"/> <img src="https://img.shields.io/badge/VS%20Code-0078d7.svg?style=flat-square&logo=visual-studio-code&logoColor=white"/>
 
 
 <br>
