@@ -1,30 +1,20 @@
 # 🌟 개요
     Spring Boot를 이용한 어플리케이션 개발에 필요한 개념 정리, 테스팅, 연습을 목적으로한 레포지토리
     
-    Spring Boot (3.3.3)
-    FE React-Native
-    보안 Spring Security, JWT, OAuth 2.0
-    NoSQL Redis
-
+#### 개발 환경
 <img src="https://img.shields.io/badge/Spring Boot 3-6DB33F?style=flat-square&logo=Spring Boot&logoColor=white"/> <img src="https://img.shields.io/badge/java 17-%23ED8B00.svg?style=flat-square&logo=openjdk&logoColor=white"/> 
 <img src="https://img.shields.io/badge/Gradle 8.8-02303A?style=flat-square&logo=gradle&logoColor=white"/>
 
 <img src="https://img.shields.io/badge/IntelliJ_IDEA-000000?style=flat-square&logo=IntelliJ IDEA&logoColor=white"/> <img src="https://img.shields.io/badge/VS%20Code-0078d7.svg?style=flat-square&logo=visual-studio-code&logoColor=white"/>
 
-
-<br>
 <img src="https://img.shields.io/badge/React_Native-20232A?style=flat-square&logo=react&logoColor=61DAFB"/>
-
 
 <img src="https://img.shields.io/badge/Spring_Data_JPA-6DB33F?style=flat-square&logo=spring&logoColor=white"/>
 
-<br>
+<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/> <img src="https://img.shields.io/badge/redis-%23DD0031.svg?style=flat-square&logo=redis&logoColor=white"/>
 
-<br>
-<img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/>
-
-
-Gradle 8.8 | Java 17
+    보안 Spring Security, JWT, OAuth 2.0
+    NoSQL Redis
 
 <details>
 <summary>🛠️ Settings</summary>
@@ -69,6 +59,12 @@ Gradle 8.8 | Java 17
 
 ## 📋 목차
 
+- [Spring & Spring boot](#-spring--spring-boot)
+- [Framework & Library](#-framework--library)
+- [보안](#보안)
+- [AI](#ai)
+- [OPEN API](#open-api)
+- [@어노테이션](#어노테이션annotation)
    
 ## 🎯 Spring & Spring boot      
     
@@ -508,7 +504,7 @@ H2 Database
 `대시보드` `>` `앱` `>` `앱 만들기` `>` `API 선택` `>` `API 사용 요금` `>` `사용하기` `>` `사용 신청하기` `>` `대시보드` `>` `생선한 앱 선택` `>` `앱키`
 
 
-## 어노테이션(Annotation)
+## @어노테이션(Annotation)
     Java에서 코드에 메타데이터를 추가하는 방법
     컴파일러나 런타임 환경에서 특정 행동을 수행하도록 정보를 제공하는 역할
 
