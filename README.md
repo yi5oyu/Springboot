@@ -64,7 +64,7 @@
 - [보안](#%EF%B8%8F-보안)
 - [AI](#-ai)
 - [OPEN API](#-open-api)
-- [etc...](#etc)
+- [etc...](#%EF%B8%8F-etc)
    
 ## 🎯 Spring & Spring boot      
     
