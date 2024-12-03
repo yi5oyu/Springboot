@@ -157,13 +157,37 @@
 
 ### Spring Web(Spring MVC)
     https://docs.spring.io/spring-framework/reference/web/webmvc.html
-    아키텍처를 여러 계층으로 나눔
+    웹 애플리케이션에서 HTTP 요청과 응답을 효율적으로 처리하기 위해 MVC 패턴을 사용하는 프레임워크
+
+`Spring MVC 아키텍처 계층`
 
 `View 계층`: 사용자 인터페이스(UI)        
 `Model 계층`: 데이터 정의(DTO, Entity)       
 `Controller 계층`: HTTP 요청 처리/응답 반환    
 `Service 계층`: 비즈니스 로직 처리     
 `Repository 계층`: 데이터 접근, DB 외부 데이터 소스 CRUD 작업 수행   
+
+#### HTTP 프로토콜(HyperText Transfer Protocol)
+    웹에서 클라이언트와 서버 간의 데이터 전송을 위한 애플리케이션 계층 프로토콜
+
+- 무상태(stateless)
+  각 요청은 독립적이며 이전 요청의 정보를 저장하지 않음
+  상태를 유지하기 위해 쿠키, 세션 등... 필요함
+
+- HTTP 메서드
+  `GET`: 조회    
+  `POST`: 생성   
+  `PUT`: 업데이트(대체)   
+  `PATCH`: 업데이트(일부 변경)      
+  `DELETE`: 삭제     
+
+- HTTP 상태 코드
+  `200`: OK(요청 처리)     
+  `201`: Created(생성)
+  `400`: Bad Request(잘못된 요청)    
+  `401`: Unauthorized(인증 필요)     
+  `404`: Not Found(찾을 수 없음)     
+  `500`: Internal Server Error(서버 내부 오류)    
 
 ### 🛢️ DB
 
