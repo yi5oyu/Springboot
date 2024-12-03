@@ -189,6 +189,51 @@
   `404`: Not Found(찾을 수 없음)     
   `500`: Internal Server Error(서버 내부 오류)    
 
+#### REST API(Representational State Transfer API)
+    HTTP 프로토콜을 기반으로 클라이언트와 서버 간에 자원을 주고받기 위해 설계된 아키텍처
+
+`REST`: 주고 받는 자원에 이름을 정하고 주소(URI)에 명시해 HTTP 메서드를 통해 해당 자원의 상태를 주고받는 것    
+`API`: 애플리케이션에서 제공하는 인터페이스. API를 통해 서버 or 프로그램 사이를 연결할 수 있음     
+`RESTful`: REST 아키텍처를 구현하는 웹서비스    
+
+[> REST API](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/%EC%A0%95%EC%9D%98)
+
+`REST API CURD구현`
+
+    @RestController
+    @RequestMapping("/users")
+    public class UserController {
+        @Autowired
+        private final UserService userService;
+        // Read
+        @GetMapping 
+        public ResponseEntity<List<User>> getAllUsers() {
+            List<User> users = userService.getAllUsers();
+            return ResponseEntity.ok(users);
+        }
+        // Create
+        @PostMapping 
+        public ResponseEntity<User> createUser(@RequestBody User user) {
+            User createdUser = userService.createUser(user);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+        }
+        // Update
+        @PutMapping("/{id}") 
+        public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+            User updatedUser = userService.updateUser(id, user);
+            return ResponseEntity.ok(updatedUser);
+        }
+        // Delete
+        @DeleteMapping("/{id}") 
+        public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+            userService.deleteUser(id);
+            return ResponseEntity.noContent().build();
+        }
+    }
+
+
+[> Spring MVC](https://github.com/yi5oyu/Study/blob/main/SpringBoot/Spring%20MVC)
+
 ### 🛢️ DB
 
 <!--
