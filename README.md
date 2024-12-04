@@ -23,6 +23,17 @@
     - Spring initializr
     https://start.spring.io/
 
+#### 기본 설정
+
+`종속성 추가`
+    
+    Maven: pom.xml
+    Gradle: build.gradle
+
+`설정 파일`
+
+    application.properties or application.yml
+
 ### Intellj
 
 #### 가독성/편의성
@@ -235,6 +246,25 @@
 [> Spring MVC](https://github.com/yi5oyu/Study/blob/main/SpringBoot/Spring%20MVC)
 
 ### 🛢️ DB
+    데이터 접근 기술
+    DB에 보관하고 관리하는 리포지토리
+    
+`JDBC(Java Database Connectivity)`
+
+    DB에 직접 연결, SQL 쿼리 실행하는 기본적인 방법
+    * 세밀한 제어 가능
+    
+`SQL Mapper`
+
+    MyBatis
+    SQL 쿼리를 XML 파일/어노테이션으로 정의, SQL 쿼리와 자바 객체 매핑
+    * SQL 최적화
+
+`ORM(JPA/Hibernate) `
+
+    Spring Data JPA or Querydsl
+    객체와 DB 테이블을 매핑, SQL을 직접 작성하지 않고도 객체를 통해 DB 조작할 수 있음
+    * 생산성, 유지보수
 
 <!--
 #### Mybatis
