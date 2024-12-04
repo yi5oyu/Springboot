@@ -267,7 +267,7 @@
     * 생산성, 유지보수
 
 <!--
-#### Mybatis
+
 
 #### TEMPLATE ENGINES
 Thymeleaf Mustache 
@@ -276,6 +276,10 @@ MySQL
 Oracle
 H2 Database
 -->
+
+#### Mybatis
+    SQL 쿼리를 Java 코드에서 분리하여 XML 파일이나 어노테이션으로 관리함
+
 
 #### Spring Data JPA   
     JPA를 더 쉽고 편리하게 사용할 수 있도록 도와주는 Spring 프레임워크의 모듈
