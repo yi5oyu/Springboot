@@ -277,8 +277,65 @@ Oracle
 H2 Database
 -->
 
+#### H2 Database
+    개발 및 테스트 환경에서 사용되는 경량 데이터베이스
+    표준 SQL, 웹 콘솔, Spring Boot 통합
+
+`인메모리 모드`: 데이터를 메모리에 저장, 빠른 속도 제공    
+`임베디드 모드`: 애플리케이션에 내장되어 사용     
+`서버 모드`: 데이터베이스 서버로 실행    
+
+[> 모드](https://github.com/yi5oyu/Study/blob/main/SpringBoot/DB/H2/%EB%AA%A8%EB%93%9C)       
+
+`application.yml`
+
+    spring:
+      datasource:
+        # 인메모리
+        url: jdbc:h2:mem:testdb
+        driver-class-name: org.h2.Driver
+        username: sa
+        password: password
+      h2:
+        console:
+          enabled: true
+
+`http://localhost:8080/h2-console`    
+<details>
+<summary>연결</summary>
+
+`접속`    
+
+<img width="480" alt="{CAEB2A3F-B771-454E-B03E-8BF5B362DA3E}" src="https://github.com/user-attachments/assets/4f912cbb-f609-45e3-ab38-7bd3853041b5"><br>
+
+`테이블 생성`    
+
+<img width="480" alt="{CDDE4D73-8498-472B-B72B-0B4CEADFFEC7}" src="https://github.com/user-attachments/assets/5102a416-7bdc-4085-b4e3-847699e1bcdb">
+</details>
+
+
 #### Mybatis
     SQL 쿼리를 Java 코드에서 분리하여 XML 파일이나 어노테이션으로 관리함
+
+`application.yml`
+
+    spring:
+      mybatis:
+        # 패키지 경로 지정
+        # 지정된 패키지, 하위 패키지에 있는 클래스들을 자동으로 alias(별칭)으로 등록 
+        type-aliases-package: com.example.demo.entity
+        # xml 있는 위치 지정
+        mapper-locations: classpath:mapper/*.xml
+
+`entity`
+
+    @Data
+    public class User {
+        private Long id;
+        private String name;
+        private String email;
+    }
+
 
 
 #### Spring Data JPA   
