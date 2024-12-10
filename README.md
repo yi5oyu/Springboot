@@ -433,7 +433,11 @@ H2 Database
     <?xml version="1.0" encoding="UTF-8" ?>
     <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    
+
+    <!-- 
+        namespace와 mapper 인터페이스 매핑
+        id와 mapper 인터페이스 필드명 매핑
+    -->
     <mapper namespace="com.example.springboottest.mapper.UserMapper">
       <resultMap id="UserResultMap" type="com.example.springboottest.entity.User">
         <id property="id" column="id"/>
