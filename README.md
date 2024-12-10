@@ -315,19 +315,18 @@ H2 Database
 
 
 #### Mybatis
-    SQL 쿼리를 Java 코드에서 분리하여 XML 파일이나 어노테이션으로 관리함
+    SQL 쿼리를 Java 코드에서 분리하여 XML 파일 or 어노테이션으로 관리
 
 `application.yml`
 
-    spring:
-      mybatis:
-        # 패키지 경로 지정
-        # 지정된 패키지, 하위 패키지에 있는 클래스들을 자동으로 alias(별칭)으로 등록 
-        type-aliases-package: com.example.demo.entity
-        # xml 있는 위치 지정
-        mapper-locations: classpath:mapper/*.xml
+    mybatis:
+      # 패키지 경로 지정
+      # 지정된 패키지, 하위 패키지에 있는 클래스들을 자동으로 alias(별칭)으로 등록 
+      type-aliases-package: com.example.springboottest.entity
+      # xml 있는 위치 지정
+      mapper-locations: classpath:mapper/*.xml
 
-`entity`
+`Entity`
 
     @Data
     public class User {
@@ -335,6 +334,114 @@ H2 Database
         private String name;
         private String email;
     }
+
+`Mapper(Interface)`
+
+    @Mapper
+    public interface UserMapper {
+        List<User> findAll();
+        User findById(Long id);
+        void insertUser(User user);
+        void updateUser(User user);
+        void deleteUser(Long id);
+    }
+
+[> Interface](https://github.com/yi5oyu/Study/blob/main/MyBatis/Interface)
+
+`Service`
+
+    @Service
+    public class UserService {
+        @Autowired
+        private UserMapper userMapper;
+
+        public List<User> getAllUsers() {
+            return userMapper.findAll();
+        }
+        public User getUserById(Long id) {
+            return userMapper.findById(id);
+        }
+        public void addUser(User user) {
+            userMapper.insertUser(user);
+        }
+        public void updateUser(User user) {
+            userMapper.updateUser(user);
+        }
+        public void deleteUser(Long id) {
+            userMapper.deleteUser(id);
+        }
+    }
+
+[> Service](https://github.com/yi5oyu/Study/blob/main/MyBatis/Service)    
+
+`Controller`
+
+    @RestController
+    @RequestMapping("/users")
+    public class UserController {
+        @Autowired
+        private UserService userService;
+    
+        @GetMapping
+        public List<User> getAllUsers() {
+            return userService.getAllUsers();
+        }
+        @GetMapping("/{id}")
+        public User getUserById(@PathVariable Long id) {
+            return userService.getUserById(id);
+        }
+        @PostMapping
+        public void addUser(@RequestBody User user) {
+            userService.addUser(user);
+        }
+        @PutMapping("/{id}")
+        public void updateUser(@PathVariable Long id, @RequestBody User user) {
+            user.setId(id);
+            userService.updateUser(user);
+        }
+        @DeleteMapping("/{id}")
+        public void deleteUser(@PathVariable Long id) {
+            userService.deleteUser(id);
+        }
+    }
+
+[> Controller](https://github.com/yi5oyu/Study/blob/main/MyBatis/Controller)      
+
+`Mapper.xml`
+
+    <?xml version="1.0" encoding="UTF-8" ?>
+    <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+      "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+    <mapper namespace="com.example.springboottest.mapper.UserMapper">
+      <resultMap id="UserResultMap" type="com.example.springboottest.entity.User">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="email" column="email"/>
+      </resultMap>
+    
+      <select id="findAll" resultMap="UserResultMap">
+        SELECT * FROM users
+      </select>
+      <select id="findById" resultMap="UserResultMap">
+        SELECT * FROM users WHERE id = #{id}
+      </select>
+      <insert id="insertUser" parameterType="com.example.springboottest.entity.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users (name, email) VALUES (#{name}, #{email})
+      </insert>
+      <update id="updateUser" parameterType="com.example.springboottest.entity.User">
+        UPDATE users
+        SET name = #{name}, email = #{email}
+        WHERE id = #{id}
+      </update>
+      <delete id="deleteUser">
+        DELETE FROM users WHERE id = #{id}
+      </delete>
+    </mapper>
+
+[> xml](https://github.com/yi5oyu/Study/blob/main/MyBatis/Mapper.xml)     
+
+[> MyBatis](https://github.com/yi5oyu/Study/tree/main/MyBatis)    
 
 
 
