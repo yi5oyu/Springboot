@@ -200,10 +200,10 @@
   `404`: Not Found(찾을 수 없음)     
   `500`: Internal Server Error(서버 내부 오류)    
 
-> HTTPS(Hypertext Transfer Protocol Secure)
-> HTTP + 보안
-> SSL/TLS 프로토콜을 사용해 데이터 암호화
-> 포트: HTTP 80 / HTTPS 443
+> HTTPS(Hypertext Transfer Protocol Secure)       
+> HTTP + 보안       
+> SSL/TLS 프로토콜을 사용해 데이터 암호화        
+> 포트: HTTP 80 / HTTPS 443        
 
 [> HTTP vs HTTPS](https://github.com/yi5oyu/Study/blob/main/WS/Nginx/HTTPS/HTTP%20VS%20HTTPS)     
 [> SSL/TLS](https://github.com/yi5oyu/Study/blob/main/WS/Nginx/HTTPS/SSL)    
@@ -213,7 +213,7 @@
 
 `REST`: 주고 받는 자원에 이름을 정하고 주소(URI)에 명시해 HTTP 메서드를 통해 해당 자원의 상태를 주고받는 것    
 `API`: 애플리케이션에서 제공하는 인터페이스. API를 통해 서버 or 프로그램 사이를 연결할 수 있음     
-`RESTful`: REST 아키텍처를 구현하는 웹서비스    
+`RESTful`: REST 아키텍처 원칙을 따르는 웹 서비스 인터페이스  
 
 [> REST API](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/%EC%A0%95%EC%9D%98)
 
@@ -249,7 +249,6 @@
             return ResponseEntity.noContent().build();
         }
     }
-
 
 [> Spring MVC](https://github.com/yi5oyu/Study/blob/main/SpringBoot/Spring%20MVC)
 
