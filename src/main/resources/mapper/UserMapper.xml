@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.springboottest.mapper.UserMapper">
+  <resultMap id="UserResultMap" type="com.example.springboottest.entity.User">
+    <id property="id" column="id"/>
+    <result property="name" column="name"/>
+    <result property="email" column="email"/>
+  </resultMap>
+
+  <select id="findAll" resultMap="UserResultMap">
+    SELECT * FROM users
+  </select>
+
+  <select id="findById" resultMap="UserResultMap">
+    SELECT * FROM users WHERE id = #{id}
+  </select>
+
+  <insert id="insertUser" parameterType="com.example.springboottest.entity.User" useGeneratedKeys="true" keyProperty="id">
+    INSERT INTO users (name, email) VALUES (#{name}, #{email})
+  </insert>
+
+  <update id="updateUser" parameterType="com.example.springboottest.entity.User">
+    UPDATE users
+    SET name = #{name}, email = #{email}
+    WHERE id = #{id}
+  </update>
+
+  <delete id="deleteUser">
+    DELETE FROM users WHERE id = #{id}
+  </delete>
+
+  <!--
+  <select id="searchUsers" resultType="User" parameterType="hashmap">
+    SELECT * FROM users
+    <where>
+      <if test="name != null and name != ''">
+        name LIKE CONCAT('%', #{name}, '%')
+      </if>
+      <if test="id != null">
+        AND id <![CDATA[ <= ]]> #{id}
+      </if>
+      <if test="email != null and email != ''">
+        email LIKE CONCAT('%', #{email}, '%')
+      </if>
+    </where>
+    <choose>
+      <when test="order == 0">
+        ORDER BY <![CDATA[ id DESC ]]>
+      </when>
+      <when test="order == 1">
+        ORDER BY <![CDATA[ email ASC ]]>
+      </when>
+      <otherwise>
+        ORDER BY name ASC
+      </otherwise>
+    </choose>
+  </select>
+  -->
+</mapper>
