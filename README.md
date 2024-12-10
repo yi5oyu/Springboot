@@ -67,6 +67,34 @@
 
 </details>
 
+<details>
+<summary>폴더 구조</summary>
+    
+    Springboottest/
+    ├── src/
+    │   ├── main/
+    │   │   ├── java/
+    │   │   │   └── com/
+    │   │   │       └── Springboottest/
+    │   │   │           ├── config/    
+    │   │   │           ├── controller/
+    │   │   │           ├── dto/    
+    │   │   │           ├── entity/     
+    │   │   │           ├── mapper/
+    │   │   │           ├── repository/
+    │   │   │           └── service/
+    │   │   ├── resources/
+    │   │   │   ├── mapper/
+    │   │   │   ├── static/
+    │   │   │   ├── templates/
+    │   │   │   └── application.yml
+    │   └── test/
+    │       └── java/
+    ├── .gitignore
+    ├── README.md
+    └── build.gradle
+    
+</details>
 
 ## 📋 목차
 
@@ -838,6 +866,22 @@ H2 Database
     }
 
 [> 그 외 어노테이션](https://github.com/yi5oyu/Study/tree/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/Lombok)   
+
+### Templates
+
+#### JSP
+    
+#### Thymeleaf
+
+### Testing/Logging
+
+#### Swagger
+
+#### Spring REST Docs
+
+#### PostMan
+
+#### Spring Boot Actuator
 
 ## 🛡️ 보안
 
