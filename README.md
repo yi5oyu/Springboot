@@ -335,7 +335,7 @@ H2 Database
         private String email;
     }
 
-`Mapper(Interface)`
+`Mapper(Interface)/xml`
 
     @Mapper
     public interface UserMapper {
@@ -344,6 +344,27 @@ H2 Database
         void insertUser(User user);
         void updateUser(User user);
         void deleteUser(Long id);
+    }
+
+`Mapper(Interface)/어노테이션`
+
+    @Mapper
+    public interface UserMapper {
+        @Select("SELECT * FROM users")
+        List<User> findAll();
+        
+        @Select("SELECT * FROM users WHERE id = #{id}")
+        User findById(@Param("id") Long id);
+        
+        @Insert("INSERT INTO users (name, email) VALUES (#{name}, #{email})")
+        @Options(useGeneratedKeys = true, keyProperty = "id")
+        void insertUser(User user);
+        
+        @Update("UPDATE users SET name = #{name}, email = #{email} WHERE id = #{id}")
+        void updateUser(User user);
+        
+        @Delete("DELETE FROM users WHERE id = #{id}")
+        void deleteUser(@Param("id") Long id);
     }
 
 [> Interface](https://github.com/yi5oyu/Study/blob/main/MyBatis/Interface)
@@ -437,9 +458,40 @@ H2 Database
       <delete id="deleteUser">
         DELETE FROM users WHERE id = #{id}
       </delete>
+
+      <!-- 동적 쿼리 -->
+      <!-- xml에서 안전한 특수문자 사용 <![CDATA[]]> -->
+      <select id="searchUsers" resultType="User" parameterType="hashmap">
+        SELECT * FROM users
+        <!-- 조건문  -->
+        <where>
+            <if test="name != null and name != ''">
+                name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="id != null">
+                AND id <![CDATA[ <= ]]> #{id}
+            </if>
+            <if test="email != null and email != ''">
+                email LIKE CONCAT('%', #{email}, '%')
+            </if>
+        </where>
+        <!-- 스위치문 -->
+        <choose>
+            <when test="order == 0">
+                ORDER BY <![CDATA[ id DESC ]]>
+            </when>
+            <when test="order == 1">
+                ORDER BY <![CDATA[ email ASC ]]>
+            </when>
+            <otherwise>
+                ORDER BY name ASC
+            </otherwise>
+        </choose>
+      </select>
     </mapper>
 
 [> xml](https://github.com/yi5oyu/Study/blob/main/MyBatis/Mapper.xml)     
+
 
 [> MyBatis](https://github.com/yi5oyu/Study/tree/main/MyBatis)    
 
