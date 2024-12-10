@@ -200,6 +200,14 @@
   `404`: Not Found(찾을 수 없음)     
   `500`: Internal Server Error(서버 내부 오류)    
 
+> HTTPS(Hypertext Transfer Protocol Secure)
+> HTTP + 보안
+> SSL/TLS 프로토콜을 사용해 데이터 암호화
+> 포트: HTTP 80 / HTTPS 443
+
+[> HTTP vs HTTPS](https://github.com/yi5oyu/Study/blob/main/WS/Nginx/HTTPS/HTTP%20VS%20HTTPS)     
+[> SSL/TLS](https://github.com/yi5oyu/Study/blob/main/WS/Nginx/HTTPS/SSL)    
+
 #### REST API(Representational State Transfer API)
     HTTP 프로토콜을 기반으로 클라이언트와 서버 간에 자원을 주고받기 위해 설계된 아키텍처
 
