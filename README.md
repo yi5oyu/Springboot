@@ -181,20 +181,20 @@
 #### HTTP 프로토콜(HyperText Transfer Protocol)
     웹에서 클라이언트와 서버 간의 데이터 전송을 위한 애플리케이션 계층 프로토콜
 
-- 무상태(stateless)
+- 무상태(stateless)     
   각 요청은 독립적이며 이전 요청의 정보를 저장하지 않음
   상태를 유지하기 위해 쿠키, 세션 등... 필요함
 
-- HTTP 메서드
+- HTTP 메서드     
   `GET`: 조회    
   `POST`: 생성   
   `PUT`: 업데이트(대체)   
   `PATCH`: 업데이트(일부 변경)      
   `DELETE`: 삭제     
 
-- HTTP 상태 코드
+- HTTP 상태 코드     
   `200`: OK(요청 처리)     
-  `201`: Created(생성)
+  `201`: Created(생성)     
   `400`: Bad Request(잘못된 요청)    
   `401`: Unauthorized(인증 필요)     
   `404`: Not Found(찾을 수 없음)     
@@ -250,7 +250,10 @@
         }
     }
 
-[> Spring MVC](https://github.com/yi5oyu/Study/blob/main/SpringBoot/Spring%20MVC)
+[> ResponseEntity](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/ResponseEntity)      
+[> HttpStatus 상태코드](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/HttpStatus)       
+
+[> Spring MVC](https://github.com/yi5oyu/Study/blob/main/SpringBoot/Spring%20MVC)     
 
 ### 🛢️ DB
     데이터 접근 기술
