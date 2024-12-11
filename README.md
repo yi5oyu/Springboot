@@ -876,6 +876,65 @@ H2 Database
 ### Testing/Logging
 
 #### Swagger
+    Open API 문서 자동화/테스트 도구
+
+`entity`
+
+    @Data
+    @Schema(description = "User Entity")
+    public class User {
+        @Schema(description = "유니크 ID", example = "1")
+        private Long id;
+    
+        @Schema(description = "이름", example = "lee")
+        private String name;
+    
+        @Schema(description = "이메일", example = "lee@google.com")
+        private String email;
+    }
+
+`Controller`
+
+    @OpenAPIDefinition(
+        info = @Info(
+            title = "Spring Test API",
+            version = "1.0",
+            description = "Spring boot Test API 문서"
+        )
+    )
+    @Tag(name = "User", description = "유저 관리")
+    @RestController
+    @RequestMapping("/users")
+    public class UserController {
+        @Operation(summary = "ID로 유저 찾기", description = "유니크 ID로 특정 유저 찾음")
+        @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "유저 발견",
+                content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "유저 없음")
+        })
+        @GetMapping("/{id}")
+        public User getUserById(
+            @Parameter(description = "유저의 유니크 ID", required = true, example = "1")
+            @PathVariable Long id
+        ){
+            return userService.getUserById(id);
+        }
+    }
+    
+<details>
+<summary>자세히 살펴보기</summary>
+
+- 적용 전   
+  
+<img width="960" alt="{04F20F65-CB97-4A9A-BD10-9811120C84D4}" src="https://github.com/user-attachments/assets/da1b2674-8d2a-472c-bcf4-1d4b45b339b9">
+
+- 적용 후      
+  
+<img width="960" alt="{72259830-76E5-455D-A39D-EDE6E6F36092}" src="https://github.com/user-attachments/assets/131f7355-6840-4a20-9202-8cd13e4a7841">
+
+</details>
+
+[> Swagger 어노테이션](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/Testing/Swagger/API%20%EB%AC%B8%EC%84%9C%ED%99%94)    
 
 #### Spring REST Docs
 
