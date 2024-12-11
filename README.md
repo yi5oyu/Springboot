@@ -878,7 +878,15 @@ H2 Database
 #### Swagger
     Open API 문서 자동화/테스트 도구
 
-`entity`
+`의존성`
+    
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
+
+`Swagger UI`
+
+    http://localhost:8080/swagger-ui.html
+
+`entity or dto`
 
     @Data
     @Schema(description = "User Entity")
@@ -939,6 +947,17 @@ H2 Database
 #### Spring REST Docs
 
 #### PostMan
+    API 테스트, 개발/관리 도구
+    CI/CD 통합(자동화된 API 테스트 가능)
+    
+    https://www.postman.com
+
+<details>
+<summary>자세히 살펴보기</summary>
+
+<img width="960" alt="{781C878B-FFDA-47A5-A476-90BFE798767A}" src="https://github.com/user-attachments/assets/9beb14d3-2b61-413e-b1cb-2531294f9dca">
+
+</details>
 
 #### Spring Boot Actuator
 
