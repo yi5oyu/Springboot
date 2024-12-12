@@ -194,7 +194,7 @@
     Framework: 애플리케이션 개발의 기본 구조를 제공하는 소프트웨어 플랫폼
     Library: 특정 기능을 수행하는 코드 묶음
 
-### Spring Web(Spring MVC)
+### [Spring Web(Spring MVC)](https://github.com/yi5oyu/Study/blob/main/SpringBoot/Spring%20MVC)
     https://docs.spring.io/spring-framework/reference/web/webmvc.html
     웹 애플리케이션에서 HTTP 요청과 응답을 효율적으로 처리하기 위해 MVC 패턴을 사용하는 프레임워크
 
@@ -307,10 +307,6 @@
     * 생산성, 유지보수
 
 <!--
-
-
-#### TEMPLATE ENGINES
-Thymeleaf Mustache 
 
 MySQL
 Oracle
@@ -868,7 +864,11 @@ H2 Database
 
 [> Lombok 어노테이션](https://github.com/yi5oyu/Study/tree/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/Lombok)   
 
-### Templates
+### [View Template](https://github.com/yi5oyu/Study/tree/main/SpringBoot/View%20Template)
+
+#### [Thymeleaf](https://github.com/yi5oyu/Study/tree/main/SpringBoot/View%20Template/Thymeleaf)
+
+#### Mustache 
 
 #### JSP
     
@@ -1056,7 +1056,7 @@ H2 Database
 
 </details>
 
-#### Spring Boot Actuator
+#### [Spring Boot Actuator](https://github.com/yi5oyu/Study/tree/main/SpringBoot/Spring%20Actuator)
 
 ## 🛡️ 보안
 
