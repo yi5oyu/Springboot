@@ -873,7 +873,72 @@ H2 Database
     
 #### Thymeleaf
 
-### Testing/Logging
+### Testing/문서화
+
+#### Spring REST Docs
+    실제 API 테스트를 기반으로 정확한 API 문서 자동 생성
+
+- [의존성 설정(build.gradle)](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/Testing/Spring%20REST%20Docs/build.gradle)
+
+      plugins {
+          // asciidoctor 플러그인
+          id 'org.asciidoctor.jvm.convert' version '3.3.2'
+      }
+      ext {
+          // 스니펫 경로 설정(프로젝트 전역에서 사용할 변수 정의)
+          set('snippetsDir', file("build/generated-snippets"))
+      }
+      asciidoctor {
+          attributes(
+              "snippets": snippetsDir
+    	  )
+          // 이전 문서 삭제
+          doFirst {
+              delete file('build/docs/asciidoc')
+          }
+      }
+      dependencies {
+          // mockmvc(API 테스트 도구) 추가
+          testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+      }
+      // ./gradlew test 명령어
+      tasks.named('test') {
+    	  outputs.dir snippetsDir
+    	  useJUnitPlatform()
+      }
+      // ./gradlew asciidoctor 명령어
+      tasks.named('asciidoctor') {
+    	  inputs.dir snippetsDir
+    	  dependsOn test
+      }
+
+- [MockMvc](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/Testing/Spring%20REST%20Docs/mockMvc)
+
+      Spring Framework 테스트 도구
+      서버 실행없이 HTTP 요청 시뮬레이션, 단위 테스트(Controller 테스트)
+
+**[UserControllerTest](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/Testing/Spring%20REST%20Docs/UserControllerTest.java)**
+
+    
+
+- [Snippets](https://github.com/yi5oyu/Study/edit/main/SpringBoot/REST%20API/Testing/Spring%20REST%20Docs/snippets)
+
+      Spring REST Docs에서 API 문서화를 위해 생성되는 재사용 가능한 작은 정보 조각
+      document("")에 지정된 이름으로 폴더 생성
+      경로: root(프로젝트명)/build/generated-snippets/
+      
+- [Asciidoc](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/Testing/Spring%20REST%20Docs/AsciiDoc)
+
+      Asciidoctor: AsciiDoc 문서를 HTML, PDF등의 형식으로 변환하는 도구
+      Asciidoc 파일(.adoc)에 Snippets 포함시켜 사용
+      https://asciidoc.org/#try
+
+`index.adoc`
+
+    진입점, 문서 구조 정의
+    root/src/docs/asciidoc/index.adoc
+
+    = Spring REST docs
 
 #### Swagger
     Open API 문서 자동화/테스트 도구
@@ -943,8 +1008,6 @@ H2 Database
 </details>
 
 [> Swagger 어노테이션](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/Testing/Swagger/API%20%EB%AC%B8%EC%84%9C%ED%99%94)    
-
-#### Spring REST Docs
 
 #### PostMan
     API 테스트, 개발/관리 도구
