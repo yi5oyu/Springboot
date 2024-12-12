@@ -236,14 +236,12 @@
 [> HTTP vs HTTPS](https://github.com/yi5oyu/Study/blob/main/WS/Nginx/HTTPS/HTTP%20VS%20HTTPS)     
 [> SSL/TLS](https://github.com/yi5oyu/Study/blob/main/WS/Nginx/HTTPS/SSL)    
 
-#### REST API(Representational State Transfer API)
+#### [REST API(Representational State Transfer API)](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/%EC%A0%95%EC%9D%98)
     HTTP 프로토콜을 기반으로 클라이언트와 서버 간에 자원을 주고받기 위해 설계된 아키텍처
 
 `REST`: 주고 받는 자원에 이름을 정하고 주소(URI)에 명시해 HTTP 메서드를 통해 해당 자원의 상태를 주고받는 것    
 `API`: 애플리케이션에서 제공하는 인터페이스. API를 통해 서버 or 프로그램 사이를 연결할 수 있음     
 `RESTful`: REST 아키텍처 원칙을 따르는 웹 서비스 인터페이스  
-
-[> REST API](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/%EC%A0%95%EC%9D%98)
 
 `REST API CURD구현`
 
@@ -256,24 +254,28 @@
         @GetMapping 
         public ResponseEntity<List<User>> getAllUsers() {
             List<User> users = userService.getAllUsers();
+            // HTTP 200 응답
             return ResponseEntity.ok(users);
         }
         // Create
         @PostMapping 
         public ResponseEntity<User> createUser(@RequestBody User user) {
             User createdUser = userService.createUser(user);
+            // HTTP 201 응답
             return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
         }
         // Update
         @PutMapping("/{id}") 
         public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
             User updatedUser = userService.updateUser(id, user);
+            // HTTP 200 응답
             return ResponseEntity.ok(updatedUser);
         }
         // Delete
         @DeleteMapping("/{id}") 
         public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
             userService.deleteUser(id);
+            // HTTP 204 응답
             return ResponseEntity.noContent().build();
         }
     }
@@ -315,7 +317,7 @@ Oracle
 H2 Database
 -->
 
-#### H2 Database
+#### [H2 Database](https://github.com/yi5oyu/Study/tree/main/SpringBoot/DB/H2)
     개발 및 테스트 환경에서 사용되는 경량 데이터베이스
     표준 SQL, 웹 콘솔, Spring Boot 통합
 
@@ -352,7 +354,7 @@ H2 Database
 </details>
 
 
-#### Mybatis
+#### [Mybatis](https://github.com/yi5oyu/Study/tree/main/MyBatis)
     SQL 쿼리를 Java 코드에서 분리하여 XML 파일 or 어노테이션으로 관리
 
 `application.yml`
@@ -539,11 +541,11 @@ H2 Database
 
 
 
-#### Spring Data JPA   
+#### [Spring Data JPA](https://github.com/yi5oyu/Study/tree/main/JPA)    
     JPA를 더 쉽고 편리하게 사용할 수 있도록 도와주는 Spring 프레임워크의 모듈
     
     JPA(Java Persistence API): 자바 애플리케이션에서 관계형 데이터베이스를 사용하는 방식을 정의한 인터페이스
-    ORM(object-relational mapping): 객체와 관계형 데이터베이스 테이블 매핑(객체 지향적으로 프로그래밍을 하면서 관계형 데이터베이스를 사용할 수 있음)
+    ORM(object-relational mapping): 객체와 관계형 데이터베이스 테이블 매핑(객체지향적으로 프로그래밍을 하면서 관계형 데이터베이스를 사용할 수 있음)
 
 - 인터페이스 계층 구조   
     Repository > CrudRepository > PagingAndSortingRepository > JpaRepository    
@@ -675,12 +677,11 @@ H2 Database
       키-값 형태의 데이터 액세스 패턴에 최적화
       데이터를 여러 서버에 분산, 데이터를 요청하는 사용자/응용 프로그램에 더 가깝운 곳에 저장
 
-#### Redis
+#### [Redis](https://github.com/yi5oyu/Study/tree/main/DB/NoSQL/Redis)
     Redis(Remote Dictionary Server)
     키-값 저장소 (다양한 데이터 구조 지원)
     간단한 데이터 구조에 빠르게 액세스해야 하는 애플리케이션에 매우 빠르고 적합(캐시, 메시지 브로커, 세션 저장소)
     
-[**> Redis**](https://github.com/yi5oyu/Study/tree/main/DB/NoSQL/Redis)     
 [> 설치](https://github.com/yi5oyu/Study/blob/main/DB/NoSQL/Redis/%EC%84%A4%EC%B9%98)     
 
 `의존성`
@@ -787,7 +788,7 @@ H2 Database
    개발 환경에서만 활성화, 배포 환경에서는 비활성화됨      
 
 
-#### Lombok
+#### [Lombok](https://github.com/yi5oyu/Study/blob/main/SpringBoot/Lombok/Entitiy)
     반복적으로 작성해야 하는 코드를 줄여주는 라이브러리
     코드의 가독성을 높이고 개발 생산성을 향상시킴
 
@@ -875,7 +876,7 @@ H2 Database
 
 ### Testing/문서화
 
-#### Spring REST Docs
+#### [Spring REST Docs](https://github.com/yi5oyu/Study/tree/main/SpringBoot/REST%20API/Testing/Spring%20REST%20Docs)
     실제 API 테스트를 기반으로 정확한 API 문서 자동 생성
 
 - [의존성 설정(build.gradle)](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/Testing/Spring%20REST%20Docs/build.gradle)
@@ -919,7 +920,40 @@ H2 Database
 
 **[UserControllerTest](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/Testing/Spring%20REST%20Docs/UserControllerTest.java)**
 
-    
+    // UserController 테스트
+    @WebMvcTest(UserController.class)
+    // spring security 보안 필터 적용하지 않음
+    @AutoConfigureMockMvc(addFilters = false)
+    // REST Docs 설정 자동 구성, 테스트 결과 문서화 수행
+    @AutoConfigureRestDocs
+    public class UserControllerTest {
+        @Autowired
+        private MockMvc mockMvc;
+        @MockBean
+        private UserService userService;
+        @Test
+        public void testGetAllUsers() throws Exception {
+            // 가상(mock)의 userService에서 결과를 가져옴(DB없이 테스트 가능)
+            when(userService.getAllUsers()).thenReturn(Arrays.asList(
+                new User(1L, "lee", "lee@google.com"),
+                new User(2L, "aaaa", "bbbb@naver.com")
+            ));
+            // 엔드포인트 users GET 요청
+            mockMvc.perform(get("/users"))
+                // 상태코드 200 검증
+                .andExpect(status().isOk())
+                // get-all-users snippet 생성
+                .andDo(document("get-all-users",
+                    responseFields(
+                        // JSON 배열([]) 필드 타입, 설명 문서화
+                        fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("ID"),
+                        fieldWithPath("[].name").type(JsonFieldType.STRING).description("이름"),
+                        fieldWithPath("[].email").type(JsonFieldType.STRING).description("이메일")
+                    )
+                ));
+       }    
+       ...
+    }
 
 - [Snippets](https://github.com/yi5oyu/Study/edit/main/SpringBoot/REST%20API/Testing/Spring%20REST%20Docs/snippets)
 
@@ -940,7 +974,7 @@ H2 Database
 
     = Spring REST docs
 
-#### Swagger
+#### [Swagger](https://github.com/yi5oyu/Study/tree/main/SpringBoot/REST%20API/Testing/Swagger)
     Open API 문서 자동화/테스트 도구
 
 `의존성`
@@ -1009,7 +1043,7 @@ H2 Database
 
 [> Swagger 어노테이션](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/Testing/Swagger/API%20%EB%AC%B8%EC%84%9C%ED%99%94)    
 
-#### PostMan
+#### [PostMan](https://github.com/yi5oyu/Study/tree/main/SpringBoot/REST%20API/Testing/Postman)
     API 테스트, 개발/관리 도구
     CI/CD 통합(자동화된 API 테스트 가능)
     
@@ -1061,12 +1095,11 @@ H2 Database
     오픈 소스 LLM(Hugging Face)을 로컬에서 다운로드하고 실행 가능
     
     https://huggingface.co
-    Llama, MPT, StarCoder... (ggml/gguf 형식의 모델과 호환됨)
+    Llama, MPT, StarCoder... (ggml/gguf 형식의 모델과 호환됨) 
     
-
 [**> Example**](https://github.com/yi5oyu/Study/blob/main/AI/LM%20STUDIO/llamaAPIService.java)
 
-## 📡 OPEN API
+## 📡 [OPEN API](https://github.com/yi5oyu/Study/tree/main/API/OPEN%20API)
     API에 접근하기 위한 API key 필요
 
 ### Naver
@@ -1104,7 +1137,7 @@ H2 Database
 
 ## 🗂️ etc
 
-### 🏷️ @어노테이션(Annotation)
+### 🏷️ [@어노테이션(Annotation)](https://github.com/yi5oyu/Study/tree/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98)
     Java에서 코드에 메타데이터를 추가하는 방법
     컴파일러나 런타임 환경에서 특정 행동을 수행하도록 정보를 제공하는 역할
 
