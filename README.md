@@ -104,6 +104,8 @@
 - [AI](#-ai)
 - [OPEN API](#-open-api)
 - [etc...](#%EF%B8%8F-etc)
+
+<hr>
    
 ## 🎯 Spring & Spring boot      
     
@@ -189,6 +191,8 @@
 
 [> Spring VS Spring boot](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EA%B8%B0%EB%B3%B8%20%EA%B0%9C%EB%85%90%20%EC%A0%95%EB%A6%AC/SpringBoot%20%ED%8A%B9%EC%A7%95)      
 [> WAR VS JAR](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EB%B0%B0%ED%8F%AC%20%EB%B0%A9%EB%B2%95(WAR%2CJAR))
+
+<hr>
 
 ## 📦 Framework & Library
     Framework: 애플리케이션 개발의 기본 구조를 제공하는 소프트웨어 플랫폼
@@ -284,6 +288,8 @@
 [> HttpStatus 상태코드](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/HttpStatus)       
 
 [> Spring MVC](https://github.com/yi5oyu/Study/blob/main/SpringBoot/Spring%20MVC)     
+
+<hr>
 
 ### 🛢️ DB
     데이터 접근 기술
@@ -536,7 +542,6 @@ H2 Database
 [> MyBatis](https://github.com/yi5oyu/Study/tree/main/MyBatis)    
 
 
-
 #### [Spring Data JPA](https://github.com/yi5oyu/Study/tree/main/JPA)    
     JPA를 더 쉽고 편리하게 사용할 수 있도록 도와주는 Spring 프레임워크의 모듈
     
@@ -762,6 +767,8 @@ H2 Database
 
 [> Redis Controller](https://github.com/yi5oyu/Study/blob/main/DB/NoSQL/Redis/RedisController.java)     
 
+<hr>
+
 ### 🛠️ TOOLS   
 
 #### Spring Boot DevTools
@@ -864,6 +871,8 @@ H2 Database
 
 [> Lombok 어노테이션](https://github.com/yi5oyu/Study/tree/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/Lombok)   
 
+<hr>
+
 ### [View Template](https://github.com/yi5oyu/Study/tree/main/SpringBoot/View%20Template)
 
 #### [Thymeleaf](https://github.com/yi5oyu/Study/tree/main/SpringBoot/View%20Template/Thymeleaf)
@@ -873,6 +882,8 @@ H2 Database
 #### JSP
     
 #### Thymeleaf
+
+<hr>
 
 ### Testing/문서화
 
@@ -1015,6 +1026,7 @@ H2 Database
     include::{snippets}/get-all-users/request-body.adoc[]
     include::{snippets}/get-all-users/response-body.adoc[]
     include::{snippets}/get-all-users/response-fields.adoc[]
+    ...
 
 <details>
 <summary>Asciidoctor로 생성된 index.html 결과</summary>
@@ -1110,6 +1122,8 @@ H2 Database
 
 #### [Spring Boot Actuator](https://github.com/yi5oyu/Study/tree/main/SpringBoot/Spring%20Actuator)
 
+<hr>
+
 ## 🛡️ 보안
 
 ### Spring Security (6.3.3)
@@ -1122,6 +1136,8 @@ H2 Database
 [**> Security Config**](https://github.com/yi5oyu/Study/blob/main/SpringBoot/Spring%20Security/SecurityConfig.java)
 
 [//]: # (### JWT)
+
+<hr>
 
 ## 🧠 AI
 
@@ -1150,6 +1166,8 @@ H2 Database
     Llama, MPT, StarCoder... (ggml/gguf 형식의 모델과 호환됨) 
     
 [**> Example**](https://github.com/yi5oyu/Study/blob/main/AI/LM%20STUDIO/llamaAPIService.java)
+
+<hr>
 
 ## 📡 [OPEN API](https://github.com/yi5oyu/Study/tree/main/API/OPEN%20API)
     API에 접근하기 위한 API key 필요
@@ -1186,6 +1204,7 @@ H2 Database
     https://openapi.sk.com
 `대시보드` `>` `앱` `>` `앱 만들기` `>` `API 선택` `>` `API 사용 요금` `>` `사용하기` `>` `사용 신청하기` `>` `대시보드` `>` `생선한 앱 선택` `>` `앱키`
 
+<hr>
 
 ## 🗂️ etc
 
