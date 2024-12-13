@@ -946,6 +946,7 @@ H2 Database
                 .andDo(document("get-all-users",
                     responseFields(
                         // JSON 배열([]) 필드 타입, 설명 문서화
+                        // 배열 안에 있는 각 객체의 필드
                         fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("ID"),
                         fieldWithPath("[].name").type(JsonFieldType.STRING).description("이름"),
                         fieldWithPath("[].email").type(JsonFieldType.STRING).description("이메일")
@@ -954,25 +955,76 @@ H2 Database
        }    
        ...
     }
-
+    
 - [Snippets](https://github.com/yi5oyu/Study/edit/main/SpringBoot/REST%20API/Testing/Spring%20REST%20Docs/snippets)
 
       Spring REST Docs에서 API 문서화를 위해 생성되는 재사용 가능한 작은 정보 조각
       document("")에 지정된 이름으로 폴더 생성
       경로: root(프로젝트명)/build/generated-snippets/
-      
+
+<details>
+<summary>생성된 스니펫</summary>
+
+    build/generated-snippets
+    ./gradlew test
+
+<img width="480" alt="{2AA35FC1-94A2-4376-9F4F-7F13C92391A1}" src="https://github.com/user-attachments/assets/da54517a-c9de-4753-a0f4-14025ac1b9fe" />
+
+</details>
+
 - [Asciidoc](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/Testing/Spring%20REST%20Docs/AsciiDoc)
 
       Asciidoctor: AsciiDoc 문서를 HTML, PDF등의 형식으로 변환하는 도구
       Asciidoc 파일(.adoc)에 Snippets 포함시켜 사용
       https://asciidoc.org/#try
 
+      intellj Asciidoc 플러그인 설치
+
 `index.adoc`
 
     진입점, 문서 구조 정의
     root/src/docs/asciidoc/index.adoc
 
-    = Spring REST docs
+    = UserController API 문서
+    홍길동, <hong@google.com>
+    v1.0, 2024-10-10
+    :author: 홍길동
+    :revdate: 2024-10-10
+    :revnumber: 1.0
+    :email: hong@google.com
+    :doctype: book
+    :icons: font
+    :source-highlighter: coderay
+    :toc: left
+    :toc-title: 목차
+    :toclevels: 3
+    :sectlinks:
+    :sectnums:
+
+    == 개요
+    이 문서는 UserController 클래스에서 생성된 API 문서 제공
+    API 엔드포인트, 요청/응답 사용 예제 설명
+    
+    == API 엔드포인트
+    
+    === 모든 사용자 조회
+    include::{snippets}/get-all-users/curl-request.adoc[]
+    include::{snippets}/get-all-users/http-request.adoc[]
+    include::{snippets}/get-all-users/http-response.adoc[]
+    include::{snippets}/get-all-users/httpie-request.adoc[]
+    include::{snippets}/get-all-users/request-body.adoc[]
+    include::{snippets}/get-all-users/response-body.adoc[]
+    include::{snippets}/get-all-users/response-fields.adoc[]
+
+<details>
+<summary>Asciidoctor로 생성된 index.html 결과</summary>
+
+    build/docs/asciidoc/index.html
+    ./gradlew asciidoctor
+
+<img width="960" alt="{AB307493-2994-4FB8-B39B-0B0C7826AC59}" src="https://github.com/user-attachments/assets/8618202c-c103-4364-a731-d39a7a790d5a" />
+
+</details>
 
 #### [Swagger](https://github.com/yi5oyu/Study/tree/main/SpringBoot/REST%20API/Testing/Swagger)
     Open API 문서 자동화/테스트 도구
