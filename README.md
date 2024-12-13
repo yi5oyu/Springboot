@@ -990,6 +990,7 @@ H2 Database
       https://asciidoc.org/#try
 
       intellj Asciidoc 플러그인 설치
+      html로 랜더링되기 때문에 css, js, config 파일로 커스터마이징이 가능함
 
 `index.adoc`
 
@@ -1037,6 +1038,7 @@ H2 Database
 <img width="960" alt="{AB307493-2994-4FB8-B39B-0B0C7826AC59}" src="https://github.com/user-attachments/assets/8618202c-c103-4364-a731-d39a7a790d5a" />
 
 </details>
+
 
 #### [Swagger](https://github.com/yi5oyu/Study/tree/main/SpringBoot/REST%20API/Testing/Swagger)
     Open API 문서 자동화/테스트 도구
