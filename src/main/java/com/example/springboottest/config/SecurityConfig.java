@@ -37,7 +37,7 @@ public class SecurityConfig {
                 // Method Reference 연산자: ::
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/","/error","/hi","data","/api/**","/h2-console/**","users/**").permitAll()
+                        .requestMatchers("/","/error","/hi","data","/api/**","/h2-console/**","users/**","/swagger-ui/**","/v3/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .headers(headers -> headers
