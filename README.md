@@ -67,6 +67,34 @@
 
 </details>
 
+<details>
+<summary>폴더 구조</summary>
+    
+    Springboottest/
+    ├── src/
+    │   ├── main/
+    │   │   ├── java/
+    │   │   │   └── com/
+    │   │   │       └── Springboottest/
+    │   │   │           ├── config/    
+    │   │   │           ├── controller/
+    │   │   │           ├── dto/    
+    │   │   │           ├── entity/     
+    │   │   │           ├── mapper/
+    │   │   │           ├── repository/
+    │   │   │           └── service/
+    │   │   ├── resources/
+    │   │   │   ├── mapper/
+    │   │   │   ├── static/
+    │   │   │   ├── templates/
+    │   │   │   └── application.yml
+    │   └── test/
+    │       └── java/
+    ├── .gitignore
+    ├── README.md
+    └── build.gradle
+    
+</details>
 
 ## 📋 목차
 
@@ -76,6 +104,8 @@
 - [AI](#-ai)
 - [OPEN API](#-open-api)
 - [etc...](#%EF%B8%8F-etc)
+
+<hr>
    
 ## 🎯 Spring & Spring boot      
     
@@ -162,11 +192,13 @@
 [> Spring VS Spring boot](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EA%B8%B0%EB%B3%B8%20%EA%B0%9C%EB%85%90%20%EC%A0%95%EB%A6%AC/SpringBoot%20%ED%8A%B9%EC%A7%95)      
 [> WAR VS JAR](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EB%B0%B0%ED%8F%AC%20%EB%B0%A9%EB%B2%95(WAR%2CJAR))
 
+<hr>
+
 ## 📦 Framework & Library
     Framework: 애플리케이션 개발의 기본 구조를 제공하는 소프트웨어 플랫폼
     Library: 특정 기능을 수행하는 코드 묶음
 
-### Spring Web(Spring MVC)
+### [Spring Web(Spring MVC)](https://github.com/yi5oyu/Study/blob/main/SpringBoot/Spring%20MVC)
     https://docs.spring.io/spring-framework/reference/web/webmvc.html
     웹 애플리케이션에서 HTTP 요청과 응답을 효율적으로 처리하기 위해 MVC 패턴을 사용하는 프레임워크
 
@@ -181,33 +213,39 @@
 #### HTTP 프로토콜(HyperText Transfer Protocol)
     웹에서 클라이언트와 서버 간의 데이터 전송을 위한 애플리케이션 계층 프로토콜
 
-- 무상태(stateless)
+- 무상태(stateless)     
   각 요청은 독립적이며 이전 요청의 정보를 저장하지 않음
   상태를 유지하기 위해 쿠키, 세션 등... 필요함
 
-- HTTP 메서드
+- HTTP 메서드     
   `GET`: 조회    
   `POST`: 생성   
   `PUT`: 업데이트(대체)   
   `PATCH`: 업데이트(일부 변경)      
   `DELETE`: 삭제     
 
-- HTTP 상태 코드
+- HTTP 상태 코드     
   `200`: OK(요청 처리)     
-  `201`: Created(생성)
+  `201`: Created(생성)     
   `400`: Bad Request(잘못된 요청)    
   `401`: Unauthorized(인증 필요)     
   `404`: Not Found(찾을 수 없음)     
   `500`: Internal Server Error(서버 내부 오류)    
 
-#### REST API(Representational State Transfer API)
+> HTTPS(Hypertext Transfer Protocol Secure)       
+> HTTP + 보안       
+> SSL/TLS 프로토콜을 사용해 데이터 암호화        
+> 포트: HTTP 80 / HTTPS 443        
+
+[> HTTP vs HTTPS](https://github.com/yi5oyu/Study/blob/main/WS/Nginx/HTTPS/HTTP%20VS%20HTTPS)     
+[> SSL/TLS](https://github.com/yi5oyu/Study/blob/main/WS/Nginx/HTTPS/SSL)    
+
+#### [REST API(Representational State Transfer API)](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/%EC%A0%95%EC%9D%98)
     HTTP 프로토콜을 기반으로 클라이언트와 서버 간에 자원을 주고받기 위해 설계된 아키텍처
 
 `REST`: 주고 받는 자원에 이름을 정하고 주소(URI)에 명시해 HTTP 메서드를 통해 해당 자원의 상태를 주고받는 것    
 `API`: 애플리케이션에서 제공하는 인터페이스. API를 통해 서버 or 프로그램 사이를 연결할 수 있음     
-`RESTful`: REST 아키텍처를 구현하는 웹서비스    
-
-[> REST API](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/%EC%A0%95%EC%9D%98)
+`RESTful`: REST 아키텍처 원칙을 따르는 웹 서비스 인터페이스  
 
 `REST API CURD구현`
 
@@ -220,30 +258,38 @@
         @GetMapping 
         public ResponseEntity<List<User>> getAllUsers() {
             List<User> users = userService.getAllUsers();
+            // HTTP 200 응답
             return ResponseEntity.ok(users);
         }
         // Create
         @PostMapping 
         public ResponseEntity<User> createUser(@RequestBody User user) {
             User createdUser = userService.createUser(user);
+            // HTTP 201 응답
             return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
         }
         // Update
         @PutMapping("/{id}") 
         public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
             User updatedUser = userService.updateUser(id, user);
+            // HTTP 200 응답
             return ResponseEntity.ok(updatedUser);
         }
         // Delete
         @DeleteMapping("/{id}") 
         public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
             userService.deleteUser(id);
+            // HTTP 204 응답
             return ResponseEntity.noContent().build();
         }
     }
 
+[> ResponseEntity](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/ResponseEntity)      
+[> HttpStatus 상태코드](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/HttpStatus)       
 
-[> Spring MVC](https://github.com/yi5oyu/Study/blob/main/SpringBoot/Spring%20MVC)
+[> Spring MVC](https://github.com/yi5oyu/Study/blob/main/SpringBoot/Spring%20MVC)     
+
+<hr>
 
 ### 🛢️ DB
     데이터 접근 기술
@@ -268,16 +314,12 @@
 
 <!--
 
-
-#### TEMPLATE ENGINES
-Thymeleaf Mustache 
-
 MySQL
 Oracle
 H2 Database
 -->
 
-#### H2 Database
+#### [H2 Database](https://github.com/yi5oyu/Study/tree/main/SpringBoot/DB/H2)
     개발 및 테스트 환경에서 사용되는 경량 데이터베이스
     표준 SQL, 웹 콘솔, Spring Boot 통합
 
@@ -314,7 +356,7 @@ H2 Database
 </details>
 
 
-#### Mybatis
+#### [Mybatis](https://github.com/yi5oyu/Study/tree/main/MyBatis)
     SQL 쿼리를 Java 코드에서 분리하여 XML 파일 or 어노테이션으로 관리
 
 `application.yml`
@@ -433,7 +475,11 @@ H2 Database
     <?xml version="1.0" encoding="UTF-8" ?>
     <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    
+
+    <!-- 
+        namespace와 mapper 인터페이스 매핑
+        id와 mapper 인터페이스 필드명 매핑
+    -->
     <mapper namespace="com.example.springboottest.mapper.UserMapper">
       <resultMap id="UserResultMap" type="com.example.springboottest.entity.User">
         <id property="id" column="id"/>
@@ -496,12 +542,11 @@ H2 Database
 [> MyBatis](https://github.com/yi5oyu/Study/tree/main/MyBatis)    
 
 
-
-#### Spring Data JPA   
+#### [Spring Data JPA](https://github.com/yi5oyu/Study/tree/main/JPA)    
     JPA를 더 쉽고 편리하게 사용할 수 있도록 도와주는 Spring 프레임워크의 모듈
     
     JPA(Java Persistence API): 자바 애플리케이션에서 관계형 데이터베이스를 사용하는 방식을 정의한 인터페이스
-    ORM(object-relational mapping): 객체와 관계형 데이터베이스 테이블 매핑(객체 지향적으로 프로그래밍을 하면서 관계형 데이터베이스를 사용할 수 있음)
+    ORM(object-relational mapping): 객체와 관계형 데이터베이스 테이블 매핑(객체지향적으로 프로그래밍을 하면서 관계형 데이터베이스를 사용할 수 있음)
 
 - 인터페이스 계층 구조   
     Repository > CrudRepository > PagingAndSortingRepository > JpaRepository    
@@ -633,12 +678,11 @@ H2 Database
       키-값 형태의 데이터 액세스 패턴에 최적화
       데이터를 여러 서버에 분산, 데이터를 요청하는 사용자/응용 프로그램에 더 가깝운 곳에 저장
 
-#### Redis
+#### [Redis](https://github.com/yi5oyu/Study/tree/main/DB/NoSQL/Redis)
     Redis(Remote Dictionary Server)
     키-값 저장소 (다양한 데이터 구조 지원)
     간단한 데이터 구조에 빠르게 액세스해야 하는 애플리케이션에 매우 빠르고 적합(캐시, 메시지 브로커, 세션 저장소)
     
-[**> Redis**](https://github.com/yi5oyu/Study/tree/main/DB/NoSQL/Redis)     
 [> 설치](https://github.com/yi5oyu/Study/blob/main/DB/NoSQL/Redis/%EC%84%A4%EC%B9%98)     
 
 `의존성`
@@ -723,6 +767,8 @@ H2 Database
 
 [> Redis Controller](https://github.com/yi5oyu/Study/blob/main/DB/NoSQL/Redis/RedisController.java)     
 
+<hr>
+
 ### 🛠️ TOOLS   
 
 #### Spring Boot DevTools
@@ -745,48 +791,46 @@ H2 Database
    개발 환경에서만 활성화, 배포 환경에서는 비활성화됨      
 
 
-#### Lombok
+#### [Lombok](https://github.com/yi5oyu/Study/blob/main/SpringBoot/Lombok/Entitiy)
     반복적으로 작성해야 하는 코드를 줄여주는 라이브러리
     코드의 가독성을 높이고 개발 생산성을 향상시킴
 
-    // Lombok 없는 코드
+`POJO`
+
+    POJO(Plain Old Java Object)
+    의존성 최소화한 단순한 자바 객체
+
+    // 필드와 기본 메서드(getter/setter), 오버라이드된 메소드 포함
     public class User {
     
         private Long id;
         private String name;
         private String email;
-    
+
         // 기본 생성자
         public User() {}
-    
         // 매개변수있는 생성자
         public User(Long id, String name, String email) {
             this.id = id;
             this.name = name;
             this.email = email;
         }
-    
         // Getters, Setters
         public Long getId() {
             return id;
         }
-    
         public void setId(Long id) {
             this.id = id;
         }
-    
         public String getName() {
             return name;
         }
-    
         public void setName(String name) {
             this.name = name;
         }
-    
         public String getEmail() {
             return email;
         }
-    
         public void setEmail(String email) {
             this.email = email;
         }
@@ -800,20 +844,22 @@ H2 Database
                     ", email='" + email + '\'' +
                     '}';
         }
-    
         // equal, hashCode 재정의
         @Override
         public boolean equals() {
             ...
         }
-    
         @Override
         public int hashCode() {
             ...
         }
     }
 
-    // Lombok 코드
+`Lombok`
+
+    반복적인 작업을 어노테이션 사용해 자동으로 처리
+
+    // Lombok 적용
     @Data // getters, setters, toString, equals, hashCode
     @NoArgsConstructor // 기본 생성자
     @AllArgsConstructor // 매개변수있는 생성자
@@ -823,7 +869,262 @@ H2 Database
         private String email;
     }
 
-[> 그 외 어노테이션](https://github.com/yi5oyu/Study/tree/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/Lombok)   
+[> Lombok 어노테이션](https://github.com/yi5oyu/Study/tree/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/Lombok)   
+
+<hr>
+
+### [View Template](https://github.com/yi5oyu/Study/tree/main/SpringBoot/View%20Template)
+
+#### [Thymeleaf](https://github.com/yi5oyu/Study/tree/main/SpringBoot/View%20Template/Thymeleaf)
+
+#### Mustache 
+
+#### JSP
+    
+#### Thymeleaf
+
+<hr>
+
+### Testing/문서화
+
+#### [Spring REST Docs](https://github.com/yi5oyu/Study/tree/main/SpringBoot/REST%20API/Testing/Spring%20REST%20Docs)
+    실제 API 테스트를 기반으로 정확한 API 문서 자동 생성
+
+- [의존성 설정(build.gradle)](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/Testing/Spring%20REST%20Docs/build.gradle)
+
+      plugins {
+          // asciidoctor 플러그인
+          id 'org.asciidoctor.jvm.convert' version '3.3.2'
+      }
+      ext {
+          // 스니펫 경로 설정(프로젝트 전역에서 사용할 변수 정의)
+          set('snippetsDir', file("build/generated-snippets"))
+      }
+      asciidoctor {
+          attributes(
+              "snippets": snippetsDir
+    	  )
+          // 이전 문서 삭제
+          doFirst {
+              delete file('build/docs/asciidoc')
+          }
+      }
+      dependencies {
+          // mockmvc(API 테스트 도구) 추가
+          testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+      }
+      // ./gradlew test 명령어
+      tasks.named('test') {
+    	  outputs.dir snippetsDir
+    	  useJUnitPlatform()
+      }
+      // ./gradlew asciidoctor 명령어
+      tasks.named('asciidoctor') {
+    	  inputs.dir snippetsDir
+    	  dependsOn test
+      }
+
+- [MockMvc](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/Testing/Spring%20REST%20Docs/mockMvc)
+
+      Spring Framework 테스트 도구
+      서버 실행없이 HTTP 요청 시뮬레이션, 단위 테스트(Controller 테스트)
+
+**[UserControllerTest](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/Testing/Spring%20REST%20Docs/UserControllerTest.java)**
+
+    // UserController 테스트
+    @WebMvcTest(UserController.class)
+    // spring security 보안 필터 적용하지 않음
+    @AutoConfigureMockMvc(addFilters = false)
+    // REST Docs 설정 자동 구성, 테스트 결과 문서화 수행
+    @AutoConfigureRestDocs
+    public class UserControllerTest {
+        @Autowired
+        private MockMvc mockMvc;
+        @MockBean
+        private UserService userService;
+        @Test
+        public void testGetAllUsers() throws Exception {
+            // 가상(mock)의 userService에서 결과를 가져옴(DB없이 테스트 가능)
+            when(userService.getAllUsers()).thenReturn(Arrays.asList(
+                new User(1L, "lee", "lee@google.com"),
+                new User(2L, "aaaa", "bbbb@naver.com")
+            ));
+            // 엔드포인트 users GET 요청
+            mockMvc.perform(get("/users"))
+                // 상태코드 200 검증
+                .andExpect(status().isOk())
+                // get-all-users snippet 생성
+                .andDo(document("get-all-users",
+                    responseFields(
+                        // JSON 배열([]) 필드 타입, 설명 문서화
+                        // 배열 안에 있는 각 객체의 필드
+                        fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("ID"),
+                        fieldWithPath("[].name").type(JsonFieldType.STRING).description("이름"),
+                        fieldWithPath("[].email").type(JsonFieldType.STRING).description("이메일")
+                    )
+                ));
+       }    
+       ...
+    }
+    
+- [Snippets](https://github.com/yi5oyu/Study/edit/main/SpringBoot/REST%20API/Testing/Spring%20REST%20Docs/snippets)
+
+      Spring REST Docs에서 API 문서화를 위해 생성되는 재사용 가능한 작은 정보 조각
+      document("")에 지정된 이름으로 폴더 생성
+      경로: root(프로젝트명)/build/generated-snippets/
+
+<details>
+<summary>생성된 스니펫</summary>
+
+    build/generated-snippets
+    ./gradlew test
+
+<img width="480" alt="{2AA35FC1-94A2-4376-9F4F-7F13C92391A1}" src="https://github.com/user-attachments/assets/da54517a-c9de-4753-a0f4-14025ac1b9fe" />
+
+</details>
+
+- [Asciidoc](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/Testing/Spring%20REST%20Docs/AsciiDoc)
+
+      Asciidoctor: AsciiDoc 문서를 HTML, PDF등의 형식으로 변환하는 도구
+      Asciidoc 파일(.adoc)에 Snippets 포함시켜 사용
+      https://asciidoc.org/#try
+
+      intellj Asciidoc 플러그인 설치
+      html로 랜더링되기 때문에 css, js, config 파일로 커스터마이징이 가능함
+
+`index.adoc`
+
+    진입점, 문서 구조 정의
+    root/src/docs/asciidoc/index.adoc
+
+    = UserController API 문서
+    홍길동, <hong@google.com>
+    v1.0, 2024-10-10
+    :author: 홍길동
+    :revdate: 2024-10-10
+    :revnumber: 1.0
+    :email: hong@google.com
+    :doctype: book
+    :icons: font
+    :source-highlighter: coderay
+    :toc: left
+    :toc-title: 목차
+    :toclevels: 3
+    :sectlinks:
+    :sectnums:
+
+    == 개요
+    이 문서는 UserController 클래스에서 생성된 API 문서 제공
+    API 엔드포인트, 요청/응답 사용 예제 설명
+    
+    == API 엔드포인트
+    
+    === 모든 사용자 조회
+    include::{snippets}/get-all-users/curl-request.adoc[]
+    include::{snippets}/get-all-users/http-request.adoc[]
+    include::{snippets}/get-all-users/http-response.adoc[]
+    include::{snippets}/get-all-users/httpie-request.adoc[]
+    include::{snippets}/get-all-users/request-body.adoc[]
+    include::{snippets}/get-all-users/response-body.adoc[]
+    include::{snippets}/get-all-users/response-fields.adoc[]
+    ...
+
+<details>
+<summary>Asciidoctor로 생성된 index.html 결과</summary>
+
+    build/docs/asciidoc/index.html
+    ./gradlew asciidoctor
+
+<img width="960" alt="{AB307493-2994-4FB8-B39B-0B0C7826AC59}" src="https://github.com/user-attachments/assets/8618202c-c103-4364-a731-d39a7a790d5a" />
+
+</details>
+
+
+#### [Swagger](https://github.com/yi5oyu/Study/tree/main/SpringBoot/REST%20API/Testing/Swagger)
+    Open API 문서 자동화/테스트 도구
+
+`의존성`
+    
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
+
+`Swagger UI`
+
+    http://localhost:8080/swagger-ui.html
+
+`entity or dto`
+
+    @Data
+    @Schema(description = "User Entity")
+    public class User {
+        @Schema(description = "유니크 ID", example = "1")
+        private Long id;
+    
+        @Schema(description = "이름", example = "lee")
+        private String name;
+    
+        @Schema(description = "이메일", example = "lee@google.com")
+        private String email;
+    }
+
+`Controller`
+
+    @OpenAPIDefinition(
+        info = @Info(
+            title = "Spring Test API",
+            version = "1.0",
+            description = "Spring boot Test API 문서"
+        )
+    )
+    @Tag(name = "User", description = "유저 관리")
+    @RestController
+    @RequestMapping("/users")
+    public class UserController {
+        @Operation(summary = "ID로 유저 찾기", description = "유니크 ID로 특정 유저 찾음")
+        @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "유저 발견",
+                content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "유저 없음")
+        })
+        @GetMapping("/{id}")
+        public User getUserById(
+            @Parameter(description = "유저의 유니크 ID", required = true, example = "1")
+            @PathVariable Long id
+        ){
+            return userService.getUserById(id);
+        }
+    }
+    
+<details>
+<summary>자세히 살펴보기</summary>
+
+- 적용 전   
+  
+<img width="960" alt="{04F20F65-CB97-4A9A-BD10-9811120C84D4}" src="https://github.com/user-attachments/assets/da1b2674-8d2a-472c-bcf4-1d4b45b339b9">
+
+- 적용 후      
+  
+<img width="960" alt="{72259830-76E5-455D-A39D-EDE6E6F36092}" src="https://github.com/user-attachments/assets/131f7355-6840-4a20-9202-8cd13e4a7841">
+
+</details>
+
+[> Swagger 어노테이션](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/Testing/Swagger/API%20%EB%AC%B8%EC%84%9C%ED%99%94)    
+
+#### [PostMan](https://github.com/yi5oyu/Study/tree/main/SpringBoot/REST%20API/Testing/Postman)
+    API 테스트, 개발/관리 도구
+    CI/CD 통합(자동화된 API 테스트 가능)
+    
+    https://www.postman.com
+
+<details>
+<summary>자세히 살펴보기</summary>
+
+<img width="960" alt="{781C878B-FFDA-47A5-A476-90BFE798767A}" src="https://github.com/user-attachments/assets/9beb14d3-2b61-413e-b1cb-2531294f9dca">
+
+</details>
+
+#### [Spring Boot Actuator](https://github.com/yi5oyu/Study/tree/main/SpringBoot/Spring%20Actuator)
+
+<hr>
 
 ## 🛡️ 보안
 
@@ -837,6 +1138,8 @@ H2 Database
 [**> Security Config**](https://github.com/yi5oyu/Study/blob/main/SpringBoot/Spring%20Security/SecurityConfig.java)
 
 [//]: # (### JWT)
+
+<hr>
 
 ## 🧠 AI
 
@@ -862,12 +1165,13 @@ H2 Database
     오픈 소스 LLM(Hugging Face)을 로컬에서 다운로드하고 실행 가능
     
     https://huggingface.co
-    Llama, MPT, StarCoder... (ggml/gguf 형식의 모델과 호환됨)
+    Llama, MPT, StarCoder... (ggml/gguf 형식의 모델과 호환됨) 
     
-
 [**> Example**](https://github.com/yi5oyu/Study/blob/main/AI/LM%20STUDIO/llamaAPIService.java)
 
-## 📡 OPEN API
+<hr>
+
+## 📡 [OPEN API](https://github.com/yi5oyu/Study/tree/main/API/OPEN%20API)
     API에 접근하기 위한 API key 필요
 
 ### Naver
@@ -902,10 +1206,11 @@ H2 Database
     https://openapi.sk.com
 `대시보드` `>` `앱` `>` `앱 만들기` `>` `API 선택` `>` `API 사용 요금` `>` `사용하기` `>` `사용 신청하기` `>` `대시보드` `>` `생선한 앱 선택` `>` `앱키`
 
+<hr>
 
 ## 🗂️ etc
 
-### 🏷️ @어노테이션(Annotation)
+### 🏷️ [@어노테이션(Annotation)](https://github.com/yi5oyu/Study/tree/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98)
     Java에서 코드에 메타데이터를 추가하는 방법
     컴파일러나 런타임 환경에서 특정 행동을 수행하도록 정보를 제공하는 역할
 
