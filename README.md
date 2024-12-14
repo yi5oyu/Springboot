@@ -874,7 +874,20 @@ H2 Database
 <hr>
 
 ### [View Template](https://github.com/yi5oyu/Study/tree/main/SpringBoot/View%20Template)
-    서버에서 가져온 데이터를 미리 정의된 템플릿에 삽입하여 동적인 웹 페이지(HTML)를 생성
+
+`렌더링`: 데이터를 화면에 시각적으로 표시하는 과정
+
+- SSR(Server-Side Rendering)
+  
+      서버에서 HTML 생성하여 클라이언트로 전송
+      초기 페이지 로드 빠름
+      Thymeleaf
+  
+- CSR(Client-Side Rendering)
+
+      클라이언트에서 JavaScript를 사용하여 HTML 생성
+      초기 로드 상대적으로 느림
+      React
     
 #### [JSP(JavaServer Pages)](https://github.com/yi5oyu/Study/tree/main/SpringBoot/View%20Template/JSP)
     Java를 기반의 서버 사이드 스크립트 언어
@@ -1066,7 +1079,21 @@ H2 Database
 > File > Settings > Editor > File Encodings > Global Encoding, Project Encoding, Properties Files > UTF-8로 변경       
 
 #### [Thymeleaf](https://github.com/yi5oyu/Study/tree/main/SpringBoot/View%20Template/Thymeleaf)
-    
+    Spring Boot와 호환성이 좋고 HTML, JS, CSS 등... 처리할 수 있음
+    th:* 속성 사용해 동적 콘텐츠 처리, 변수 표현식: ${...}
+
+`build.gradle`
+
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+`application.yml`
+
+    # 캐시 false
+
+네임스페이스 선언
+<html xmlns:th="http://www.thymeleaf.org">
+
+##### [속성](https://github.com/yi5oyu/Study/blob/main/SpringBoot/View%20Template/Thymeleaf/%EC%86%8D%EC%84%B1)
 
 #### Mustache 
 
