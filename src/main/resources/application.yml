@@ -1,6 +1,10 @@
 spring:
   application:
     name: springboottest
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
   datasource:
     url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver
@@ -32,13 +36,13 @@ server:
 
 naver:
   client:
-    id: ${NAVER_ID}
-    secret: ${NAVER_SECRET}
+    id: ${NAVER_ID:none}
+    secret: ${NAVER_SECRET:none}
 
 kakao:
   api:
-    key: ${KAKAO_KEY}
+    key: ${KAKAO_KEY:none}
 
 skopenapi:
   api:
-    key: ${SK_KEY}
+    key: ${SK_KEY:none}

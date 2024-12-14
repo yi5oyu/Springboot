@@ -61,6 +61,13 @@ dependencies {
 	//openai
 	//	implementation 'org.springframework.ai:spring-ai-openai-spring-boot-starter:1.0.0-SNAPSHOT'
 
+	// JSP를 컴파일하여 실행 가능한 Java 서블릿 코드로 변환/서버에서 동적으로 HTML을 생성
+	// spring Boot 기본 설정에서는 JSP가 기본적으로 지원되지 않음, Tomcat이 JSP를 처리
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl'
+	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api'
+	implementation 'jakarta.servlet:jakarta.servlet-api'
+
 }
 
 dependencyManagement {
