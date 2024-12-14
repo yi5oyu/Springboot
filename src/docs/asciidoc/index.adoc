@@ -1,0 +1,56 @@
+= UserController API 문서
+홍길동, <hong@google.com>
+v1.0, 2024-10-10
+:author: 홍길동
+:revdate: 2024-10-10
+:revnumber: 1.0
+:email: hong@google.com
+:doctype: book
+:icons: font
+:source-highlighter: coderay
+:toc: left
+:toc-title: 목차
+:toclevels: 3
+:sectlinks:
+:sectnums:
+
+== 개요
+이 문서는 UserController 클래스에서 생성된 API 문서 제공
+API 엔드포인트, 요청/응답 사용 예제 설명
+
+== API 엔드포인트
+
+=== 모든 사용자 조회
+include::{snippets}/get-all-users/curl-request.adoc[]
+include::{snippets}/get-all-users/http-request.adoc[]
+include::{snippets}/get-all-users/http-response.adoc[]
+include::{snippets}/get-all-users/httpie-request.adoc[]
+include::{snippets}/get-all-users/request-body.adoc[]
+include::{snippets}/get-all-users/response-body.adoc[]
+include::{snippets}/get-all-users/response-fields.adoc[]
+
+==222
+
+=== ID로 사용자 조회
+include::{snippets}/get-user-by-id/curl-request.adoc[]
+include::{snippets}/get-user-by-id/http-request.adoc[]
+include::{snippets}/get-user-by-id/http-response.adoc[]
+
+=== 사용자 추가
+include::{snippets}/add-user/curl-request.adoc[]
+include::{snippets}/add-user/http-request.adoc[]
+include::{snippets}/add-user/http-response.adoc[]
+// include::{snippets}/add-user/httie-request.adoc[]
+include::{snippets}/add-user/request-body.adoc[]
+include::{snippets}/add-user/request-fields.adoc[]
+include::{snippets}/add-user/response-body.adoc[]
+
+=== 사용자 정보 수정
+include::{snippets}/update-user/curl-request.adoc[]
+include::{snippets}/update-user/http-request.adoc[]
+include::{snippets}/update-user/http-response.adoc[]
+
+=== 사용자 삭제
+include::{snippets}/delete-user/curl-request.adoc[]
+include::{snippets}/delete-user/http-request.adoc[]
+include::{snippets}/delete-user/http-response.adoc[]
