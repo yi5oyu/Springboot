@@ -874,14 +874,204 @@ H2 Database
 <hr>
 
 ### [View Template](https://github.com/yi5oyu/Study/tree/main/SpringBoot/View%20Template)
+    서버에서 가져온 데이터를 미리 정의된 템플릿에 삽입하여 동적인 웹 페이지(HTML)를 생성
+    
+#### [JSP(JavaServer Pages)](https://github.com/yi5oyu/Study/tree/main/SpringBoot/View%20Template/JSP)
+    Java를 기반의 서버 사이드 스크립트 언어
+    서블릿으로 변환되어 동적인 웹페이지(HTML) 생성
+
+##### [application.yml](https://github.com/yi5oyu/Study/blob/main/SpringBoot/View%20Template/JSP/application.yml)
+
+    spring:
+      mvc:
+        # 뷰 리졸버(View Resolver) 설정
+        view:
+          prefix: /WEB-INF/views/
+          suffix: .jsp
+
+    # 불러올 JSP 파일의 접두사(prefix), 접미사(suffix) 설정
+    # /WEB-INF/views/[파일명].jsp
+    
+##### [build.gradle](https://github.com/yi5oyu/Study/blob/main/SpringBoot/View%20Template/JSP/build.gradle)
+
+    dependencies {
+    	implementation 'org.springframework.boot:spring-boot-starter-web'
+    
+    	// JSP를 컴파일하여 실행 가능한 Java 서블릿 코드로 변환/서버에서 동적으로 HTML을 생성
+    	// spring Boot 기본 설정에서는 JSP가 기본적으로 지원되지 않음, Tomcat이 JSP를 처리
+    	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+        // JSTL
+    	implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl'
+    	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api'
+        // servlet API
+    	implementation 'jakarta.servlet:jakarta.servlet-api'
+    }
+
+##### [스크립틀릿(Scriptlet)](https://github.com/yi5oyu/Study/blob/main/SpringBoot/View%20Template/JSP/Scriptlet)
+    JSP 페이지 내에서 Java 코드를 직접 작성할 수 있음
+    HTML이 클라이언트의 브라우저로 전송되기 전에 서버에서 실행
+    <% Java 코드 %>
+
+##### 태그 라이브러리
+
+    스크립틀릿 사용하면 java코드와 HTML가 혼합되 복잡하고 코드 유지/관리 어려움
+    
+- [EL(Expression Language)](https://github.com/yi5oyu/Study/blob/main/SpringBoot/View%20Template/JSP/EL)
+
+      JSP 페이지에서 데이터를 쉽게 출력할 수 있게 해주는 표현 언어
+      간결한 문법(${} 표기법), 자동 형변환 및 null 처리, 객체 접근 용이
+
+- [JSTL(JavaServer Pages Standard Tag Library)](https://github.com/yi5oyu/Study/blob/main/SpringBoot/View%20Template/JSP/JSTL)
+  
+      반복, 조건문, 국제화, SQL 처리 등 다양한 기능
+      Java 코드를 없애고 태그 기반으로 작업을 수행할 수 있음
+
+
+###### [jsp.jsp](https://github.com/yi5oyu/Study/blob/main/SpringBoot/View%20Template/JSP/jsp.jsp)
+
+      <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+      <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+      
+      <body>
+         <!-- JSTL -->
+         <!-- Core -->
+         <!-- 변수값 설정 -->
+         <c:set var="name" value="lee" />
+         <c:set var="age" value="20" />
+         <h1>${name}, ${age}</h1>
+        
+         <!-- 조건문 -->
+         <c:if test="${name == 'lee'}">
+         <p>내이름은 lee</p>
+        </c:if>
+        <c:choose>
+             <c:when test="${age >= 30}">A</c:when>
+             <c:when test="${age >= 20}">B</c:when>
+             <c:otherwise>C</c:otherwise>
+        </c:choose>
+        
+        <!-- 반복문 -->
+        <c:forEach var="user" items="${users}">
+            <p>${user.name}: ${user.age}</p>
+         </c:forEach>
+        
+        <!-- Formatting -->
+         <!-- 숫자 -->
+         <c:set var="num" value="1234567.89" /><br>
+         <!-- 기본 숫자 -->
+         <fmt:formatNumber value="${num}" /><br>
+         <!-- 퍼센트 -->
+         <fmt:formatNumber value="${num}" type="percent" /><br>
+        <!-- 소수점 자릿수 지정 -->
+         <fmt:formatNumber value="${num}" maxFractionDigits="2" /><br>
+        
+         <!-- 날짜 -->
+        <c:set var="now" value="<%= new java.util.Date() %>" />
+         <!-- 기본 날짜 -->
+         <fmt:formatDate value="${now}" /><br>
+         <!-- date -->
+          <fmt:formatDate value="${now}" type="date" /><br>
+         <!-- 시간 -->
+         <fmt:formatDate value="${now}" type="time" /><br>
+         <!-- 사용자 정의 형식 -->
+         <fmt:formatDate value="${now}" pattern="yyyy-MM-dd HH:mm:ss" /><br>
+      </body>
+
+##### [Scope](https://github.com/yi5oyu/Study/blob/main/SpringBoot/View%20Template/JSP/Scope.java)
+    데이터의 생명 주기
+    page < request < session < application
+    
+`page`: JSP 페이지(JSP 페이지가 실행되는 동안에만 존재)    
+`request`: HTTP 요청 기간 동안 존재(서블릿 -> JSP)     
+`session`: 세션 시간 동안 존재      
+`application`: 전체 어플리케이션 공유       
+
+###### [redirect/forward](https://github.com/yi5oyu/Study/blob/main/SpringBoot/View%20Template/JSP/redirect%2Cforward)
+
+`redirect`: 새로운 URL로 재요청(서버와 클라이언트간 요청 - 응답 - 요청 - 응답)      
+`forward`: 서버 내부에서 요청을 다른 리소스로 전달(브라우저 URL 변경되지 않음)      
+
+- Redirect에선 HTTP 요청이 새로 발생해 model과 request 데이터 사라짐
+
+`JspController`
+
+    @Controller
+    public class JspController {
+        @Autowired
+        private ServletContext context;
+    
+        @GetMapping("/jsp")
+        public String jsp(HttpServletRequest request, HttpSession session, Model model){
+            // Scope
+            request.setAttribute("request", "리퀘스트");
+            session.setAttribute("session", "세션");
+            context.setAttribute("application", "어플리케이션");
+            // HttpServletRequest 사용됨
+            model.addAttribute("model", "모델");
+            return "jsp";
+        }
+    
+        @GetMapping("/page")
+        public String page(){
+            return "jsp";
+        }
+    
+        @GetMapping("/redirect")
+        public String redirect(HttpServletRequest request, HttpSession session, Model model) {
+            request.setAttribute("request", "리퀘스트-리다이렉트");
+            session.setAttribute("session", "세션-리다이렉트");
+            context.setAttribute("application", "어플리케이션-리다이렉트");
+            model.addAttribute("model", "모델-리다이렉트");
+            return "redirect:/jsp";
+        }
+    
+        @GetMapping("/forward")
+        public String forward(HttpServletRequest request, HttpSession session, Model model) {
+            request.setAttribute("request", "리퀘스트-포워드");
+            session.setAttribute("session", "세션-포워드");
+            context.setAttribute("application", "어플리케이션-포워드");
+            model.addAttribute("model", "모델-포워드");
+            return "forward:/jsp";
+        }
+    }
+
+`jsp.jsp`
+
+    <body>
+        <!-- 스코프 -->
+        <!-- Page -->
+        <% pageContext.setAttribute("pageScope", "페이지"); %>
+        <div>페이지:</div>
+        <p>${pageContext.getAttribute("pageScope")}</p>
+    
+        <!-- Request -->
+        <div>리퀘스트:</div>
+        <p>${requestScope.request}</p>
+    
+        <!-- Session -->
+        <div>세션:</div>
+        <p>${sessionScope.session}</p>
+    
+        <!-- Application -->
+        <div>어플리케이션:</div>
+        <p>${applicationScope.application}</p>
+    
+        <!-- Model -->
+        <div>모델:</div>
+        <p>${model}</p>
+    </body>
+
+> 한글 깨짐       
+> Content-Type 추가: <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>      
+> File > Settings > Editor > File Encodings > Global Encoding, Project Encoding, Properties Files > UTF-8로 변경       
 
 #### [Thymeleaf](https://github.com/yi5oyu/Study/tree/main/SpringBoot/View%20Template/Thymeleaf)
+    
 
 #### Mustache 
 
-#### JSP
+
     
-#### Thymeleaf
 
 <hr>
 
