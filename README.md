@@ -1080,7 +1080,8 @@ H2 Database
 
 #### [Thymeleaf](https://github.com/yi5oyu/Study/tree/main/SpringBoot/View%20Template/Thymeleaf)
     Spring Boot와 호환성이 좋고 HTML, JS, CSS 등... 처리할 수 있음
-    th:* 속성 사용해 동적 콘텐츠 처리, 변수 표현식: ${...}
+    th:* 속성 사용한 동적 콘텐츠 처리, 변수 표현식: ${...}
+    https://www.thymeleaf.org/index.html
 
 `build.gradle`
 
@@ -1090,10 +1091,141 @@ H2 Database
 
     # 캐시 false
 
-네임스페이스 선언
-<html xmlns:th="http://www.thymeleaf.org">
+`src/main/resources/templates`
 
-##### [속성](https://github.com/yi5oyu/Study/blob/main/SpringBoot/View%20Template/Thymeleaf/%EC%86%8D%EC%84%B1)
+    <!DOCTYPE html>
+    <!-- 네임스페이스 선언 -->
+    <html xmlns:th="http://www.thymeleaf.org">
+    <head>
+      <meta charset="UTF-8">
+      <title>타이틀</title>
+    </head>
+    <body>
+
+##### [주석](https://github.com/yi5oyu/Study/blob/main/SpringBoot/View%20Template/Thymeleaf/%EC%A3%BC%EC%84%9D)
+
+      <!-- 일반 주석 처리 -->
+      <!--/*-->
+        <div>
+          템플릿이 정적으로 열려있을 때 표시하기 위해 사용
+        </div>
+      <!--*/-->
+
+##### [변수/속성 값 설정](https://github.com/yi5oyu/Study/blob/main/SpringBoot/View%20Template/Thymeleaf/%EC%86%8D%EC%84%B1)
+
+      <!-- thymeleaf 처리될 경우 th:text의 텍스트 보여짐. 아닐 경우 태그안 텍스트 보여짐 -->
+      <!-- <h1>text</h1>가 값으로 출력됨 -->
+      <h1 th:text="'text: ' + ${text}">일반 텍스트 반환</h1>
+      <!-- <h1>text</h1> DOM 랜더링됨 -->
+      <h1 th:utext="'utext: ' + ${text}">텍스트 HTML로 해석</h1>
+      <!-- null일때 기본값 설정 -->
+      <h1 th:text="${message ?: 'null일 경우 기본'}"></h1>
+      <input th:value="${name}" value="이름" type="text" />
+      <img th:src="@{/images/logo.png}" alt="로고" />
+      <!-- 여러 속성 설정 -->
+      <input th:attr="disabled=${judge}, placeholder=${name}" type="text" />
+      <!-- /users/user?id=${productId}&name=${name} -->
+      <a th:href="@{/users/user(id=${userId}, name=${name})}">유저 id, name</a>
+      <!-- <div style="color:blue"> -->
+      <div th:style="'color:' + ${color}">인라인 Style 적용</div>
+      <!-- 클래스 지정 -->
+      <div th:class="${judge ? 'font-css' : 'none'}">클래스 이름</div>
+      <!-- 클래스 추가 -->
+      <input th:classappend="${judge} ? 'font-css' : 'none'" type="text" />
+      <!-- 클래스이름 앞/뒤에 추가 -->
+      <input th:attrprepend="class='start-'" type="text" />
+      <input th:attrappend="class='-end'" type="text" />
+
+##### [조건문](https://github.com/yi5oyu/Study/blob/main/SpringBoot/View%20Template/Thymeleaf/%EC%A1%B0%EA%B1%B4%EB%AC%B8)
+
+      <div th:if="${judge}">ture일때 랜더링</div>
+      <div th:unless="${judge}">false일때 랜더링</div>
+      <div th:switch="${name}">
+        <p th:case="'lee'">lee</p>
+        <p th:case="'a'">a</p>
+        <p th:case="*">나머지</p>
+      </div>
+
+##### [반복문](https://github.com/yi5oyu/Study/blob/main/SpringBoot/View%20Template/Thymeleaf/Iteration)
+
+      <div th:each="user, status : ${users}">
+        인덱스: <span th:text="${status.index}"></span><br>
+        카운트: <span th:text="${status.count}"></span><br>
+        사이즈: <span th:text="${status.size}"></span><br>
+        첫번째: <span th:text="${status.first}"></span><br>
+        마지막: <span th:text="${status.last}"></span>
+      </div>
+
+##### [linline(none, text, js, css)](https://github.com/yi5oyu/Study/blob/main/SpringBoot/View%20Template/Thymeleaf/Javascript%2Ccss)
+
+      <p th:inline="text">
+
+###### [유틸리티 함수(OGNL)](https://github.com/yi5oyu/Study/blob/main/SpringBoot/View%20Template/Thymeleaf/OGNL)
+
+        [[${name}]], [[${#dates.format(today, 'yyyy-MM-dd')}]]
+      </p>
+      <script th:inline="javascript">
+        let name = [[${name}]]
+        console.log(name)
+      </script>
+      <style th:inline="css">
+        .font-css {
+            color: [[${color}]];
+            font-size: 20px;
+        }
+      </style>
+
+##### [Fragment(layout)](https://github.com/yi5oyu/Study/blob/main/SpringBoot/View%20Template/Thymeleaf/layout)
+
+      <div th:insert="fragments/header :: header"></div>
+      <div th:replace="fragments/footer :: footer"></div>
+      <div th:insert="fragments/main :: main(judge, name)"></div>
+      
+    </body>
+    </html>
+
+`src/main/resources/templates/fragments`
+
+`header.html`
+
+    <!-- insert: 해당 DOM이 삽입됨 -->
+    <div th:fragment="header">
+      <header>
+        <div>header</div>
+      </header>
+    </div>
+    <!--
+    <div>
+     <div>
+      <header>
+        <div>header</div>
+      </header>
+     </div>
+    </div>
+    -->
+
+`footer.html`
+
+    <!-- replace: 해당 DOM으로 대체됨 -->
+    <div th:fragment="footer">
+      <footer>
+        <div>footer</div>
+      </footer>
+    </div>
+    <!--
+     <div>
+      <header>
+        <div>header</div>
+      </header>
+     </div>
+    -->
+    
+`main.html`
+
+    <!-- 프래그먼트에 매개변수 전달 -->
+    <div th:fragment="main (judge, name)">
+      <div th:if="${judge}" th:text="${name}"></div>
+    </div>
 
 #### Mustache 
 
