@@ -26,6 +26,8 @@ spring:
       chat:
         options:
           model: gpt-4o-mini
+  thymeleaf:
+    cache: false
 
 mybatis:
   type-aliases-package: com.example.springboottest.entity
