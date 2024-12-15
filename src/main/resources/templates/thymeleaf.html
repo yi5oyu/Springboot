@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!-- 네임스페이스 선언 -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <!-- 일반 주석 처리 -->
+  <!--/*-->
+  <div>
+    템플릿이 정적으로 열려있을 때 표시하기 위해 사용
+  </div>
+  <!--*/-->
+
+  <!-- 변수/속성 값 설정 -->
+  <!-- thymeleaf 처리될 경우 th:text의 텍스트 보여짐. 아닐 경우 태그안 텍스트 보여짐 -->
+  <!-- <h1>text</h1>가 값으로 출력됨 -->
+  <h1 th:text="'text: ' + ${text}">일반 텍스트 반환</h1>
+  <!-- <h1>text</h1> DOM 랜더링됨 -->
+  <h1 th:utext="'utext: ' + ${text}">텍스트 HTML로 해석</h1>
+  <!-- null일때 기본값 설정 -->
+  <h1 th:text="${message ?: 'null일 경우 기본'}"></h1>
+  <input th:value="${name}" value="이름" type="text" />
+  <img th:src="@{/images/logo.png}" alt="로고" />
+  <!-- 여러 속성 설정 -->
+  <input th:attr="disabled=${judge}, placeholder=${name}" type="text" />
+  <!-- /users/user?id=${productId}&name=${name} -->
+  <a th:href="@{/users/user(id=${userId}, name=${name})}">유저 id, name</a>
+  <!-- <div style="color:blue"> -->
+  <div th:style="'color:' + ${color}">인라인 Style 적용</div>
+  <!-- 클래스 지정 -->
+  <div th:class="${judge ? 'font-css' : 'none'}">클래스 이름</div>
+  <!-- 클래스 추가 -->
+  <input th:classappend="${judge} ? 'font-css' : 'none'" type="text" />
+  <!-- 클래스이름 앞/뒤에 추가 -->
+  <input th:attrprepend="class='start-'" type="text" />
+  <input th:attrappend="class='-end'" type="text" />
+
+  <!-- 조건문 -->
+  <div th:if="${judge}">ture일때 랜더링</div>
+  <div th:unless="${judge}">false일때 랜더링</div>
+  <div th:switch="${name}">
+    <p th:case="'lee'">lee</p>
+    <p th:case="'a'">a</p>
+    <p th:case="*">나머지</p>
+  </div>
+
+  <!-- 반복문 -->
+  <div th:each="user, status : ${users}">
+    인덱스: <span th:text="${status.index}"></span><br>
+    카운트: <span th:text="${status.count}"></span><br>
+    사이즈: <span th:text="${status.size}"></span><br>
+    첫번째: <span th:text="${status.first}"></span><br>
+    마지막: <span th:text="${status.last}"></span>
+  </div>
+
+  <!-- linline(none, text, js, css) 사용 -->
+  <p th:inline="text">
+    <!-- 유틸리티 함수 # -->
+    [[${name}]], [[${#dates.format(today, 'yyyy-MM-dd')}]]
+  </p>
+  <script th:inline="javascript">
+    let name = [[${name}]]
+    console.log(name)
+  </script>
+  <style th:inline="css">
+    .font-css {
+        color: [[${color}]];
+        font-size: 20px;
+    }
+  </style>
+
+  <!-- Fragment -->
+  <div th:insert="fragments/header :: header"></div>
+  <div th:replace="fragments/footer :: footer"></div>
+  <div th:insert="fragments/main :: main(judge, name)"></div>
+
+</body>
+</html>

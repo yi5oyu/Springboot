@@ -1,0 +1,4 @@
+<!-- 프래그먼트에 매개변수 전달 -->
+<div th:fragment="main (judge, name)">
+  <div th:if="${judge}" th:text="${name}"></div>
+</div>
