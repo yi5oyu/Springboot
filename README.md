@@ -9,7 +9,14 @@
 
 <img src="https://img.shields.io/badge/React_Native-20232A?style=flat-square&logo=react&logoColor=61DAFB"/>
 
+<img src="https://img.shields.io/badge/MyBatis-%23007ACC.svg?style=flat-square&logo=MyBatis&logoColor=white"/>
 <img src="https://img.shields.io/badge/Spring_Data_JPA-6DB33F?style=flat-square&logo=spring&logoColor=white"/>
+
+![Thymeleaf](https://img.shields.io/badge/Thymeleaf-%23005C0F.svg?style=flat-square&logo=Thymeleaf&logoColor=white)
+<img src="https://img.shields.io/badge/JSP-%230074C1.svg?style=flat-square&logo=java&logoColor=white"/>
+<img src="https://img.shields.io/badge/Mustache-%23FFDD00.svg?style=flat-square&logo=Mustache&logoColor=black"/>
+
+
 
 <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/> <img src="https://img.shields.io/badge/redis-%23DD0031.svg?style=flat-square&logo=redis&logoColor=white"/>
 
