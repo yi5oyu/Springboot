@@ -1524,7 +1524,9 @@ H2 Database
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 
 #### Git Hub
-`OAuth 앱 등록`: https://github.com/settings/developers
+`OAuth 앱 등록`: https://github.com/settings/developers   
+
+<img width="480" alt="{5876232C-0C35-427E-88F8-E0869C3D6F82}" src="https://github.com/user-attachments/assets/0fd2dc91-74c4-411d-866d-f53b939fb29f" />
 
 
 [//]: # (### JWT)
