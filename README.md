@@ -1519,6 +1519,14 @@ H2 Database
     SecurityFilterChain: 보안 필터 설정
 [**> Security Config**](https://github.com/yi5oyu/Study/blob/main/SpringBoot/Spring%20Security/SecurityConfig.java)
 
+
+### OAuth 2.0
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+#### Git Hub
+`OAuth 앱 등록`: https://github.com/settings/developers
+
+
 [//]: # (### JWT)
 
 <hr>
