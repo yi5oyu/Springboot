@@ -72,6 +72,32 @@
 `설정:` `Run/Debug Configurations(상단 바)` `>` `Edit Configurations...` `>` `Environment variables`   
 `사용:` `${변수명}`
 
+##### dotenv
+    implementation 'io.github.cdimascio:dotenv-java:3.0.0'
+
+`.env`   
+
+    root/.env
+
+    DB_USER=admin
+    DB_PASS=qwerty
+
+`.gitignore`
+
+    # .env 파일 제외
+    .env
+
+`DotenvConfig`
+
+    @Configuration
+    public class DotenvConfig {
+        public DotenvConfig() {
+            Dotenv dotenv = Dotenv.configure().load();
+            System.setProperty("DB_USER", dotenv.get("DB_USER"));
+            System.setProperty("DB_PASS", dotenv.get("DB_PASS"));
+        }
+    }
+
 </details>
 
 <details>
@@ -1527,6 +1553,12 @@ H2 Database
 `OAuth 앱 등록`: https://github.com/settings/developers   
 
 <img width="480" alt="{4A4AEDB4-045D-40FD-B21C-97EBEB962DD9}" src="https://github.com/user-attachments/assets/610919a0-7253-45be-844a-49be3de459e7" />
+
+`.env`: 환경변수 등록   
+`.gitignore`: .env 파일 제외    
+`DotenvConfig`: config 클래스   
+[application.yml](https://github.com/yi5oyu/Study/blob/main/SpringBoot/OAuth/application.yml)    
+`SecurityConfig`:
 
 [//]: # (### JWT)
 
