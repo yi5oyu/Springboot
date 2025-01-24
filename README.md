@@ -1556,17 +1556,57 @@ H2 Database
 
 `Authorization callback URL`: Spring Security를 사용하는 경우 '{baseUrl}/login/oauth2/code/{registrationId}' 이 형식을 따라야함    
 
+
 `.env`: 환경변수 등록   
 `.gitignore`: .env 파일 제외    
 `DotenvConfig`: config 클래스   
 [application.yml](https://github.com/yi5oyu/Study/blob/main/SpringBoot/OAuth/application.yml)    
-[SecurityConfig](https://github.com/yi5oyu/Study/blob/main/SpringBoot/Spring%20Security/SecurityConfig.java)   
 
-`http://localhost:8080/login/oauth2/code/github` `>` `https://github.com/login/oauth/authorize`
+`SecurityConfig`
 
-1. 세션 로그아웃
+    Spring Security 설정
     
-2. 토근 삭제
+`접근 권한`
+
+    // requestMatchers에 정의된 경로로 들어오는 요청 모든 사용자에게 허용 (인증 없이 접근 가능)
+    .requestMatchers("/", "/home").permitAll()
+    // 인증된 사용자 접근 가능
+    .requestMatchers("/h2-console/**").authenticated()	
+    // 그 외 모든 요청은 인증된 사용자만 접근 가능   
+    .anyRequest().authenticated()
+    
+`OAuth 2 로그인`
+
+    .oauth2Login(oauth2 -> oauth2
+        // 로그인 시작점
+        .loginPage("/oauth2/authorization/github")
+        // 성공 후 리다이렉트될 URL
+        .defaultSuccessUrl("http://localhost:8080/thymeleaf", true)
+    )
+
+`http://localhost:8080/login/oauth2/code/github` `>` `https://github.com/login/oauth/authorize`  
+
+`세션 로그아웃`
+
+    .logout(logout -> logout
+        // 로그아웃 URL 경로
+        .logoutUrl("/logout")
+        // 성공 후 리다이렉트될 URL
+        .logoutSuccessUrl("http://localhost:8080")
+        // 로그아웃 HTTP 세션 무효화(제거)
+        .invalidateHttpSession(true)
+        // Spring Security 인증 객체, 관련된 모든 데이터 제거
+        .clearAuthentication(true)
+    )
+
+[SecurityConfig](https://github.com/yi5oyu/Study/edit/main/SpringBoot/Spring%20Security/SecurityConfig.java)    
+
+`사용자 정보`
+
+    @AuthenticationPrincipal
+    id, 이름, 이메일, 엑세스토큰 등..
+
+[OAuthController](https://github.com/yi5oyu/Study/blob/main/SpringBoot/OAuth/OAuthController.java)    
 
 [//]: # (### JWT)
 
