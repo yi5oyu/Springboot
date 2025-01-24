@@ -1526,8 +1526,7 @@ H2 Database
 #### Git Hub
 `OAuth 앱 등록`: https://github.com/settings/developers   
 
-<img width="480" alt="{5876232C-0C35-427E-88F8-E0869C3D6F82}" src="https://github.com/user-attachments/assets/0fd2dc91-74c4-411d-866d-f53b939fb29f" />
-
+<img width="480" alt="{4A4AEDB4-045D-40FD-B21C-97EBEB962DD9}" src="https://github.com/user-attachments/assets/610919a0-7253-45be-844a-49be3de459e7" />
 
 [//]: # (### JWT)
 
