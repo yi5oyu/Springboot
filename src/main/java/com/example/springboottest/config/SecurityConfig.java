@@ -37,8 +37,19 @@ public class SecurityConfig {
                 // Method Reference 연산자: ::
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/","/error","/hi","data","/api/**","/h2-console/**","users/**","/swagger-ui/**","/v3/**").permitAll()
+                        .requestMatchers("/","/error","/hi","data","/api/**","users/**","/swagger-ui/**","/v3/**","/oauth2/**", "/oauth", "/login/oauth2/**","/callback").permitAll()
+                        .requestMatchers("/h2-console/**", "/profile/**").authenticated()
                         .anyRequest().authenticated()
+                )
+                .oauth2Login(oauth2 -> oauth2
+                    .loginPage("/oauth2/authorization/github")
+                    .defaultSuccessUrl("http://localhost:8080/thymeleaf", true)
+                )
+                .logout(logout -> logout
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("http://localhost:8080")
+                    .invalidateHttpSession(true)
+                    .clearAuthentication(true)
                 )
                 .headers(headers -> headers
                     .frameOptions(frameOptions -> frameOptions.disable())
