@@ -9,7 +9,14 @@
 
 <img src="https://img.shields.io/badge/React_Native-20232A?style=flat-square&logo=react&logoColor=61DAFB"/>
 
+<img src="https://img.shields.io/badge/MyBatis-%23007ACC.svg?style=flat-square&logo=MyBatis&logoColor=white"/>
 <img src="https://img.shields.io/badge/Spring_Data_JPA-6DB33F?style=flat-square&logo=spring&logoColor=white"/>
+
+![Thymeleaf](https://img.shields.io/badge/Thymeleaf-%23005C0F.svg?style=flat-square&logo=Thymeleaf&logoColor=white)
+<img src="https://img.shields.io/badge/JSP-%230074C1.svg?style=flat-square&logo=java&logoColor=white"/>
+<img src="https://img.shields.io/badge/Mustache-%23FFDD00.svg?style=flat-square&logo=Mustache&logoColor=black"/>
+
+
 
 <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/> <img src="https://img.shields.io/badge/redis-%23DD0031.svg?style=flat-square&logo=redis&logoColor=white"/>
 
@@ -200,6 +207,7 @@
 
 ### [Spring Web(Spring MVC)](https://github.com/yi5oyu/Study/blob/main/SpringBoot/Spring%20MVC)
     https://docs.spring.io/spring-framework/reference/web/webmvc.html
+    
     웹 애플리케이션에서 HTTP 요청과 응답을 효율적으로 처리하기 위해 MVC 패턴을 사용하는 프레임워크
 
 `Spring MVC 아키텍처 계층`
@@ -1079,9 +1087,10 @@ H2 Database
 > File > Settings > Editor > File Encodings > Global Encoding, Project Encoding, Properties Files > UTF-8로 변경       
 
 #### [Thymeleaf](https://github.com/yi5oyu/Study/tree/main/SpringBoot/View%20Template/Thymeleaf)
+    https://www.thymeleaf.org/index.html
+    
     Spring Boot와 호환성이 좋고 HTML, JS, CSS 등... 처리할 수 있음
     th:* 속성 사용한 동적 콘텐츠 처리, 변수 표현식: ${...}
-    https://www.thymeleaf.org/index.html
 
 `build.gradle`
 
@@ -1115,6 +1124,9 @@ H2 Database
 
       <!-- thymeleaf 처리될 경우 th:text의 텍스트 보여짐. 아닐 경우 태그안 텍스트 보여짐 -->
       <!-- <h1>text</h1>가 값으로 출력됨 -->
+
+###### [HTML escape](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EA%B8%B0%EB%B3%B8%20%EA%B0%9C%EB%85%90%20%EC%A0%95%EB%A6%AC/HTML%20escape)
+
       <h1 th:text="'text: ' + ${text}">일반 텍스트 반환</h1>
       <!-- <h1>text</h1> DOM 랜더링됨 -->
       <h1 th:utext="'utext: ' + ${text}">텍스트 HTML로 해석</h1>
@@ -1227,10 +1239,31 @@ H2 Database
       <div th:if="${judge}" th:text="${name}"></div>
     </div>
 
-#### Mustache 
+#### [Mustache](https://github.com/yi5oyu/Study/blob/main/SpringBoot/View%20Template/Mustache) 
+    가볍고 논리가 없는 템플릿 언어
+    JSON 데이터를 HTML이나 다른 형식으로 쉽게 변환할 수 있음
+    Asciidoctor(adoc) 문서에서 사용됨    
 
+`build.gradle`
 
+    compileOnly 'org.springframework.boot:spring-boot-starter-mustache'
+
+`src/main/resources/templates/must.mustache'`
+
+###### [HTML escape](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EA%B8%B0%EB%B3%B8%20%EA%B0%9C%EB%85%90%20%EC%A0%95%EB%A6%AC/HTML%20escape)
+    {{데이터}}
+    {{{데이터}}}
     
+    {{! 반복문 참(#)/거짓(^) }}
+    {{#users}}
+     {{name}}
+    {{/users}}
+    {{^users}}
+     {{name}}
+    {{/users}}
+
+    {{! 레이아웃 적용 }}
+    {{>폴더명/파일명}}
 
 <hr>
 
