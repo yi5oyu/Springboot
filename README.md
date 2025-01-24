@@ -1552,13 +1552,21 @@ H2 Database
 #### Git Hub
 `OAuth 앱 등록`: https://github.com/settings/developers   
 
-<img width="480" alt="{4A4AEDB4-045D-40FD-B21C-97EBEB962DD9}" src="https://github.com/user-attachments/assets/610919a0-7253-45be-844a-49be3de459e7" />
+<img width="480" alt="{1A0A9306-5233-40FF-ABB6-31C0508357A1}" src="https://github.com/user-attachments/assets/6269a91e-1e7a-4937-af93-5fb326dd55e9" />
+
+`Authorization callback URL`: Spring Security를 사용하는 경우 '{baseUrl}/login/oauth2/code/{registrationId}' 이 형식을 따라야함    
 
 `.env`: 환경변수 등록   
 `.gitignore`: .env 파일 제외    
 `DotenvConfig`: config 클래스   
 [application.yml](https://github.com/yi5oyu/Study/blob/main/SpringBoot/OAuth/application.yml)    
-`SecurityConfig`:
+[SecurityConfig](https://github.com/yi5oyu/Study/blob/main/SpringBoot/Spring%20Security/SecurityConfig.java)   
+
+`http://localhost:8080/login/oauth2/code/github` `>` `https://github.com/login/oauth/authorize`
+
+1. 세션 로그아웃
+    
+2. 토근 삭제
 
 [//]: # (### JWT)
 
