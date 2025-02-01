@@ -716,8 +716,24 @@ H2 Database
     Redis(Remote Dictionary Server)
     키-값 저장소 (다양한 데이터 구조 지원)
     간단한 데이터 구조에 빠르게 액세스해야 하는 애플리케이션에 매우 빠르고 적합(캐시, 메시지 브로커, 세션 저장소)
+
+<details>
+<summary>Window</summary>
     
+https://github.com/tporadowski/redis/releases    
+Redis-x64-5.0.14.1.msi 설치    
+
+redis-server.exe 실행   
+redis-cli.exe 실행   
+
+확인 ping 입력 > pong 출력   
+
 [> 설치](https://github.com/yi5oyu/Study/blob/main/DB/NoSQL/Redis/%EC%84%A4%EC%B9%98)     
+[> 명령어](https://github.com/yi5oyu/Study/blob/main/DB/NoSQL/Redis/%EB%AA%85%EB%A0%B9%EC%96%B4)    
+
+</details>
+
+
 
 `의존성`
 
