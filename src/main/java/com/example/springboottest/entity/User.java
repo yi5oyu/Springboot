@@ -1,11 +1,13 @@
 package com.example.springboottest.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
+@Entity
 @Schema(description = "User Entity")
 public class User {
     @Schema(description = "유니크 ID", example = "1")
