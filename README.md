@@ -699,6 +699,77 @@ H2 Database
 [> Optional](https://github.com/yi5oyu/Study/blob/main/JPA/Optional)     
 [> 객체지향쿼리](https://github.com/yi5oyu/Study/blob/main/JPA/4.%20JPQL/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%BF%BC%EB%A6%AC)     
 
+##### QueryDSL
+
+    자바 코드로 SQL 문을 작성할 수 있게 해주는 프레임워크
+    컴파일 시 오류 발생 방지
+
+`build.gradle`
+
+    // spring boot 3 이상 버전과 호환
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
+    def querydslDir = 'src/main/generated'
+    // 기존 파일 삭제
+    clean {
+        delete file(querydslDir)
+    }
+    // QueryDSL(QClass) 파일 생성
+    tasks.withType(JavaCompile) {
+        options.generatedSourceOutputDirectory = file(querydslDir)
+    }
+
+`./gradlew clean build`
+
+`QueryDSLConfig`
+
+    // JPAQueryFactory 빈 등록
+    @Configuration
+    public class QueryDSLConfig {
+    @Autowired
+    private EntityManager entityManager;
+        @Bean
+        public JPAQueryFactory jpaQueryFactory() {
+            return new JPAQueryFactory(entityManager);
+        }
+    }
+
+`Repository`
+
+    // UserRepository
+    // JPA, QueryDSL 같이 사용
+    @Repository
+    public interface UserRepository extends JpaRepository<User, Long>, UserRepositoryCustom {
+        Optional<User> findByName(String name);
+    }
+
+    // UserRepositoryCustom
+    // 작성할 쿼리 인터페이스 메소드 
+    public interface UserRepositoryCustom {
+        Optional<Long> findIdByName(String name);
+    }
+
+    // UserRepositoryCustomlmpl
+    // 인터페이스 구현
+    @Repository
+    public class UserRepositoryCustomImpl implements UserRepositoryCustom  {
+        @Autowired
+        private JPAQueryFactory queryFactory;
+        @Override
+        public Optional<Long> findIdByName(String name) {
+            QUser user = QUser.user;
+            Long userId = queryFactory
+                .select(user.id)
+                .from(user)
+                .where(user.name.eq(name))
+                .fetchOne();
+            return Optional.ofNullable(userId);
+        }
+    }
+
 ### NoSQL
     NoSQL(Not only SQL): SQL만을 사용하지 않는 데이터베이스 관리 시스템
 
