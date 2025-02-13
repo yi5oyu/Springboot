@@ -170,27 +170,38 @@
  
 5. **의존성 주입(Dependency Injection, DI)**      
     객체 간의 결합도를 낮춰 코드의 재사용성을 높이고 유지보수를 쉽게 만듬    
-    스프링 컨테이너가 자동으로 의존성을 주입/타입을 기반으로 의존성을 찾아 주입    
-    `@Autowired`: 생성자 주입  
+    스프링 컨테이너가 자동으로 의존성을 주입/타입을 기반으로 의존성을 찾아 주입
+   
+**생성자 주입**  
 
-`생성자 주입`
+`@Autowired`
+
+    private final UserService userService;
     
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
-    
-`필드 주입`
 
+    // 단일 생성자일 경우 @Autowired 생략 가능
+    private final UserService userService;
+    
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    // 필드 주입
     @Autowired
     private UserService userService;
 
-`Setter 주입`
+`Lombok`
 
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
+    // final, @NonNull로 선언된 필드 생성자 자동 생성
+    @RequiredArgsConstructor
+    public class UserController {
+        private final UserService userService;
     }
+    
 
 6. **설정 관리**    
     설정을 외부화하여 다양한 환경에서 동일한 애플리케이션 코드를 사용할 수 있게 함    
