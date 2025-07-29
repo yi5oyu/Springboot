@@ -4,12 +4,9 @@
 
 Spring Boot를 이용한 어플리케이션 개발에 필요한 개념 정리, 테스팅, 연습을 목적으로한 레포지토리
 
-| [Settings](#Settings) [Spring & Spring boot](#-spring--spring-boot) • [Framework & Library](#-framework--library) • [보안](#%EF%B8%8F-보안) • [AI](#-ai) • [OPEN API](#-open-api) • [etc...](#%EF%B8%8F-etc)  |
+| [Spring & Spring boot](#-spring--spring-boot) • [Framework & Library](#-framework--library) • [보안](#%EF%B8%8F-보안) • [AI](#-ai) • [OPEN API](#-open-api) • [etc...](#%EF%B8%8F-etc)  |
 
 </div>
-
-
-    
 
 <!-- 
 #### 개발 환경
