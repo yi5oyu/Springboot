@@ -35,8 +35,6 @@ Spring Boot를 이용한 어플리케이션 개발에 필요한 개념 정리, �
 <details>
 <summary>🛠️ Settings</summary>
 
-## Settings
-
 ### 🚀 프로젝트 생성
     - Spring initializr
     https://start.spring.io/
@@ -140,8 +138,6 @@ Spring Boot를 이용한 어플리케이션 개발에 필요한 개념 정리, �
     
 </details>
 
-<hr>
-   
 ## 🎯 Spring & Spring boot      
       
 ### 📖 관심사 분리(Separation of Concerns, SoC)
