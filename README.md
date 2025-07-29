@@ -4,7 +4,7 @@
 
 Spring Boot를 이용한 어플리케이션 개발에 필요한 개념 정리, 테스팅, 연습을 목적으로한 레포지토리
 
-| [Spring & Spring boot](#-spring--spring-boot) • [Framework & Library](#-framework--library) • [보안](#%EF%B8%8F-보안) • [AI](#-ai) • [OPEN API](#-open-api) • [어노테이션](#@어노테이션Annotation)  |
+| [Spring & Spring boot](#-spring--spring-boot) • [Framework & Library](#-framework--library) • [보안](#%EF%B8%8F-보안) • [AI](#-ai) • [OPEN API](#-open-api) • [애노테이션](#애노테이션annotation)  |
 
 </div>
 
@@ -2109,7 +2109,7 @@ compileOnly 'org.springframework.boot:spring-boot-starter-mustache'
 
 <hr>
 
-## 🏷️ [@어노테이션(Annotation)](https://github.com/yi5oyu/Study/tree/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98)
+## 🏷️ [@애노테이션(Annotation)](https://github.com/yi5oyu/Study/tree/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98)
 
     Java에서 코드에 메타데이터를 추가하는 방법
     컴파일러나 런타임 환경에서 특정 행동을 수행하도록 정보를 제공하는 역할
