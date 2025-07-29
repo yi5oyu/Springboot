@@ -2115,8 +2115,8 @@ compileOnly 'org.springframework.boot:spring-boot-starter-mustache'
     컴파일러나 런타임 환경에서 특정 행동을 수행하도록 정보를 제공하는 역할
 
 
-#### 스테레오 타입 어노테이션
-    사용자 정의 어노테이션
+#### 스테레오 타입 애노테이션
+    사용자 정의 애노테이션
     주로 애플리케이션의 계층 구조, 코드의 가독성을 높이는 데 사용
 
 ``
@@ -2142,11 +2142,11 @@ compileOnly 'org.springframework.boot:spring-boot-starter-mustache'
     빈(Bean) 객체를 자동으로 주입
 
     구성요소
-    // 어노테이션이 적용될 수 있는 위치를 지정(생성자, 메서드, 매개변수, 필드, 어노테이션에 사용할 수 있음)
+    // 애노테이션이 적용될 수 있는 위치를 지정(생성자, 메서드, 매개변수, 필드, 애노테이션에 사용할 수 있음)
     @Target({ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD, ElementType.ANNOTATION_TYPE})
-    // 어노테이션의 지속 기간을 지정(런타임 시점까지 유지)
+    // 애노테이션의 지속 기간을 지정(런타임 시점까지 유지)
     @Retention(RetentionPolicy.RUNTIME)
-    // 어노테이션을 사용하는 요소가 Javadoc 같은 문서화 도구에 의해 문서화되도록 함(자동으로 문서화에 포함되어 해당 의존성 주입이 코드 문서에 잘 표시됨)
+    // 애노테이션을 사용하는 요소가 Javadoc 같은 문서화 도구에 의해 문서화되도록 함(자동으로 문서화에 포함되어 해당 의존성 주입이 코드 문서에 잘 표시됨)
     @Documented
     public @interface Autowired {
         // required=true: 스프링은 반드시 해당 빈을 주입해야 함(빈이 존재하지 않으면 NoSuchBeanDefinitionException 발생)
@@ -2154,20 +2154,20 @@ compileOnly 'org.springframework.boot:spring-boot-starter-mustache'
         boolean required() default true;
     }
 
-[> 어노테이션](https://github.com/yi5oyu/Study/tree/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98)
+[> 애노테이션](https://github.com/yi5oyu/Study/tree/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98)
 
-#### 표준 어노테이션
-    Java에서 기본적으로 제공하는 어노테이션
+#### 표준 애노테이션
+    Java에서 기본적으로 제공하는 애노테이션
 
 `@Override`: 
 
-#### 메타 어노테이션
-    다른 어노테이션을 정의할 때 사용되는 어노테이션
+#### 메타 애노테이션
+    다른 애노테이션을 정의할 때 사용되는 애노테이션
 
-`@Target`: 어노테이션 적용될 수 있는 대상 지정      
-`@Retention`: 어노테이션 유지 기간 설정       
-`@Documented`: Javadoc 생성 시 어노테이션이 문서화되도록 지정      
-`@Inherited`: 어노테이션 타입이 자동으로 상속되도록 지정     
-`@Repeatable`: 동일한 선언에 어노테이션을 두 번 이상 적용할 수 있음    
+`@Target`: 애노테이션 적용될 수 있는 대상 지정      
+`@Retention`: 애노테이션 유지 기간 설정       
+`@Documented`: Javadoc 생성 시 애노테이션이 문서화되도록 지정      
+`@Inherited`: 애노테이션 타입이 자동으로 상속되도록 지정     
+`@Repeatable`: 동일한 선언에 애노테이션을 두 번 이상 적용할 수 있음    
 
 
