@@ -34,7 +34,7 @@ Repository: DB랑 대화하는 일만 함
 
 #### 3. 리스코프 치환 원칙(Liskov Substitution Principle)
 
-`자식 클래스는 언제나 부모 클래스를 대체할 수 있어야 함`
+``
 
 #### 4. 인터페이스 분리 원칙(Interface Segregation Principle)
 
@@ -115,24 +115,132 @@ public class AService$$EnhancerBySpringCGLIB$$[랜덤값] extends AService {
 
 ```
 
+<!-- 
+// 빈 등록(JPA, MyBatis 같이 사용할때 등록)
+@Configuration
+public class DBConfig {
+    // JPA 내부에 JDBC Connection 설정 구현되 있어서 JPA으로 통일(JPA/MyBatis 둘 다 사용 가능)
+    @Bean
+    public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
+        return new JpaTransactionManager(emf);
+    }
+}
+-->
+
 ```java
-public interface ARepository {
-    User findById(Long id);
+/*
+    리스코프 치환 원칙(Liskov Substitution Principle): 자식 클래스는 언제나 부모 클래스를 대체할 수 있어야 함
+    같은 PlatformTransactionManager 클래스를 상속받은 JPA(JpaTransactionManager), MyBatis(DataSourceTransactionManager)
+*/
+// Spring 트랜잭션 관리 인터페이스로 추상화 시킴
+public interface PlatformTransactionManager {
+    // 트랜잭션 시작
+    TransactionStatus getTransaction(TransactionDefinition definition);
+    // 커밋/롤백
+    void commit(TransactionStatus status);
+    void rollback(TransactionStatus status);
 }
 
-@Repository
-public class JpaUserRepository implements UserRepository {
-    @Override
-    public User findById(Long id) {
-        return entityManager.find(User.class, id);
+// JPA용 구현체
+public class JpaTransactionManager implements PlatformTransactionManager {
+    // JPA 방식으로 구현
+    private EntityManagerFactory emf;  // JPA 설정 정보
+    
+    public JpaTransactionManager(EntityManagerFactory emf) {
+        this.emf = emf;
     }
     
     @Override
-    public void save(User user) {
-        entityManager.persist(user);
+    public TransactionStatus getTransaction(TransactionDefinition definition) {
+        // EntityManager 생성
+        // JPA 트랜잭션 시작
+        // 내부적으로 JDBC Connection도 가져옴(MyBatis와 공유 가능)
+        // TransactionStatus 객체 생성해서 반환
+    }
+    
+    @Override
+    public void commit(TransactionStatus status) {
+        // JPA 트랜잭션 커밋
+        // JDBC Connection도 커밋(MyBatis 작업도 함께 커밋)
+    }
+    
+    @Override
+    public void rollback(TransactionStatus status) {
+        // JPA 트랜잭션 롤백
+        // JDBC Connection도 롤백(MyBatis 작업도 함께 롤백)
     }
 }
 
+// MyBatis용 구현체
+public class DataSourceTransactionManager implements PlatformTransactionManager {
+    // JDBC 방식으로 구현
+    private DataSource dataSource;  // DB 연결 정보
+    
+    public DataSourceTransactionManager(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    @Override
+    public TransactionStatus getTransaction(TransactionDefinition definition) {
+        // DataSource에서 Connection 가져오기
+        // 자동 커밋 끄기 (트랜잭션 시작)
+        // TransactionStatus 객체 생성해서 반환
+    }
+
+    @Override
+    public void commit(TransactionStatus status) {
+        // Connection에서 커밋
+    }
+    
+    @Override
+    public void rollback(TransactionStatus status) {
+        // Connection에서 롤백
+    }
+}
+
+// Spring @Transactional 처리
+public class TransactionInterceptor {
+    
+    // 부모 타입(PlatformTransactionManager)으로 선언(JPA <-> MyBatis 교체 가능)
+    private PlatformTransactionManager txManager;
+    
+    // @Transactional이 붙은 메서드를 실행할 때 자동 호출
+    public Object invoke(MethodInvocation invocation) throws Throwable {
+        TransactionStatus status = null;
+
+        // 어떤 구현체든 부모에 정의된 메소드 호출 가능
+        try {
+            // 트랜잭션 시작
+            status = txManager.getTransaction(new DefaultTransactionDefinition());
+            
+            // 실제 메서드 실행
+            Object result = invocation.proceed();
+            
+            // 커밋
+            txManager.commit(status);
+            
+            return result;
+        } catch (Exception e) {
+            // 롤백
+            if (status != null) {
+                txManager.rollback(status);
+            }
+            throw e;
+        }
+    }
+}
+
+@Service
+@requiredargsconstructor
+public class AService {
+    private final ARepository aRepository;
+
+    // JPA와 MyBatis가 서로 바뀌어도 동일하게 동작
+    @Transactional
+    public void a() {
+        // 
+    }
+}
 
 ```
 
