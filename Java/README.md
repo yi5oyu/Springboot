@@ -13,37 +13,19 @@
 
 `데이터를 객체(object) 단위로 묶어 코드를 구성하는 프로그래밍 방법론`
 
-### OOP의 4가지 특성
-
+`OOP의 4가지 특성`    
 ``
 
-### OOP의 5대 원칙(SOLID)
+`OOP의 5대 원칙(SOLID)`
 
 `객체지향 프로그래밍을 할 때 유지보수하기 쉽고 유연하고 확장이 쉬운 소프트웨어를 만들기 위한 5가지 규칙`
 
-```
+```java
 // 단일 책임 원칙(Single Responsibility Principle): 하나의 클래스는 하나의 책임(역할)만 가져야 함(클래스를 수정해야 할 이유는 단 하나)
 Controller: 요청 받는 일만 함
 Service: 비즈니스 로직만 처리함
 Repository: DB랑 대화하는 일만 함
 ```
-
-#### 2. 
-
-``
-
-#### 3. 리스코프 치환 원칙(Liskov Substitution Principle)
-
-``
-
-#### 4. 인터페이스 분리 원칙(Interface Segregation Principle)
-
-`범용적인 인터페이스 하나보다 구체적인 인터페이스 여러 개가 나음`
-
-#### 5. 의존관계 역전 원칙(Dependency Inversion Principle)
-
-`구체적인 것(구현체)에 의존하지 말고 추상적인 것(인터페이스)에 의존`
-
 
 ```java
 // 추상화(Abstraction): 복잡한 내부 구현을 숨기고 필요한 기능만 외부에 제공
@@ -126,6 +108,78 @@ public class DBConfig {
     }
 }
 -->
+
+`Spring Data JPA`
+
+```java
+/*
+    인터페이스 분리 원칙(Interface Segregation Principle): 범용적인 인터페이스 하나보다 구체적인 인터페이스 여러 개가 나음`
+     - 선택적 기능 확장, 역할 분리, 유지보수 좋음
+      > 기본 CRUD만 필요한 Repository는 JpaRepository만 상속
+      > 복잡한 쿼리가 필요한 경우에만 Custom 인터페이스 추가
+*/
+
+// UserRepositoryCustom: 프로젝트에 필요한 복잡한 쿼리 전용 인터페이스 분리
+@Repository
+public interface UserRepository extends JpaRepository<Users, Long>, UserRepositoryCustom {
+    // 간단한 쿼리 메서드
+    Optional<Users> findByGithubId(String githubId);
+}
+
+// QueryDSL 기반의 복잡한 쿼리만 정의
+public interface UserRepositoryCustom {
+    Optional<Long> findIdByGithubId(String githubId);
+    Optional<String> findPrincipalNameByGithubId(String githubId);
+}
+
+// 구현체
+@Repository
+@RequiredArgsConstructor
+public class UserRepositoryCustomImpl implements UserRepositoryCustom {
+    private final JPAQueryFactory queryFactory;
+    
+    private final QUsers qUsers = QUsers.users;
+    private final QNotes qNotes = QNotes.notes;
+    private final QChats qChats = QChats.chats;
+    
+    @Override
+    @Transactional
+    public void deleteAllContentByUserId(Long userId) {
+        queryFactory.delete(qChats)
+            .where(qChats.conversations.notes.users.id.eq(userId))
+            .execute();
+
+        // ...
+    }
+
+    // ...
+}
+
+/*
+    의존관계 역전 원칙(Dependency Inversion Principle): 구체적인 것(구현체)에 의존하지 말고 추상적인 것(인터페이스)에 의존
+     - 구현체가 변경되어도 비즈니스 로직은 영향받지 않음
+*/
+
+@Service
+@RequiredArgsConstructor
+public class UserService {
+    
+    // 구현체(UserRepositoryImpl)가 아닌 인터페이스(UserRepository)에 의존
+    private final UserRepository userRepository;
+    
+    @Transactional
+    public void deleteUser(String githubId) {
+        // UserRepository의 구현 방식(JPA, MyBatis 등)을 몰라도 됨
+        Users user = userRepository.findByGithubId(githubId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+        
+        // Custom 메서드도 인터페이스를 통해 호출
+        userRepository.deleteAllContentByUserId(user.getId());
+    }
+}
+```
+
+`@Transational`
 
 ```java
 /*
@@ -231,7 +285,7 @@ public class TransactionInterceptor {
 }
 
 @Service
-@requiredargsconstructor
+@RequiredArgsConstructor
 public class AService {
     private final ARepository aRepository;
 
