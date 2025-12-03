@@ -8,6 +8,23 @@
 
 </div>
 
+## JVM(Java Virtual Machine)
+
+`자바 프로그램이 운영체제(OS)에 관계없이 실행될 수 있도록 도와주는 가상의 컴퓨터`
+
+`JVM 구조`
+
+`JVM 동작 과정 및 코드 변환 흐름`
+
+```
+.java 파일 작성 → javac 컴파일 → .class 파일 → JVM 실행 → 기계어
+
+1. 소스 코드 작성: 자바 언어로 소스 코드를 작성
+2. 컴파일: javac 컴파일러가 이 코드를 바이트코드로 변환해 class 파일 생성
+3. 로딩: 프로그램이 실행되면 JVM의 클래스 로더가 필요한 .class 파일들을 찾아서 JVM 메모리에 올림
+4. 
+
+```
 
 ## 객체 지향 프로그래밍(Object-Oriented Programming)
 
