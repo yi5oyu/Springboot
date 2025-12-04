@@ -408,3 +408,81 @@ System.out.println(aService.getClass().getName());
 
 ```
 -->
+
+## 디자인 패턴
+
+### 생성 패턴
+
+`객체 생성의 복잡성을 숨기고 유연성을 높이는 패턴`
+
+#### 싱글톤 패턴(Singleton Pattern)
+
+`애플리케이션 전체에서 단 하나의 인스턴스만 생성하여 재사용하는 패턴`
+
+```java
+// 스프링 컨테이너(IoC Container)는 기본적으로 빈(Bean)을 싱글톤으로 관리
+
+@Component // 빈등록
+public class AService {
+    public void a() { ... }
+}
+
+/*
+    스캔: @Component가 붙은 AService 클래스를 발견
+    생성: new AService()를 딱 1번 실행
+    등록: 생성된 객체의 참조값(주소)을 singletonObjects라는 Map(ConcurrentHashMap) 컨테이너에 저장(Map<"aService", AService객체(0x100)>)
+    주입: AService가 필요한 곳이 있으면 새로 만들지 않고 Map에 있는 객체(0x100)를 꺼내서 줌
+*/
+```
+
+#### 팩토리 패턴(Factory Pattern)
+
+`객체 생성의 구체적인 로직을 숨기고 캡슐화된 메서드를 통해 객체를 생성하는 패턴`
+
+#### 빌더 패턴(Builder Pattern)
+
+`복잡한 객체의 생성 과정을 단계별로 분리해 가독성 높고 유연하게 객체를 생성하는 패턴`
+
+```java
+// 빌더 패턴을 사용한 객체 생성 캡슐화
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class UserDto {
+
+    private Long id;
+    private String email;
+    private String name;
+    private String password;
+
+    // 팩토리 메서드(DTO -> Entity)
+    public User toEntity(String password) {
+        return User.builder()
+                .email(this.email)
+                .name(this.name)
+                .password(password)
+                .build();
+    }
+
+    // 정적 팩토리 메서드(Entity -> DTO)
+    public static UserDto from(User user) {
+        return UserDto.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .name(user.getName())
+                .build();
+    }
+}
+```
+
+> from: 단일 파라미터, of: 여러 파라미터
+
+### 구조 패턴(Structural Patterns)
+
+#### 프록시 패턴(Proxy Pattern)
+
+#### 어댑터 패턴(Adapter Pattern)
+
+#### 퍼사드 패턴(Facade Pattern)
