@@ -483,6 +483,78 @@ public class UserDto {
 
 #### 프록시 패턴(Proxy Pattern)
 
+`실제 객체를 대신하는 대리자를 두어 접근을 제어하거나 부가 기능을 추가하는 패턴`
+
+```java
+@Service
+public class AService {
+    @Async
+    public CompletableFuture<String> a(String a, String b) {
+        // 비즈니스 로직(외부 API 등)
+        return CompletableFuture.completedFuture(a + " " + b);
+    }
+}
+
+// 프록시
+public class AService$$EnhancerBySpringCGLIB extends AService {
+
+    private final AService target;
+    private final Executor taskExecutor;
+
+    // 생성자 생성
+
+    @Override
+    public CompletableFuture<String> a(String a, String b) {
+    
+        // 작업을 스레드 풀(Worker Thread)에 위임
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                // 실제 로직은 별도의 스레드(Worker Thread)에서 실행
+                return target.a(a, b).join(); 
+            } catch (Exception e) {
+                throw new CompletionException(e);
+            }
+        }, taskExecutor);
+    }
+```
+
 #### 어댑터 패턴(Adapter Pattern)
+
+`호환되지 않는 인터페이스를 가진 객체들이 함께 동작할 수 있도록 변환해주는 패턴`
+
+```java
+// 
+
+public class DispatcherServlet extends FrameworkServlet {
+    
+    private List<HandlerAdapter> handlerAdapters;
+    
+    protected void doDispatch(HttpServletRequest request, 
+                             HttpServletResponse response) {
+        
+        // 1. 요청을 처리할 핸들러 찾기
+        Object handler = getHandler(request);
+        
+        // 2. 핸들러를 실행할 수 있는 어댑터 찾기
+        HandlerAdapter adapter = getHandlerAdapter(handler);
+        
+        // 3. 어댑터를 통해 핸들러 실행
+        ModelAndView result = adapter.handle(request, response, handler);
+        
+        // 4. 뷰 렌더링
+        render(result, request, response);
+    }
+    
+    // 핸들러를 처리할 수 있는 어댑터 찾기
+    protected HandlerAdapter getHandlerAdapter(Object handler) {
+        for (HandlerAdapter adapter : this.handlerAdapters) {
+            if (adapter.supports(handler)) {
+                return adapter;
+            }
+        }
+        throw new ServletException("No adapter for handler");
+    }
+}
+```
 
 #### 퍼사드 패턴(Facade Pattern)
