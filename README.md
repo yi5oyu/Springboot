@@ -171,38 +171,59 @@ Spring Boot를 이용한 어플리케이션 개발에 필요한 개념 정리, �
     객체 간의 결합도를 낮춰 코드의 재사용성을 높이고 유지보수를 쉽게 만듬    
     스프링 컨테이너가 자동으로 의존성을 주입/타입을 기반으로 의존성을 찾아 주입
    
-**생성자 주입**  
+`생성자 주입`
+
+```java
+@Service
+public class UserService {
+    private final UserRepository userRepository;
+    private final ItemRepository itemRepository;
+    
+    public UserService(UserRepository userRepository, ItemRepository itemRepository) {
+        this.userRepository = userRepository;
+        this.itemRepository = itemRepository;
+    }
+}
+```
 
 `@Autowired`
 
 ```java
-private final UserService userService;
-    
-@Autowired
-public UserController(UserService userService) {
-    this.userService = userService;
-}
+// Setter 주입
+private UserService userService;
 
-// 단일 생성자일 경우 @Autowired 생략 가능
-private final UserService userService;
-    
-public UserController(UserService userService) {
+@Autowired
+public void setUserService(UserService userService) {
     this.userService = userService;
 }
 
 // 필드 주입
 @Autowired
 private UserService userService;
+
+// 메서드 주입
+private UserService userService;
+
+@Autowired
+public void init(UserService userService) {
+    this.userService = userService;
+}
 ```
 
 `Lombok`
 
 ```java
 // final, @NonNull로 선언된 필드 생성자 자동 생성
+@Controller
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
 }
+/* Lombok이 생성자 자동 생성
+public UserController(UserService userService) {
+    this.userService = userService;
+}
+*/
 ```
 
 6. **설정 관리**    
