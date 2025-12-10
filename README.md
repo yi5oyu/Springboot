@@ -2134,57 +2134,19 @@ compileOnly 'org.springframework.boot:spring-boot-starter-mustache'
 
 ## 🏷️ [@애노테이션(Annotation)](https://github.com/yi5oyu/Study/tree/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98)
 
-    Java에서 코드에 메타데이터를 추가하는 방법
-    컴파일러나 런타임 환경에서 특정 행동을 수행하도록 정보를 제공하는 역할
+    Java 소스 코드에 추가하는 메타데이터(Metadata)
+    컴파일러나 런타임(스프링 컨테이너 등) 환경에서 특정 행동을 수행하도록 정보를 제공하는 역할
 
 
-#### 스테레오 타입 애노테이션
-    사용자 정의 애노테이션
-    주로 애플리케이션의 계층 구조, 코드의 가독성을 높이는 데 사용
-
-``
-
-`@RestController`
-
-    
-<details>
-<summary>Controller + ResponseBody</summary>
-
-`@Controller`
-`@ResponseBody`
-
-</details>
-
-[RestController](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40RestController)
+`표준 애노테이션`
 
 
-<hr>
-
-`@Autowired`
-
-    빈(Bean) 객체를 자동으로 주입
-
-    구성요소
-    // 애노테이션이 적용될 수 있는 위치를 지정(생성자, 메서드, 매개변수, 필드, 애노테이션에 사용할 수 있음)
-    @Target({ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD, ElementType.ANNOTATION_TYPE})
-    // 애노테이션의 지속 기간을 지정(런타임 시점까지 유지)
-    @Retention(RetentionPolicy.RUNTIME)
-    // 애노테이션을 사용하는 요소가 Javadoc 같은 문서화 도구에 의해 문서화되도록 함(자동으로 문서화에 포함되어 해당 의존성 주입이 코드 문서에 잘 표시됨)
-    @Documented
-    public @interface Autowired {
-        // required=true: 스프링은 반드시 해당 빈을 주입해야 함(빈이 존재하지 않으면 NoSuchBeanDefinitionException 발생)
-        // required=false:  주입할 수 있는 빈이 없더라도 오류가 발생하지 않음(null 상태로 유지)
-        boolean required() default true;
-    }
-
-[> 애노테이션](https://github.com/yi5oyu/Study/tree/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98)
-
-#### 표준 애노테이션
     Java에서 기본적으로 제공하는 애노테이션
 
 `@Override`: 
 
-#### 메타 애노테이션
+`메타 애노테이션`
+
     다른 애노테이션을 정의할 때 사용되는 애노테이션
 
 `@Target`: 애노테이션 적용될 수 있는 대상 지정      
@@ -2193,4 +2155,196 @@ compileOnly 'org.springframework.boot:spring-boot-starter-mustache'
 `@Inherited`: 애노테이션 타입이 자동으로 상속되도록 지정     
 `@Repeatable`: 동일한 선언에 애노테이션을 두 번 이상 적용할 수 있음    
 
+
+### 스테레오타입 애노테이션(Stereotype Annotations)
+
+    스프링 컨테이너가 컴포넌트 스캔(Component Scan)을 할 때 검색 대상이 되는 애노테이션
+    모든 스테레오타입 애노테이션은 내부적으로 @Component를 가지고 있음
+
+#### [@Component](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Component)
+
+```
+최상위 기본 애노테이션
+특화된 역할(Controller, Service, Repository)에 해당하지 않는 일반적인 유틸리티 클래스 등을 빈으로 등록할 때 사용
+```
+
+| 애노테이션 | 계층(Layer) | 핵심 역할 및 특징 |
+| :--- | :--- | :--- |
+| **[@Controller](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Controller)** | Presentation | 웹 요청(URL)을 받아 처리 |
+| **[@Service](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Service)** | Business | 핵심 비즈니스 로직(명시적 역할) |
+| **[@Repository](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Repository)** | Persistence | DB 접근 **DB 관련 예외를 스프링의 데이터 접근 예외로 자동 변환** |
+| **[@Configuration](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Configuration)** | Config | 설정 정보 클래스(@Bean 등록 시 싱글톤을 보장하는 CGLIB 프록시 생성) |
+
+
+### 의존성 주입 애노테이션(Dependency Injection Annotations)
+
+```
+스프링 컨테이너에 등록된 빈을 필요한 클래스에 주입하는 역할
+```
+
+#### [@Autowired](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Autowired)
+
+```
+타입(Type)에 맞춰서 빈을 찾아 자동으로 주입
+생성자가 하나만 있을 경우 생략 가능
+```
+
+#### 빈 충돌 해결 애노테이션
+
+[@Primary](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Primary)
+
+```
+같은 타입의 빈이 여러 개 있을 때 우선순위를 지정
+@Autowired와 함께 자동 사용됨(디폴트 값)
+클래스/@Bean 메서드에 적용 가능
+```
+
+[@Qualifier](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Qualifier)
+
+```
+같은 타입의 빈이 여러 개 있을 때 명시적으로 특정 빈을 지정
+@Autowired와 함께 사용, 빈 이름으로 주입할 빈을 명확히 지정(@Primary 보다 높은 우선순위)
+필드, 메서드, 파라미터, 클래스, 애노테이션에 적용 가능
+```
+
+#### 값 주입 애노테이션
+
+[@Value](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Value)
+
+```
+설정 파일의 값을 가져와 필드에 주입
+```
+
+### 웹 요청 처리(Web Request Processing Annotations)
+
+```
+스프링 MVC에서 클라이언트의 HTTP 요청(URL, 메서드)을 컨트롤러의 메서드와 매핑하고 전송된 데이터를 바인딩
+```
+
+[RestController](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40RestController)
+
+```
+@Controller + @ResponseBody
+RESTful API 요청 처리, View(HTML) 반환이 아닌 데이터(JSON, XML 등)를 직접 반환할 때 사용
+```
+
+[@RequestMapping("/url")](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40RequestMapping)
+
+```
+특정 URL 패턴과 HTTP 메서드에 대한 요청을 메서드나 클래스에 매핑
+클래스 레벨에 선언 시 공통 URL 경로를 설정
+```
+
+```java
+// GET 요청
+@RequestMapping(path = "/users", method = RequestMethod.GET)
+public List getUsers() { }
+
+// POST 요청
+@RequestMapping(path = "/users", method = RequestMethod.POST)
+public User createUser(@RequestBody UserDto dto) { }
+
+// 여러 메서드 허용
+@RequestMapping(path = "/users", method = {RequestMethod.GET, RequestMethod.HEAD})
+public List getUsers() { }
+
+// 메서드 지정 안 하면 모든 HTTP 메서드 허용
+@RequestMapping("/users")  // GET, POST, PUT, DELETE 등 모두 가능
+public List handleUsers() { }
+```
+
+**HTTP 메서드별 애노테이션**
+
+| 애노테이션 | HTTP Method | 역할 및 용도 |
+| :--- | :---: | :--- |
+| **[@GetMapping](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40GetMapping)** | GET @RequestMapping(method = RequestMethod.GET) | **데이터 조회**(Read) |
+| **[@PostMapping](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40PostMapping)** | POST @RequestMapping(method = RequestMethod.POST) | **데이터 등록/생성**(Create) |
+| **[@PutMapping](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40PutMapping)** | PUT @RequestMapping(method = RequestMethod.PUT) | **데이터 전체 수정**(Update) |
+| **[@PatchMapping](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40PatchMapping)** | PATCH @RequestMapping(method = RequestMethod.PATCH) | **데이터 일부 수정**(Partial Update) |
+| **[@DeleteMapping](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40DeleteMapping)** | DELETE @RequestMapping(method = RequestMethod.DELETE) | **데이터 삭제**(Delete) |
+
+#### 파라미터 매핑 애노테이션
+
+[@RequestBody](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40RequestBody)
+
+```
+HTTP 요청 본문(Body)에 담긴 데이터(JSON, XML 등)를 자바 객체로 변환(HttpMessageConverter가 동작하여 JSON을 객체로 매핑)
+주로 REST API에서 POST/PUT 요청의 데이터를 받을 때 사용
+```
+
+[@RequestParam](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40RequestParam)
+
+```
+URL 쿼리 파라미터(?key=value) 또는 HTML Form 데이터를 파라미터로 바인딩
+/search?keyword=abc  ->  @RequestParam("abc") String word
+```
+
+[@PathVariable](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40PathVariable)
+
+```
+URL 경로(Path) 자체에 포함된 변수 값을 파라미터로 바인딩
+/users/{id}  ->  @PathVariable("id") Long userId
+```
+
+[@RequestHeader](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40RequestHeader)
+
+```
+HTTP 요청 헤더(Header)의 값을 가져올 때 사용
+```
+<!--
+
+### 기능 확장 & 데이터 애노테이션(Functional Extension & Data Annotations)
+
+ ```
+프록시(AOP) 패턴을 이용해 부가 기능을 적용하거나, 데이터베이스 테이블과 자바 객체를 매핑(ORM)하는 역할
+```
+
+#### 트랜잭션 관리(Transaction Management)
+
+[@Transactional](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Transactional)
+
+```
+해당 메서드나 클래스의 모든 작업을 하나의 트랜잭션으로 묶음
+작업 도중 예외(RuntimeException) 발생 시 자동 롤백(Rollback), 성공 시 커밋(Commit)
+```
+
+*   **주요 옵션:**
+    *   `readOnly = true`: 읽기 전용 트랜잭션 (조회 성능 최적화 시 사용)
+    *   `rollbackFor = Exception.class`: 체크 예외를 포함한 모든 예외에 대해 롤백 처리
+    *   `propagation`: 트랜잭션 전파 수준 설정 (기본값: REQUIRED)
+
+<br>
+
+#### JPA 객체 매핑(JPA Object Mapping)
+
+```
+JPA(Hibernate) 표준 명세를 사용하여 DB 테이블과 자바 클래스를 1:1로 연결
+```
+
+**엔티티 정의 및 기본 키**
+
+| 애노테이션 | 설명 |
+| :--- | :--- |
+| **[@Entity](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Entity)** | 이 클래스가 **DB 테이블과 매핑되는 엔티티**임을 명시 (필수) |
+| **[@Table](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Table)** | 엔티티와 매핑할 **테이블 이름을 지정** (생략 시 클래스 이름 사용)<br>예: `@Table(name = "users")` |
+| **[@Id](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Id)** | 해당 필드를 테이블의 **기본 키(Primary Key)**로 지정 |
+| **[@GeneratedValue](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40GeneratedValue)** | 기본 키의 **생성 전략(Auto Increment 등)** 설정<br>옵션: `IDENTITY`(DB 위임/MySQL), `SEQUENCE`(오라클), `AUTO` 등 |
+
+**필드 및 컬럼 매핑**
+
+| 애노테이션 | 설명 |
+| :--- | :--- |
+| **[@Column](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Column)** | 필드와 매핑할 **테이블 컬럼의 세부 사항** 설정<br>옵션: `name`(컬럼명), `nullable`(null 허용여부), `length`(길이) 등 |
+| **[@Enumerated](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Enumerated)** | 자바의 **Enum 타입**을 DB에 저장할 때 사용<br>**주의:** `@Enumerated(EnumType.STRING)` 사용 권장 (순서 변경 방지) |
+| **[@Transient](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Transient)** | DB 컬럼과 매핑하지 않고 **객체 내부에서만 사용할 필드**에 지정 |
+
+**연관관계 매핑 (참고용)**
+
+| 애노테이션 | 설명 |
+| :--- | :--- |
+| **[@ManyToOne](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40ManyToOne)** | **다대일(N:1)** 관계 매핑 (예: 게시글 -> 작성자) |
+| **[@OneToMany](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40OneToMany)** | **일대다(1:N)** 관계 매핑 (예: 작성자 -> 게시글 리스트) |
+| **[@JoinColumn](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40JoinColumn)** | 외래 키(Foreign Key)를 가질 컬럼 이름 지정 |
+
+--?
 
