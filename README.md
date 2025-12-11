@@ -649,7 +649,9 @@ spring:
 ### 🛢️ DB
     데이터 접근 기술
     DB에 보관하고 관리하는 리포지토리
-    
+	
+https://github.com/yi5oyu/DB/edit/main/%EC%A0%91%EA%B7%BC%EA%B8%B0%EC%88%A0.md
+
 `JDBC(Java Database Connectivity)`
 
     DB에 직접 연결, SQL 쿼리 실행하는 기본적인 방법
