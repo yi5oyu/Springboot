@@ -99,20 +99,20 @@ JRE = JVM + 자바 표준 라이브러리(Java API)
 
 `OOP의 4가지 특성`    
 
-캡슐화(Encapsulation): 데이터와 그 데이터를 처리하는 메서드를 하나로 묶고 외부에서 함부로 접근하지 못하도록 은닉(private)    
-상속(Inheritance): 부모 클래스의 속성과 기능을 자식 클래스가 물려받아 재사용하고 확장      
-다형성(Polymorphism): 하나의 객체나 메서드가 여러 가지 형태(역할)를 가질 수 있는 성질    
-추상화(Abstraction): 복잡한 시스템으로부터 핵심적인 개념이나 기능만을 추출    
+`캡슐화(Encapsulation)`: 데이터와 그 데이터를 처리하는 메서드를 하나로 묶고 외부에서 함부로 접근하지 못하도록 은닉(private)    
+`상속(Inheritance)`: 부모 클래스의 속성과 기능을 자식 클래스가 물려받아 재사용하고 확장      
+`다형성(Polymorphism)`: 하나의 객체나 메서드가 여러 가지 형태(역할)를 가질 수 있는 성질    
+`추상화(Abstraction)`: 복잡한 시스템으로부터 핵심적인 개념이나 기능만을 추출    
 
 `OOP의 5대 원칙(SOLID)`
 
 `객체지향 프로그래밍을 할 때 유지보수하기 쉽고 유연하고 확장이 쉬운 소프트웨어를 만들기 위한 5가지 규칙`
 
-단일 책임 원칙(SRP): 하나의 클래스는 하나의 책임만 가져야 하며 클래스를 변경해야 하는 이유는 단 하나여야 함
-개방-폐쇄 원칙(OCP): 확장에는 열려 있어야 하고(Open), 변경에는 닫혀 있어야 함(Closed)
-리스코프 치환 원칙(LSP): 자식 클래스는 언제나 부모 클래스를 대체할 수 있어야 함
-인터페이스 분리 원칙(ISP): 클라이언트는 자신이 사용하지 않는 메서드에 의존하면 안 됨
-의존관계 역전 원칙(DIP): 구체적인 것(구현 클래스)에 의존하지 말고 추상적인 것(인터페이스)에 의존해야 함
+`단일 책임 원칙(SRP)`: 하나의 클래스는 하나의 책임만 가져야 하며 클래스를 변경해야 하는 이유는 단 하나여야 함  
+`개방-폐쇄 원칙(OCP)`: 확장에는 열려 있어야 하고(Open), 변경에는 닫혀 있어야 함(Closed)  
+`리스코프 치환 원칙(LSP)`: 자식 클래스는 언제나 부모 클래스를 대체할 수 있어야 함  
+`인터페이스 분리 원칙(ISP)`: 클라이언트는 자신이 사용하지 않는 메서드에 의존하면 안 됨  
+`의존관계 역전 원칙(DIP)`: 구체적인 것(구현 클래스)에 의존하지 말고 추상적인 것(인터페이스)에 의존해야 함  
 
 ```java
 // 단일 책임 원칙(Single Responsibility Principle): 하나의 클래스는 하나의 책임(역할)만 가져야 함(클래스를 수정해야 할 이유는 단 하나)
@@ -532,16 +532,16 @@ public class DispatcherServlet extends FrameworkServlet {
     protected void doDispatch(HttpServletRequest request, 
                              HttpServletResponse response) {
         
-        // 1. 요청을 처리할 핸들러 찾기
+        // 요청 처리할 핸들러 찾기
         Object handler = getHandler(request);
         
-        // 2. 핸들러를 실행할 수 있는 어댑터 찾기
+        // 핸들러 실행할 수 있는 어댑터 찾기
         HandlerAdapter adapter = getHandlerAdapter(handler);
         
-        // 3. 어댑터를 통해 핸들러 실행
+        // 어댑터 통해 핸들러 실행
         ModelAndView result = adapter.handle(request, response, handler);
         
-        // 4. 뷰 렌더링
+        // 뷰 렌더링
         render(result, request, response);
     }
     
@@ -558,3 +558,56 @@ public class DispatcherServlet extends FrameworkServlet {
 ```
 
 #### 퍼사드 패턴(Facade Pattern)
+
+`복잡한 하위 시스템들의 인터페이스를 통합해 하나의 인터페이스를 제공하는 패턴`
+
+```java
+// 순환참조, 트랜잭션 문제 해결
+
+// Controller에서 여러 서비스 사용
+@PostMapping("/cancel")
+public void cancel(@RequestBody CancelDto dto) {
+    // 트랜잭션 문제 발생: 상품 취소시 재고는 원래대로 복구했는데 도중에 에러가 발생해 포인트는 복구 안될 수 있음
+    inventoryService.restoreStock(dto);
+    pointService.refundPoint(dto);
+}
+
+// 순환참조 문제: 두 서비스간 서로를 필요한 경우
+@Service
+@RequiredArgsConstructor
+public class InventoryService {
+    private final InventoryRepository inventoryRepository;
+
+    public void restoreStock(Long productId) {
+        // 로직
+    }
+}
+
+@Service
+@RequiredArgsConstructor
+public class PointService {
+    private final PointRepository pointRepository;
+
+    public void refundPoint(Long userId, int amount) {
+        // 로직 
+    }
+}
+
+// Facade 패턴 사용
+
+// @Component, @Service 사용
+@Component
+@RequiredArgsConstructor
+public class OrderCancelFacade {
+    
+    private final InventoryService inventoryService;
+    private final PointService pointService;
+
+    // 하나의 인터페이스로 묶어 순환참조와 트랜잭션 문제 해결
+    @Transactional 
+    public void cancelOrder(Long productId, Long userId, int amount) {
+        inventoryService.restoreStock(productId);
+        pointService.refundPoint(userId, amount);
+    }
+}
+```
