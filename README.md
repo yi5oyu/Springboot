@@ -14,7 +14,7 @@ Spring Boot를 이용한 어플리케이션 개발에 필요한 개념 정리, �
 
 ```text
 Java/
-├── README.md                       
+├── Java.md                       
 ├── 예외.md                        
 └── spring/
     ├── Servlet.md                  
