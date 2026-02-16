@@ -1028,7 +1028,6 @@ redis-cli.exe 실행
     
 ##### [build.gradle](https://github.com/yi5oyu/Study/blob/main/SpringBoot/View%20Template/JSP/build.gradle)
 
-    dependencies {
     	implementation 'org.springframework.boot:spring-boot-starter-web'
     
     	// JSP를 컴파일하여 실행 가능한 Java 서블릿 코드로 변환/서버에서 동적으로 HTML을 생성
