@@ -1,6 +1,34 @@
-# 🌟 개요
-    Spring Boot를 이용한 어플리케이션 개발에 필요한 개념 정리, 테스팅, 연습을 목적으로한 레포지토리
-    
+<div align="center">
+
+# **Spring Boot**
+
+Spring Boot를 이용한 어플리케이션 개발에 필요한 개념 정리, 테스팅, 연습을 목적으로한 레포지토리
+
+| [Spring & Spring boot](#-spring--spring-boot) • [Framework & Library](#-framework--library) • [보안](#%EF%B8%8F-보안) • [AI](#-ai) • [OPEN API](#-open-api) • [애노테이션](#%EF%B8%8F-애노테이션annotation)  |
+
+</div>
+
+---
+
+## [Java](https://github.com/yi5oyu/Springboot/tree/master/Java)
+
+```text
+Java/
+├── Java.md                       
+├── 예외.md
+├── 프로세스_스레드.md                  
+└── spring/
+    ├── Servlet.md                  
+    ├── Spring_MVC.md               
+    ├── Filter_Interceptor_AOP.md  
+    ├── 비동기_이벤트.md
+	├── 인증_인가.md
+ 	└── 읽기_쓰기_상능.md
+```
+
+---
+
+<!-- 
 #### 개발 환경
 <img src="https://img.shields.io/badge/Spring Boot 3-6DB33F?style=flat-square&logo=Spring Boot&logoColor=white"/> <img src="https://img.shields.io/badge/java 17-%23ED8B00.svg?style=flat-square&logo=openjdk&logoColor=white"/> 
 <img src="https://img.shields.io/badge/Gradle 8.8-02303A?style=flat-square&logo=gradle&logoColor=white"/>
@@ -22,6 +50,7 @@
 
     보안 Spring Security, JWT, OAuth 2.0
     NoSQL Redis
+-->
 
 <details>
 <summary>🛠️ Settings</summary>
@@ -129,19 +158,7 @@
     
 </details>
 
-## 📋 목차
-
-- [Spring & Spring boot](#-spring--spring-boot)
-- [Framework & Library](#-framework--library)
-- [보안](#%EF%B8%8F-보안)
-- [AI](#-ai)
-- [OPEN API](#-open-api)
-- [etc...](#%EF%B8%8F-etc)
-
-<hr>
-   
 ## 🎯 Spring & Spring boot      
-    
       
 ### 📖 관심사 분리(Separation of Concerns, SoC)
      프로그램을 각기 다른 기능적 측면으로 분리, 각 부분이 특정 역할만 수행하도록 하는 설계 원칙 
@@ -170,27 +187,62 @@
  
 5. **의존성 주입(Dependency Injection, DI)**      
     객체 간의 결합도를 낮춰 코드의 재사용성을 높이고 유지보수를 쉽게 만듬    
-    스프링 컨테이너가 자동으로 의존성을 주입/타입을 기반으로 의존성을 찾아 주입    
-    `@Autowired`: 생성자 주입  
-
+    스프링 컨테이너가 자동으로 의존성을 주입/타입을 기반으로 의존성을 찾아 주입
+   
 `생성자 주입`
+
+```java
+@Service
+public class UserService {
+    private final UserRepository userRepository;
+    private final ItemRepository itemRepository;
     
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserService(UserRepository userRepository, ItemRepository itemRepository) {
+        this.userRepository = userRepository;
+        this.itemRepository = itemRepository;
     }
-    
-`필드 주입`
+}
+```
 
-    @Autowired
-    private UserService userService;
+`@Autowired`
 
-`Setter 주입`
+```java
+// Setter 주입
+private UserService userService;
 
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
+@Autowired
+public void setUserService(UserService userService) {
+    this.userService = userService;
+}
+
+// 필드 주입
+@Autowired
+private UserService userService;
+
+// 메서드 주입
+private UserService userService;
+
+@Autowired
+public void init(UserService userService) {
+    this.userService = userService;
+}
+```
+
+`Lombok`
+
+```java
+// final, @NonNull로 선언된 필드 생성자 자동 생성
+@Controller
+@RequiredArgsConstructor
+public class UserController {
+    private final UserService userService;
+}
+/* Lombok이 생성자 자동 생성
+public UserController(UserService userService) {
+    this.userService = userService;
+}
+*/
+```
 
 6. **설정 관리**    
     설정을 외부화하여 다양한 환경에서 동일한 애플리케이션 코드를 사용할 수 있게 함    
@@ -200,7 +252,110 @@
     Java 애플리케이션 개발을 위한 포괄적인 인프라 제공
     외부 애플리케이션 서버에서 실행(Apache Tomcat, Jetty 등...)
     war 파일 생성
+
+#### XML 설정
+
+`새로운 서비스 추가마다 반복되는 설정`
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop">
+
+    <!-- 데이터소스 설정 -->
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/testdb"/>
+        <property name="username" value="root"/>
+        <property name="password" value="password"/>
+        <property name="initialSize" value="5"/>
+        <property name="maxTotal" value="20"/>
+    </bean>
+
+    <!-- JPA EntityManager 설정 -->
+    <bean id="entityManagerFactory" 
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="com.example.entity"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+        </property>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- 트랜잭션 매니저 -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <!-- 서비스 빈들 -->
+    <bean id="userService" class="com.example.service.UserService">
+        <property name="userRepository" ref="userRepository"/>
+	<!-- 의존성이 추가될 때마다 XML 수정 필요 -->
+    </bean>
     
+    <bean id="userRepository" class="com.example.repository.UserRepositoryImpl">
+        <property name="entityManager" ref="entityManagerFactory"/>
+    </bean>
+
+    <!-- AOP 설정 -->
+    <aop:config>
+        <aop:aspect id="loggingAspect" ref="loggingService">
+            <aop:pointcut id="serviceLayer" 
+                         expression="execution(* com.example.service.*.*(..))"/>
+            <aop:before pointcut-ref="serviceLayer" method="logBefore"/>
+        </aop:aspect>
+    </aop:config>
+
+    <!-- 컴포넌트 스캔 -->
+    <context:component-scan base-package="com.example"/>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+</beans>
+```
+
+#### 어노테이션 설정
+
+`XML <bean> 태그 대신 어노테이션 사용`
+
+```java
+@Service
+public class UserService {
+    // XML <property> 태그 대신 @Autowired
+    @Autowired
+    private UserRepository userRepository;
+    
+    @Autowired
+    private EmailService emailService;
+    
+    public User createUser(User user) {
+        User savedUser = userRepository.save(user);
+        emailService.sendWelcomeEmail(savedUser);
+        return savedUser;
+    }
+}
+
+@Repository
+public class UserRepositoryImpl implements UserRepository {
+    @PersistenceContext
+    private EntityManager entityManager;
+    
+    @Override
+    public User save(User user) {
+        entityManager.persist(user);
+        return user;
+    }
+}
+```
+
 ### 💡 Spring boot   
     스프링 부트는 spring framework 개선
     개발 환경 설정 간소화(미리 설정된 스타터 프로젝트로 외부 라이브러리를 최적화해 제공)
@@ -219,6 +374,28 @@
 5. **자동 설정**   
    애플리케이션에 추가된 라이브러리를 실행하는데 필요한 환경 설정을 알아서 찾아줌(의존성을 추가하면 프레임워크가 자동으로 관리)
 
+```yaml
+# application.yml
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/testdb
+    username: root
+    password: password
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+```
+
+```java
+@SpringBootApplication  // @Configuration + @EnableAutoConfiguration + @ComponentScan
+public class Application {
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
+}
+```
+
 6. **모니터링**   
    Spring Boot Actuator : 서비스를 운영하는 시기에 해당 시스템이 사용하는 스레드, 메모리, 세션 등 주요 요소들 모니터링
 
@@ -231,7 +408,7 @@
     Framework: 애플리케이션 개발의 기본 구조를 제공하는 소프트웨어 플랫폼
     Library: 특정 기능을 수행하는 코드 묶음
 
-### [Spring Web(Spring MVC)](https://github.com/yi5oyu/Study/blob/main/SpringBoot/Spring%20MVC)
+### [Spring Web(Spring MVC)](https://github.com/yi5oyu/Springboot/blob/master/Java/spring/Spring_MVC.md)
     https://docs.spring.io/spring-framework/reference/web/webmvc.html
     
     웹 애플리케이션에서 HTTP 요청과 응답을 효율적으로 처리하기 위해 MVC 패턴을 사용하는 프레임워크
@@ -283,6 +460,7 @@
 
 `REST API CURD구현`
 
+```java
     @RestController
     @RequestMapping("/users")
     public class UserController {
@@ -317,6 +495,7 @@
             return ResponseEntity.noContent().build();
         }
     }
+```
 
 [> ResponseEntity](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/ResponseEntity)      
 [> HttpStatus 상태코드](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/HttpStatus)       
@@ -325,10 +504,172 @@
 
 <hr>
 
+### Spring WebFlux
+
+    비동기, 논블로킹 기반의 리액티브 웹 프레임워크
+    높은 동시성과 적은 리소스로 대용량 트래픽 처리
+
+    높은 동시성이 필요한 API 게이트웨이(API 요청을 받아 처리하고 백엔드 서비스에 전달하는 역할)
+    마이크로서비스 간 비동기 통신
+    실시간 스트리밍(채팅, 알림, 모니터링)
+    I/O 집약적인 애플리케이션(외부 API 호출 많음)
+
+#### [동기/비동기 vs 블로킹/논블로킹](https://github.com/yi5oyu/Study/blob/main/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D/%EB%8F%99%EA%B8%B0%EB%B9%84%EB%8F%99%EA%B8%B0_%EB%B8%94%EB%A1%9C%ED%82%B9%EB%85%BC%EB%B8%94%EB%A1%9C%ED%82%B9)
+
+`동기(Synchronous)` vs `비동기(Asynchronous)`
+- **동기**: 작업을 순차적으로 실행, 이전 작업 완료 후 다음 작업 시작
+- **비동기**: 작업을 동시에 실행, 완료를 기다리지 않고 다음 작업 진행
+
+`블로킹(Blocking)` vs `논블로킹(Non-blocking)`  
+- **블로킹**: 작업이 완료될 때까지 쓰레드가 대기(멈춤)
+- **논블로킹**: 작업 완료를 기다리지 않고 즉시 제어권 반환
+
+```java
+// Spring MVC(동기 + 블로킹)
+@GetMapping("/users/{id}")
+public User getUser(@PathVariable String id) {
+    // DB 호출(블로킹 대기)
+    User user = userRepository.findById(id);
+    
+    // 외부 API 호출(블로킹 대기)
+    Profile profile = externalApiService.getProfile(id);
+    
+    user.setProfile(profile);
+    return user;
+}
+
+// 쓰레드: [DB 호출 대기] -> [API 호출 대기] -> [응답]
+// 순차적 실행, 각 단계에서 쓰레드 블로킹
+```
+    
+#### [리액티브 프로그래밍](https://github.com/yi5oyu/Study/blob/main/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D/%EB%A6%AC%EC%95%A1%ED%8B%B0%EB%B8%8C%20%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D)
+
+    데이터 스트림과 변화 전파에 기반한 프로그래밍 패러다임
+    비동기, 논블로킹, 이벤트 기반 처리로 높은 처리량과 확장성 제공
+
+```java
+// Spring WebFlux(비동기 + 논블로킹)
+@GetMapping("/users/{id}")
+public Mono<User> getUser(@PathVariable String id) {
+    Mono<User> userMono = userRepository.findById(id);
+    Mono<Profile> profileMono = externalApiService.getProfile(id);
+    
+    // 두 작업을 동시에 실행
+    return userMono.zipWith(profileMono)
+            .map(tuple -> {
+                User user = tuple.getT1();
+                user.setProfile(tuple.getT2());
+                return user;
+            });
+}
+
+// Event-Loop: [DB 호출 시작] + [API 호출 시작] -> [두 결과 합성] -> [응답]
+// 동시 실행, 쓰레드 논블로킹
+```
+
+#### Mono/Flux
+
+`Mono<T>: 0개 또는 1개의 요소를 비동기적으로 처리`
+
+```java
+@GetMapping("/user/{id}")
+public Mono<User> getUser(@PathVariable String id) {
+    return userRepository.findById(id)
+            .defaultIfEmpty(new User("guest"));
+}
+```
+
+`Flux<T>: 0개 이상의 요소 스트림을 비동기적으로 처리`
+
+```java
+@GetMapping("/users")
+public Flux<User> getAllUsers() {
+    return userRepository.findAll()
+            .filter(User::isActive)
+            .take(100); // 최대 100개만
+}
+
+// 실시간 스트림 (Server-Sent Events)
+@GetMapping(value = "/users/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+public Flux<User> streamUsers() {
+    return Flux.interval(Duration.ofSeconds(1))
+            .map(i -> new User("user" + i))
+            .take(10);
+}
+```
+
+#### WebClient
+
+`리액티브 HTTP 클라이언트`
+
+```java
+@Service
+public class ApiService {
+    private final WebClient webClient;
+    
+    public ApiService() {
+        this.webClient = WebClient.builder()
+            .baseUrl("https://api.example.com")
+            .build();
+    }
+    
+    // GET 요청
+    public Mono<User> getUser(String id) {
+        return webClient
+            .get()
+            .uri("/users/{id}", id)
+            .retrieve()
+            .bodyToMono(User.class);
+    }
+    
+    // POST 요청
+    public Mono<User> createUser(User user) {
+        return webClient
+            .post()
+            .uri("/users")
+            .bodyValue(user)
+            .retrieve()
+            .bodyToMono(User.class);
+    }
+}
+```
+
+#### MVC vs WebFlux 
+
+**Spring MVC**
+- 전통적인 CRUD 웹 애플리케이션
+- 블로킹 라이브러리 사용(JDBC, JPA)
+- 간단한 REST API
+- 복잡한 비즈니스 로직(디버깅 용이성)
+
+**Spring WebFlux**  
+- 높은 동시성 필요(1000+ 동시 사용자)
+- I/O 집약적(외부 API 호출 많음)
+- 실시간 스트리밍 필요
+- 마이크로서비스 아키텍처
+- API 게이트웨이
+: 대용량 트래픽 API 서버, 실시간 알림 시스템
+
+`하이브리드`
+
+```yaml
+# 동일한 애플리케이션에서 두 방식 모두 사용 가능
+spring:
+  profiles:
+    active: hybrid
+
+# MVC: 관리자 페이지(CRUD)
+# WebFlux: API 서버(높은 동시성)
+```
+
+<hr>
+
 ### 🛢️ DB
     데이터 접근 기술
     DB에 보관하고 관리하는 리포지토리
-    
+	
+https://github.com/yi5oyu/DB/edit/main/%EC%A0%91%EA%B7%BC%EA%B8%B0%EC%88%A0.md
+
 `JDBC(Java Database Connectivity)`
 
     DB에 직접 연결, SQL 쿼리 실행하는 기본적인 방법
@@ -364,7 +705,7 @@ H2 Database
 [> 모드](https://github.com/yi5oyu/Study/blob/main/SpringBoot/DB/H2/%EB%AA%A8%EB%93%9C)       
 
 `application.yml`
-
+```yaml
     spring:
       datasource:
         # 인메모리
@@ -375,7 +716,7 @@ H2 Database
       h2:
         console:
           enabled: true
-
+```
 `http://localhost:8080/h2-console`    
 <details>
 <summary>연결</summary>
@@ -403,16 +744,17 @@ H2 Database
       mapper-locations: classpath:mapper/*.xml
 
 `Entity`
-
+```java
     @Data
     public class User {
         private Long id;
         private String name;
         private String email;
     }
+```
 
 `Mapper(Interface)/xml`
-
+```java
     @Mapper
     public interface UserMapper {
         List<User> findAll();
@@ -421,9 +763,9 @@ H2 Database
         void updateUser(User user);
         void deleteUser(Long id);
     }
-
+```
 `Mapper(Interface)/어노테이션`
-
+```java
     @Mapper
     public interface UserMapper {
         @Select("SELECT * FROM users")
@@ -442,11 +784,11 @@ H2 Database
         @Delete("DELETE FROM users WHERE id = #{id}")
         void deleteUser(@Param("id") Long id);
     }
-
+```
 [> Interface](https://github.com/yi5oyu/Study/blob/main/MyBatis/Interface)
 
 `Service`
-
+```java
     @Service
     public class UserService {
         @Autowired
@@ -468,11 +810,11 @@ H2 Database
             userMapper.deleteUser(id);
         }
     }
-
+```
 [> Service](https://github.com/yi5oyu/Study/blob/main/MyBatis/Service)    
 
 `Controller`
-
+```java
     @RestController
     @RequestMapping("/users")
     public class UserController {
@@ -501,11 +843,11 @@ H2 Database
             userService.deleteUser(id);
         }
     }
-
+```
 [> Controller](https://github.com/yi5oyu/Study/blob/main/MyBatis/Controller)      
 
 `Mapper.xml`
-
+```xml
     <?xml version="1.0" encoding="UTF-8" ?>
     <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -569,7 +911,7 @@ H2 Database
         </choose>
       </select>
     </mapper>
-
+```
 [> xml](https://github.com/yi5oyu/Study/blob/main/MyBatis/Mapper.xml)     
 
 
@@ -593,7 +935,7 @@ H2 Database
 - 사용(MySQL)
 
 `application.yml`
-    
+```yaml    
     spring:
       datasource:
         // 환경변수 지정 (jdbc:mysql://localhost:3306/DB이름)
@@ -611,9 +953,9 @@ H2 Database
           hibernate:
             // SQL 문법 Dialect 지정
             dialect: org.hibernate.dialect.MySQLDialect
-
+```
 `Entity`
-
+```java
     @Entity
     // 테이블 이름 명시
     @Table(name = "users")
@@ -630,9 +972,9 @@ H2 Database
         @Column(name = "a_name")
         private String name;
     }
-
+```
 `Repository`
-
+```java
     public interface UserRepository extends JpaRepository<User, Long> {
         // 이름으로 검색
         List<User> findByName(String name);
@@ -642,9 +984,9 @@ H2 Database
         // 페이징
         Page<User> findByName(String name, Pageable pageable);
     }
-
+```
 `Service`
-
+```java
     @Service
     public class UserService {
         @Autowired
@@ -668,9 +1010,9 @@ H2 Database
             return userRepository.findByName(name, pageable);
         }
     }
-
+```
 `Controller`
-
+```java
     @RestController
     @RequestMapping("/users")
     public class UserController {
@@ -695,7 +1037,7 @@ H2 Database
             return userService.getUsersNameWithPaging(name, page, size); 
         }
     }   
-    
+```
 [> Optional](https://github.com/yi5oyu/Study/blob/main/JPA/Optional)     
 [> 객체지향쿼리](https://github.com/yi5oyu/Study/blob/main/JPA/4.%20JPQL/%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%BF%BC%EB%A6%AC)     
 
@@ -705,7 +1047,7 @@ H2 Database
     컴파일 시 오류 발생 방지
 
 `build.gradle`
-
+```gradle
     // spring boot 3 이상 버전과 호환
     implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
 	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
@@ -721,11 +1063,11 @@ H2 Database
     tasks.withType(JavaCompile) {
         options.generatedSourceOutputDirectory = file(querydslDir)
     }
-
+```
 `./gradlew clean build`
 
 `QueryDSLConfig`
-
+```java
     // JPAQueryFactory 빈 등록
     @Configuration
     public class QueryDSLConfig {
@@ -736,9 +1078,9 @@ H2 Database
             return new JPAQueryFactory(entityManager);
         }
     }
-
+```
 `Repository`
-
+```java
     // UserRepository
     // JPA, QueryDSL 같이 사용
     @Repository
@@ -769,6 +1111,52 @@ H2 Database
             return Optional.ofNullable(userId);
         }
     }
+```
+
+#### MyBatis vs JPA
+
+| 구분 | MyBatis | JPA |
+|--------------|---------|-----|
+| **종류** | SQL Mapper 프레임워크 | ORM(Object-Relational Mapping) 프레임워크 |
+| **방식** | SQL 직접 작성(Mapper XML, 어노테이션) | 객체와 테이블 매핑, SQL 자동 생성 |
+| **성능 최적화** | 매우 높음 | 보통 |
+| **개발 속도** | 보통 | 매우 높음 |
+| **복잡한 쿼리** | 용이 | 어려움 |
+
+**MyBatis**
+- 복잡한 분석 쿼리가 많은 경우
+- 레거시 DB 연동(기존 SQL 활용, 복잡한 테이블 구조 처리)
+- 극한의 성능 최적화 필요
+- SQL 실력이 높은 경우
+: XML 관리 복잡도, 타입 안정성 부족
+
+**JPA**
+- 단순한 CRUD 위주 애플리케이션
+- 빠른 개발 속도 필요(스타트업, MVP)
+- 객체 지향적 설계
+- SQL 작성 경험이 부족
+: N+1 문제, 복잡한 쿼리 작성 어려움
+
+`하이브리드`
+
+```java
+// 트랜잭션 일관성 주의
+@Service
+public class UserService {
+    private final UserRepository userRepository;        // JPA - 단순 CRUD
+    private final UserAnalyticsMapper analyticsMapper; // MyBatis - 복잡한 분석
+    
+    // 일반적인 조회는 JPA
+    public User findById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+    
+    // 복잡한 분석은 MyBatis
+    public List<SalesReport> getSalesAnalytics() {
+        return analyticsMapper.getSalesReport();
+    }
+}
+```
 
 ### NoSQL
     NoSQL(Not only SQL): SQL만을 사용하지 않는 데이터베이스 관리 시스템
@@ -804,24 +1192,22 @@ redis-cli.exe 실행
 
 </details>
 
-
-
 `의존성`
 
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
 `application.yml`
-
+```yaml
     spring:
       redis:
         host: localhost
         port: 6379 # 기본 포트
         password: # 생략 가능
-        
+```
 [> Redis application.yml](https://github.com/yi5oyu/Study/blob/main/DB/NoSQL/Redis/application.yml)     
 
 `RedisConfig`
-
+```java
     @Configuration
     public class RedisConfig {
         @Bean
@@ -838,11 +1224,11 @@ redis-cli.exe 실행
             return template;
         }
     }
-    
+```    
 [> Redis Config](https://github.com/yi5oyu/Study/blob/main/DB/NoSQL/Redis/RedisConfig.java)    
 
 `RedisService`
-
+```java
     @Service
     public class RedisService {
         @Autowired
@@ -860,11 +1246,11 @@ redis-cli.exe 실행
             redisTemplate.delete(key);
         }
     }
-
+```
 [> Redis Service](https://github.com/yi5oyu/Study/blob/main/DB/NoSQL/Redis/RedisService.java)     
 
 `RedisController`
-
+```java
     @RestController
     public class RedisController {
         @Autowired
@@ -885,7 +1271,7 @@ redis-cli.exe 실행
             redisService.deleteValue(key);
         }
     }
-
+```
 [> Redis Controller](https://github.com/yi5oyu/Study/blob/main/DB/NoSQL/Redis/RedisController.java)     
 
 <hr>
@@ -920,7 +1306,7 @@ redis-cli.exe 실행
 
     POJO(Plain Old Java Object)
     의존성 최소화한 단순한 자바 객체
-
+```java
     // 필드와 기본 메서드(getter/setter), 오버라이드된 메소드 포함
     public class User {
     
@@ -975,11 +1361,11 @@ redis-cli.exe 실행
             ...
         }
     }
-
+```
 `Lombok`
 
     반복적인 작업을 어노테이션 사용해 자동으로 처리
-
+```java
     // Lombok 적용
     @Data // getters, setters, toString, equals, hashCode
     @NoArgsConstructor // 기본 생성자
@@ -989,7 +1375,7 @@ redis-cli.exe 실행
         private String name;
         private String email;
     }
-
+```
 [> Lombok 어노테이션](https://github.com/yi5oyu/Study/tree/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/Lombok)   
 
 <hr>
@@ -1039,7 +1425,7 @@ redis-cli.exe 실행
         // servlet API
     	implementation 'jakarta.servlet:jakarta.servlet-api'
     }
-
+```
 ##### [스크립틀릿(Scriptlet)](https://github.com/yi5oyu/Study/blob/main/SpringBoot/View%20Template/JSP/Scriptlet)
     JSP 페이지 내에서 Java 코드를 직접 작성할 수 있음
     HTML이 클라이언트의 브라우저로 전송되기 전에 서버에서 실행
@@ -1061,7 +1447,7 @@ redis-cli.exe 실행
 
 
 ###### [jsp.jsp](https://github.com/yi5oyu/Study/blob/main/SpringBoot/View%20Template/JSP/jsp.jsp)
-
+```html
       <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
       <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
       
@@ -1109,7 +1495,7 @@ redis-cli.exe 실행
          <!-- 사용자 정의 형식 -->
          <fmt:formatDate value="${now}" pattern="yyyy-MM-dd HH:mm:ss" /><br>
       </body>
-
+```
 ##### [Scope](https://github.com/yi5oyu/Study/blob/main/SpringBoot/View%20Template/JSP/Scope.java)
     데이터의 생명 주기
     page < request < session < application
@@ -1127,7 +1513,7 @@ redis-cli.exe 실행
 - Redirect에선 HTTP 요청이 새로 발생해 model과 request 데이터 사라짐
 
 `JspController`
-
+```java
     @Controller
     public class JspController {
         @Autowired
@@ -1167,9 +1553,9 @@ redis-cli.exe 실행
             return "forward:/jsp";
         }
     }
-
+```
 `jsp.jsp`
-
+```html
     <body>
         <!-- 스코프 -->
         <!-- Page -->
@@ -1193,7 +1579,7 @@ redis-cli.exe 실행
         <div>모델:</div>
         <p>${model}</p>
     </body>
-
+```
 > 한글 깨짐       
 > Content-Type 추가: <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>      
 > File > Settings > Editor > File Encodings > Global Encoding, Project Encoding, Properties Files > UTF-8로 변경       
@@ -1205,15 +1591,15 @@ redis-cli.exe 실행
     th:* 속성 사용한 동적 콘텐츠 처리, 변수 표현식: ${...}
 
 `build.gradle`
-
+```gradle
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-
+```
 `application.yml`
 
     # 캐시 false
 
 `src/main/resources/templates`
-
+```html
     <!DOCTYPE html>
     <!-- 네임스페이스 선언 -->
     <html xmlns:th="http://www.thymeleaf.org">
@@ -1222,7 +1608,7 @@ redis-cli.exe 실행
       <title>타이틀</title>
     </head>
     <body>
-
+```
 ##### [주석](https://github.com/yi5oyu/Study/blob/main/SpringBoot/View%20Template/Thymeleaf/%EC%A3%BC%EC%84%9D)
 
       <!-- 일반 주석 처리 -->
@@ -1357,9 +1743,9 @@ redis-cli.exe 실행
     Asciidoctor(adoc) 문서에서 사용됨    
 
 `build.gradle`
-
-    compileOnly 'org.springframework.boot:spring-boot-starter-mustache'
-
+```gradle
+compileOnly 'org.springframework.boot:spring-boot-starter-mustache'
+```
 `src/main/resources/templates/must.mustache'`
 
 ###### [HTML escape](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EA%B8%B0%EB%B3%B8%20%EA%B0%9C%EB%85%90%20%EC%A0%95%EB%A6%AC/HTML%20escape)
@@ -1385,7 +1771,7 @@ redis-cli.exe 실행
     실제 API 테스트를 기반으로 정확한 API 문서 자동 생성
 
 - [의존성 설정(build.gradle)](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/Testing/Spring%20REST%20Docs/build.gradle)
-
+```gradle
       plugins {
           // asciidoctor 플러그인
           id 'org.asciidoctor.jvm.convert' version '3.3.2'
@@ -1417,14 +1803,14 @@ redis-cli.exe 실행
     	  inputs.dir snippetsDir
     	  dependsOn test
       }
-
+```
 - [MockMvc](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/Testing/Spring%20REST%20Docs/mockMvc)
 
       Spring Framework 테스트 도구
       서버 실행없이 HTTP 요청 시뮬레이션, 단위 테스트(Controller 테스트)
 
 **[UserControllerTest](https://github.com/yi5oyu/Study/blob/main/SpringBoot/REST%20API/Testing/Spring%20REST%20Docs/UserControllerTest.java)**
-
+```java
     // UserController 테스트
     @WebMvcTest(UserController.class)
     // spring security 보안 필터 적용하지 않음
@@ -1460,7 +1846,7 @@ redis-cli.exe 실행
        }    
        ...
     }
-    
+```    
 - [Snippets](https://github.com/yi5oyu/Study/edit/main/SpringBoot/REST%20API/Testing/Spring%20REST%20Docs/snippets)
 
       Spring REST Docs에서 API 문서화를 위해 생성되는 재사용 가능한 작은 정보 조각
@@ -1561,7 +1947,7 @@ redis-cli.exe 실행
     }
 
 `Controller`
-
+```java
     @OpenAPIDefinition(
         info = @Info(
             title = "Spring Test API",
@@ -1587,7 +1973,7 @@ redis-cli.exe 실행
             return userService.getUserById(id);
         }
     }
-    
+```
 <details>
 <summary>자세히 살펴보기</summary>
 
@@ -1622,7 +2008,7 @@ redis-cli.exe 실행
 
 ## 🛡️ 보안
 
-### Spring Security (6.3.3)
+### Spring Security(6.3.3)
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
     /config/SecurityConfig
@@ -1765,66 +2151,219 @@ redis-cli.exe 실행
 
 <hr>
 
-## 🗂️ etc
+## 🏷️ [@애노테이션(Annotation)](https://github.com/yi5oyu/Study/tree/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98)
 
-### 🏷️ [@어노테이션(Annotation)](https://github.com/yi5oyu/Study/tree/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98)
-    Java에서 코드에 메타데이터를 추가하는 방법
-    컴파일러나 런타임 환경에서 특정 행동을 수행하도록 정보를 제공하는 역할
-
-
-#### 스테레오 타입 어노테이션
-    사용자 정의 어노테이션
-    주로 애플리케이션의 계층 구조, 코드의 가독성을 높이는 데 사용
-
-``
-
-`@RestController`
-
-    
-<details>
-<summary>Controller + ResponseBody</summary>
-
-`@Controller`
-`@ResponseBody`
-
-</details>
-
-[RestController](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40RestController)
+    Java 소스 코드에 추가하는 메타데이터(Metadata)
+    컴파일러나 런타임(스프링 컨테이너 등) 환경에서 특정 행동을 수행하도록 정보를 제공하는 역할
 
 
-<hr>
+`표준 애노테이션`
 
-`@Autowired`
 
-    빈(Bean) 객체를 자동으로 주입
-
-    구성요소
-    // 어노테이션이 적용될 수 있는 위치를 지정(생성자, 메서드, 매개변수, 필드, 어노테이션에 사용할 수 있음)
-    @Target({ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD, ElementType.ANNOTATION_TYPE})
-    // 어노테이션의 지속 기간을 지정(런타임 시점까지 유지)
-    @Retention(RetentionPolicy.RUNTIME)
-    // 어노테이션을 사용하는 요소가 Javadoc 같은 문서화 도구에 의해 문서화되도록 함(자동으로 문서화에 포함되어 해당 의존성 주입이 코드 문서에 잘 표시됨)
-    @Documented
-    public @interface Autowired {
-        // required=true: 스프링은 반드시 해당 빈을 주입해야 함(빈이 존재하지 않으면 NoSuchBeanDefinitionException 발생)
-        // required=false:  주입할 수 있는 빈이 없더라도 오류가 발생하지 않음(null 상태로 유지)
-        boolean required() default true;
-    }
-
-[> 어노테이션](https://github.com/yi5oyu/Study/tree/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98)
-
-#### 표준 어노테이션
-    Java에서 기본적으로 제공하는 어노테이션
+    Java에서 기본적으로 제공하는 애노테이션
 
 `@Override`: 
 
-#### 메타 어노테이션
-    다른 어노테이션을 정의할 때 사용되는 어노테이션
+`메타 애노테이션`
 
-`@Target`: 어노테이션 적용될 수 있는 대상 지정      
-`@Retention`: 어노테이션 유지 기간 설정       
-`@Documented`: Javadoc 생성 시 어노테이션이 문서화되도록 지정      
-`@Inherited`: 어노테이션 타입이 자동으로 상속되도록 지정     
-`@Repeatable`: 동일한 선언에 어노테이션을 두 번 이상 적용할 수 있음    
+    다른 애노테이션을 정의할 때 사용되는 애노테이션
 
+`@Target`: 애노테이션 적용될 수 있는 대상 지정      
+`@Retention`: 애노테이션 유지 기간 설정       
+`@Documented`: Javadoc 생성 시 애노테이션이 문서화되도록 지정      
+`@Inherited`: 애노테이션 타입이 자동으로 상속되도록 지정     
+`@Repeatable`: 동일한 선언에 애노테이션을 두 번 이상 적용할 수 있음    
+
+
+### 스테레오타입 애노테이션(Stereotype Annotations)
+
+    스프링 컨테이너가 컴포넌트 스캔(Component Scan)을 할 때 검색 대상이 되는 애노테이션
+    모든 스테레오타입 애노테이션은 내부적으로 @Component를 가지고 있음
+
+#### [@Component](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Component)
+
+```
+최상위 기본 애노테이션
+특화된 역할(Controller, Service, Repository)에 해당하지 않는 일반적인 유틸리티 클래스 등을 빈으로 등록할 때 사용
+```
+
+| 애노테이션 | 계층(Layer) | 핵심 역할 및 특징 |
+| :--- | :--- | :--- |
+| **[@Controller](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Controller)** | Presentation | 웹 요청(URL)을 받아 처리 |
+| **[@Service](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Service)** | Business | 핵심 비즈니스 로직(명시적 역할) |
+| **[@Repository](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Repository)** | Persistence | DB 접근 **DB 관련 예외를 스프링의 데이터 접근 예외로 자동 변환** |
+| **[@Configuration](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Configuration)** | Config | 설정 정보 클래스(@Bean 등록 시 싱글톤을 보장하는 CGLIB 프록시 생성) |
+
+
+### 의존성 주입 애노테이션(Dependency Injection Annotations)
+
+```
+스프링 컨테이너에 등록된 빈을 필요한 클래스에 주입하는 역할
+```
+
+#### [@Autowired](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Autowired)
+
+```
+타입(Type)에 맞춰서 빈을 찾아 자동으로 주입
+생성자가 하나만 있을 경우 생략 가능
+```
+
+#### 빈 충돌 해결 애노테이션
+
+[@Primary](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Primary)
+
+```
+같은 타입의 빈이 여러 개 있을 때 우선순위를 지정
+@Autowired와 함께 자동 사용됨(디폴트 값)
+클래스/@Bean 메서드에 적용 가능
+```
+
+[@Qualifier](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Qualifier)
+
+```
+같은 타입의 빈이 여러 개 있을 때 명시적으로 특정 빈을 지정
+@Autowired와 함께 사용, 빈 이름으로 주입할 빈을 명확히 지정(@Primary 보다 높은 우선순위)
+필드, 메서드, 파라미터, 클래스, 애노테이션에 적용 가능
+```
+
+#### 값 주입 애노테이션
+
+[@Value](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Value)
+
+```
+설정 파일의 값을 가져와 필드에 주입
+```
+
+### 웹 요청 처리(Web Request Processing Annotations)
+
+```
+스프링 MVC에서 클라이언트의 HTTP 요청(URL, 메서드)을 컨트롤러의 메서드와 매핑하고 전송된 데이터를 바인딩
+```
+
+[RestController](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40RestController)
+
+```
+@Controller + @ResponseBody
+RESTful API 요청 처리, View(HTML) 반환이 아닌 데이터(JSON, XML 등)를 직접 반환할 때 사용
+```
+
+[@RequestMapping("/url")](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40RequestMapping)
+
+```
+특정 URL 패턴과 HTTP 메서드에 대한 요청을 메서드나 클래스에 매핑
+클래스 레벨에 선언 시 공통 URL 경로를 설정
+```
+
+```java
+// GET 요청
+@RequestMapping(path = "/users", method = RequestMethod.GET)
+public List getUsers() { }
+
+// POST 요청
+@RequestMapping(path = "/users", method = RequestMethod.POST)
+public User createUser(@RequestBody UserDto dto) { }
+
+// 여러 메서드 허용
+@RequestMapping(path = "/users", method = {RequestMethod.GET, RequestMethod.HEAD})
+public List getUsers() { }
+
+// 메서드 지정 안 하면 모든 HTTP 메서드 허용
+@RequestMapping("/users")  // GET, POST, PUT, DELETE 등 모두 가능
+public List handleUsers() { }
+```
+
+**HTTP 메서드별 애노테이션**
+
+| 애노테이션 | HTTP Method | 역할 및 용도 |
+| :--- | :---: | :--- |
+| **[@GetMapping](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40GetMapping)** | GET @RequestMapping(method = RequestMethod.GET) | **데이터 조회**(Read) |
+| **[@PostMapping](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40PostMapping)** | POST @RequestMapping(method = RequestMethod.POST) | **데이터 등록/생성**(Create) |
+| **[@PutMapping](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40PutMapping)** | PUT @RequestMapping(method = RequestMethod.PUT) | **데이터 전체 수정**(Update) |
+| **[@PatchMapping](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40PatchMapping)** | PATCH @RequestMapping(method = RequestMethod.PATCH) | **데이터 일부 수정**(Partial Update) |
+| **[@DeleteMapping](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40DeleteMapping)** | DELETE @RequestMapping(method = RequestMethod.DELETE) | **데이터 삭제**(Delete) |
+
+#### 파라미터 매핑 애노테이션
+
+[@RequestBody](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40RequestBody)
+
+```
+HTTP 요청 본문(Body)에 담긴 데이터(JSON, XML 등)를 자바 객체로 변환(HttpMessageConverter가 동작하여 JSON을 객체로 매핑)
+주로 REST API에서 POST/PUT 요청의 데이터를 받을 때 사용
+```
+
+[@RequestParam](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40RequestParam)
+
+```
+URL 쿼리 파라미터(?key=value) 또는 HTML Form 데이터를 파라미터로 바인딩
+/search?keyword=abc  ->  @RequestParam("abc") String word
+```
+
+[@PathVariable](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40PathVariable)
+
+```
+URL 경로(Path) 자체에 포함된 변수 값을 파라미터로 바인딩
+/users/{id}  ->  @PathVariable("id") Long userId
+```
+
+[@RequestHeader](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40RequestHeader)
+
+```
+HTTP 요청 헤더(Header)의 값을 가져올 때 사용
+```
+<!--
+
+### 기능 확장 & 데이터 애노테이션(Functional Extension & Data Annotations)
+
+ ```
+프록시(AOP) 패턴을 이용해 부가 기능을 적용하거나, 데이터베이스 테이블과 자바 객체를 매핑(ORM)하는 역할
+```
+
+#### 트랜잭션 관리(Transaction Management)
+
+[@Transactional](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Transactional)
+
+```
+해당 메서드나 클래스의 모든 작업을 하나의 트랜잭션으로 묶음
+작업 도중 예외(RuntimeException) 발생 시 자동 롤백(Rollback), 성공 시 커밋(Commit)
+```
+
+*   **주요 옵션:**
+    *   `readOnly = true`: 읽기 전용 트랜잭션 (조회 성능 최적화 시 사용)
+    *   `rollbackFor = Exception.class`: 체크 예외를 포함한 모든 예외에 대해 롤백 처리
+    *   `propagation`: 트랜잭션 전파 수준 설정 (기본값: REQUIRED)
+
+<br>
+
+#### JPA 객체 매핑(JPA Object Mapping)
+
+```
+JPA(Hibernate) 표준 명세를 사용하여 DB 테이블과 자바 클래스를 1:1로 연결
+```
+
+**엔티티 정의 및 기본 키**
+
+| 애노테이션 | 설명 |
+| :--- | :--- |
+| **[@Entity](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Entity)** | 이 클래스가 **DB 테이블과 매핑되는 엔티티**임을 명시 (필수) |
+| **[@Table](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Table)** | 엔티티와 매핑할 **테이블 이름을 지정** (생략 시 클래스 이름 사용)<br>예: `@Table(name = "users")` |
+| **[@Id](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Id)** | 해당 필드를 테이블의 **기본 키(Primary Key)**로 지정 |
+| **[@GeneratedValue](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40GeneratedValue)** | 기본 키의 **생성 전략(Auto Increment 등)** 설정<br>옵션: `IDENTITY`(DB 위임/MySQL), `SEQUENCE`(오라클), `AUTO` 등 |
+
+**필드 및 컬럼 매핑**
+
+| 애노테이션 | 설명 |
+| :--- | :--- |
+| **[@Column](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Column)** | 필드와 매핑할 **테이블 컬럼의 세부 사항** 설정<br>옵션: `name`(컬럼명), `nullable`(null 허용여부), `length`(길이) 등 |
+| **[@Enumerated](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Enumerated)** | 자바의 **Enum 타입**을 DB에 저장할 때 사용<br>**주의:** `@Enumerated(EnumType.STRING)` 사용 권장 (순서 변경 방지) |
+| **[@Transient](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40Transient)** | DB 컬럼과 매핑하지 않고 **객체 내부에서만 사용할 필드**에 지정 |
+
+**연관관계 매핑 (참고용)**
+
+| 애노테이션 | 설명 |
+| :--- | :--- |
+| **[@ManyToOne](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40ManyToOne)** | **다대일(N:1)** 관계 매핑 (예: 게시글 -> 작성자) |
+| **[@OneToMany](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40OneToMany)** | **일대다(1:N)** 관계 매핑 (예: 작성자 -> 게시글 리스트) |
+| **[@JoinColumn](https://github.com/yi5oyu/Study/blob/main/SpringBoot/%EC%96%B4%EB%85%B8%ED%85%8C%EC%9D%B4%EC%85%98/%40JoinColumn)** | 외래 키(Foreign Key)를 가질 컬럼 이름 지정 |
+
+-->
 
