@@ -40,7 +40,7 @@ public class ReactController {
 
 
     /**
-     * 데이터 수정 (PATCH: 부분 수정 추천)
+     * 데이터 수정 (PATCH: 일부 데이터 수정)
      */
     @PatchMapping("/{id}")
     public ResponseEntity<ApiResponse<PostResponse>> updatePost(
