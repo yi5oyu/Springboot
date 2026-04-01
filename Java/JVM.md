@@ -4,11 +4,13 @@
 
 `Java로 개발한 프로그램을 컴파일하여 만들어지는 바이트코드를 실행시키기 위한 가상머신`    
 
+| [클래스 로더 서브시스템](#클래스-로더-서브시스템-class-loader-subsystem) • [런타임 데이터 영역](#런타임-데이터-영역-runtime-data-areas) • [실행 엔진](#실행-엔진-execution-engine) |
+
 <img width="641" height="1021" alt="image" src="https://github.com/user-attachments/assets/d6da4f74-8d34-4f87-8a1a-bfcef556e58d" />
 
-<!-- | [Spring & Spring boot](#-spring--spring-boot) • [Framework & Library](#-framework--library) • [보안](#%EF%B8%8F-보안) • [AI](#-ai) • [OPEN API](#-open-api) • [애노테이션](#%EF%B8%8F-애노테이션annotation)  | -->
-
 </div>
+
+---
 
 `자바 소스 코드(.java)를 컴파일러(javac)가 바이트코드(.class)로 변환`
 
@@ -22,13 +24,15 @@
 
 ### Linking (링킹)
 
-Verify(검증): 읽어 들인 바이트코드가 자바 언어 명세 및 JVM 규약에 맞는지 유효성을 검사합니다.
-Prepare(준비): 클래스 변수(static 변수)를 위한 메모리를 할당하고 기본값으로 초기화합니다.
-Resolve(분석): 심볼릭 메모리 레퍼런스를 실제 메모리 주소인 다이렉트 레퍼런스로 변환합니다.
+Verify (검증): 읽어 들인 바이트코드가 자바 언어 명세 및 JVM 규약에 맞는지 유효성을 검사
+Prepare (준비): 클래스 변수(static 변수)를 위한 메모리를 할당하고 기본값으로 초기화
+Resolve (분석): 심볼릭 메모리 레퍼런스를 실제 메모리 주소인 다이렉트 레퍼런스로 변환
 
 ### Initialization (초기화)
 
-클래스 변수들을 적절한 값(개발자가 지정한 값)으로 초기화하고, static 블록을 실행
+클래스 변수들을 적절한 값(개발자가 지정한 값)으로 초기화하고 static 블록을 실행
+
+---
 
 ## 런타임 데이터 영역 (Runtime Data Areas)
 
@@ -200,6 +204,8 @@ Example example = new Example();
 `자바 코드가 아닌 다른 언어(C/C++, 어셈블리어 등)로 작성된 네이티브 코드를 실행할 때 사용하는 메모리`
 
 > JNI(Java Native Interface)를 통해 호출될 때 사용
+
+---
 
 ## 실행 엔진 (Execution Engine)
 
