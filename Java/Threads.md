@@ -1,5 +1,167 @@
 <div align="center">
 
+# **스레드 (Thread)**
+
+`프로세스 내부에서 실행되는 작은 작업 단위`
+
+| [플랫폼 스레드](https://www.google.com/search?q=%23%ED%94%8C%EB%9E%AB%ED%8F%BC-%EC%8A%A4%EB%A0%88%EB%93%9C-platform-thread) • [가상 스레드](https://www.google.com/search?q=%23%EA%B0%80%EC%83%81-%EC%8A%A4%EB%A0%88%EB%93%9C-virtual-thread) |
+
+</div>
+
+-----
+
+## 플랫폼 스레드 (Platform Thread)
+
+`기존 자바의 기본 스레드, OS 커널 스레드와 1:1로 매핑되는 무거운 스레드`
+
+### 스레드 생명주기
+
+```text
+스레드 생성
+
+new Thread() 호출
+
+1. Java 객체 생성
+ - JVM 힙 영역에 스레드 객체 생성(스레드 이름, 우선순위, 상태값 등 저장)
+
+2. JNI(Java Native Interface) 호출
+ - JVM 내부의 JNI를 통해 OS 커널에 스레드 생성 요청
+
+3. 리소스/커널 스레드 생성
+ - OS가 커널 레벨에서 리소스를 할당해 실제 커널 스레드(Native Thread) 생성
+ - JVM 스택 영역으로 할당되는 공간 = OS가 할당한 Native 메모리 영역
+ > 스레드 1개당 약 1~2MB의 OS 스택 메모리를 점유
+
+4. 연결
+ - Java 힙에 생성된 스레드 객체는 OS 스레드의 Native ID나 포인터(메모리 주소) 정보 기록
+```
+
+```text
+스레드 실행/소멸
+
+1. 스케줄링 (Scheduling)
+ - JVM이 아닌 OS 커널의 스케줄러가 어떤 플랫폼 스레드에 CPU를 줄지 결정
+
+2. 실행 (Running)
+ - 스레드가 실행되는 동안 메서드 호출 정보나 지역 변수는 생성 시 할당받은 Native 스택 영역에 저장
+
+3. 대기 (Blocked/Waiting)
+ - DB 요청/네트워크 응답을 기다릴 때 CPU를 반납한 채 대기
+
+4. 소멸 (Termination)
+ - 메서드가 종료되면 JNI를 통해 OS에 스레드 종료를 알리고 Native 스택 메모리가 해제/소멸
+```
+
+#### 컨텍스트 스위칭 (Context Switching)
+
+`CPU가 한 스레드에서 다른 스레드로 실행 제어권을 넘기는 과정`
+
+- CPU 코어는 한 번에 하나의 일만 할 수 있기 때문에 동시에 쓰는것 처럼 보이기 위해 컨텍스트 스위칭 반복
+
+### 스레드 풀
+
+``
+
+### 톰캣 스레드
+
+`사용자의 HTTP 요청을 직접 받아 처리하는 WAS 스레드`
+
+```text
+톰캣 요청 처리
+
+1. Acceptor Thread
+ - 외부에서 들어오는 TCP 연결 요청 연결
+ > 1~2개의 스레드만 존재, 연결만 해주는 역할
+
+2. Poller Thread
+ - 연결된 소켓들에 데이터가 다 들어왔는지 감시
+ > CPU 코어 수당 1~2개 스레드, 실행 이벤트 발생
+
+3. Worker Thread
+ - HTTP 요청을 해석하고 스프링의 DispatcherServlet을 거쳐 우리의 비즈니스 로직을 실행
+ > 스레드 풀에서 설정한 개수, 실제 로직 처리
+```
+
+### 자바 익스큐터 스레드 (Executor Thread)
+
+`Java 애플리케이션 내부에서 개발자가 직접 관리하는 스레드 풀`
+
+```java
+// Executor 스레드풀 설정
+
+@Bean
+public Executor myExecutor() {
+    ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+    executor.setCorePoolSize(10);    // Core: 기본 스레드 수
+    executor.setQueueCapacity(100);  // Queue: 대기열 크기
+    executor.setMaxPoolSize(20);     // Max: 최대 스레드 수
+    executor.initialize();
+    return executor;
+}
+```
+
+```text
+스레드 동작
+Core: 10, Queue: 100, Max: 20
+
+1. 스프링에서 @Async 어노테이션을 쓰면 익스큐터 스레드가 동작
+ - 톰캣 스레드가 익스큐터에 위임 후 리턴
+
+2. 기본 스레드 동작 (Core)
+ - 기본 스레드 10개가 요청 처리
+
+3. 대기열 저장 (Queue)
+ - 기본 스레드가 모두 요청 처리 중일때 새로운 요청은 큐에 저장
+
+4. 새 스레드 생성 (Max)
+ - 큐가 가득찼을때 Max 한도까지 새 스레드 생성(추가 10개)
+
+> 에러 발생 (RejectedExecutionException)
+ - 모든 스레드(20)가 전부 사용되고 큐(100)가 가득차면 에러 발생
+
+5. 소멸
+ - 큐가 비어서 대기 중인 Max 스레드 소멸
+```
+
+<!--
+리액티브 프로그래밍에서 사용되는 스레드
+
+## 가상 스레드 (Virtual Thread)
+
+`기존 플랫폼 스레드의 한계를 극복하기 위해 도입(Java 21)된, JVM 레벨에서 쪼개어 관리되는 초경량 스레드`
+
+### 1. 동작 원리 (M:N 매핑)
+
+가상 스레드는 OS 스레드와 직접 1:1로 매핑되지 않습니다. 대신, **수많은 가상 스레드(M)가 소수의 플랫폼 스레드(N) 위에서 번갈아 가며 실행**됩니다. 이때 가상 스레드를 짊어지고 실행하는 플랫폼 스레드를 \*\*캐리어 스레드(Carrier Thread)\*\*라고 부릅니다.
+
+### 2. 실행 흐름 (Mount & Unmount)
+
+```text
+1. 가상 스레드 마운트 (Mount)
+ - JVM 스케줄러가 대기 중인 가상 스레드 하나를 선택해 Carrier Thread(플랫폼 스레드)에 연결(Mount)하여 실행
+
+2. I/O 블로킹 발생 시 언마운트 (Unmount)
+ - 실행 도중 DB 조회, API 호출 등 대기(Blocking)해야 하는 작업 발생
+ - 기존 스레드는 이 상태에서 멈춰(Block) OS 스레드를 낭비했음
+ - 하지만 가상 스레드는 자신의 상태(스택 정보 등)를 힙(Heap) 메모리에 임시로 저장한 뒤, Carrier Thread에서 스스로 분리(Unmount)됨
+
+3. Carrier Thread 재활용
+ - 빈자리가 된 Carrier Thread는 놀지 않고, 즉시 다른 실행 가능한 가상 스레드를 물어서(Mount) 다시 작업을 수행함
+
+4. 작업 완료 후 재실행
+ - DB 조회 등 대기했던 작업이 끝나면, 힙에 저장해뒀던 상태를 다시 꺼내와 사용 가능한 Carrier Thread에 다시 마운트되어 남은 코드 실행
+```
+
+### 3. 가상 스레드의 압도적 장점
+
+  - **초경량 메모리:** OS 스택을 만들지 않고, 실행 상태만 힙(Heap) 영역에 수 바이트 수준으로 가볍게 저장하므로 한 번에 수백만 개의 스레드를 생성해도 OOM(OutOfMemory)이 발생하지 않음.
+  - **컨텍스트 스위칭 최적화:** OS 레벨의 무거운 스위칭 대신, JVM 레벨에서 단순히 메모리(포인터)만 교체하는 방식으로 전환되므로 비용이 극단적으로 낮음.
+  - **기존 코드 호환성:** 비동기(Async/Await) 프로그래밍의 복잡한 코드(콜백 지옥)를 짤 필요 없이, 기존의 동기식(Blocking) 코드를 그대로 작성해도 비동기 수준의 처리량을 낼 수 있음.
+
+-----
+
+<div align="center">
+
 # **스레드**
 
 `JVM 레벨에서 관리되는 경량 스레드`    
